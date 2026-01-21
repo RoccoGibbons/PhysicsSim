@@ -148,7 +148,7 @@ CMAKE_INSTALL_MANDIR:PATH=
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/OpenGLStarter
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/PhysicsSim
 
 //Run-time variable data (LOCALSTATEDIR/run)
 CMAKE_INSTALL_RUNSTATEDIR:PATH=
@@ -352,15 +352,6 @@ OPENGL_gl_LIBRARY:STRING=opengl32
 
 //GLU library for win32
 OPENGL_glu_LIBRARY:STRING=glu32
-
-//Value Computed by CMake
-OpenGLStarter_BINARY_DIR:STATIC=C:/Users/rocco/code/physics_sim/build
-
-//Value Computed by CMake
-OpenGLStarter_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-OpenGLStarter_SOURCE_DIR:STATIC=C:/Users/rocco/code/physics_sim
 
 //Value Computed by CMake
 PhysicsSim_BINARY_DIR:STATIC=C:/Users/rocco/code/physics_sim/build
@@ -587,5 +578,5 @@ XINPUT_H_FOUND:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/OpenGLStarter
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/PhysicsSim
 

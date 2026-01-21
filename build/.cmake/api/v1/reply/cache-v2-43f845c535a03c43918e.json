@@ -859,7 +859,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Program Files (x86)/OpenGLStarter"
+			"value" : "C:/Program Files (x86)/PhysicsSim"
 		},
 		{
 			"name" : "CMAKE_INSTALL_RUNSTATEDIR",
@@ -1874,42 +1874,6 @@
 			"value" : "glu32"
 		},
 		{
-			"name" : "OpenGLStarter_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Users/rocco/code/physics_sim/build"
-		},
-		{
-			"name" : "OpenGLStarter_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "OpenGLStarter_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Users/rocco/code/physics_sim"
-		},
-		{
 			"name" : "PhysicsSim_BINARY_DIR",
 			"properties" : 
 			[
@@ -1979,7 +1943,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files (x86)/OpenGLStarter"
+			"value" : "C:/Program Files (x86)/PhysicsSim"
 		}
 	],
 	"kind" : "cache",
