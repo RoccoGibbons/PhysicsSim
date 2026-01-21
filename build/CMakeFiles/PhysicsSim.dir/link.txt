@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\PhysicsSim.dir/objects.a
+C:\MinGW\bin\ar.exe qc CMakeFiles\PhysicsSim.dir/objects.a @CMakeFiles\PhysicsSim.dir\objects1.rsp
+C:\MinGW\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\PhysicsSim.dir/objects.a -Wl,--no-whole-archive -o PhysicsSim.exe -Wl,--out-implib,libPhysicsSim.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\PhysicsSim.dir\linkLibs.rsp
