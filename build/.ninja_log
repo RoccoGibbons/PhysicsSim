@@ -1,0 +1,26 @@
+# ninja log v6
+4549	8663	7906909830602844	external/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj	30beb9eee6b68b4d
+26	4692	7906909785384338	external/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj	1ca1338d2ac08200
+33	4939	7906909785442123	external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj	3d4162141793105d
+9177	11115	7906909876890477	external/glad/libglad.a	e01b6ba7dd7da927
+4874	8413	7906909867413208	external/glfw/docs/html/index.html	ebf0c3ec0b0c54d8
+40	4580	7906909785519561	external/glfw/src/CMakeFiles/glfw.dir/window.c.obj	55ba762d433aab5f
+68	4874	7906909785802033	external/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj	76dcb0df7537dd7
+80	4730	7906909785909682	external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj	a6dd65c3d83485a8
+90	4707	7906909786010672	external/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj	e8ec998df2ebffc9
+4581	9068	7906909830916185	external/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj	d20b3918dfff014d
+4874	8413	7906909867413208	C:/Users/rocco/code/physics_sim/build/external/glfw/docs/html/index.html	ebf0c3ec0b0c54d8
+4730	8577	7906909832406712	external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj	24cfabf41c2ff15e
+4693	8787	7906909832048862	external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj	36e1702cff4271fc
+4707	8657	7906909832183111	external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj	f575b2dcadbcade7
+71	599	7906910883498820	CMakeFiles/PhysicsSim.dir/src/main.cpp.obj	2f13ba7ad73ed63
+7	4771	7906909785115939	external/glfw/src/CMakeFiles/glfw.dir/context.c.obj	a976a46abfec4ee2
+51	4543	7906909785642579	external/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj	dc0c712dd4d65dc7
+21	5178	7906909785308537	external/glfw/src/CMakeFiles/glfw.dir/input.c.obj	db3151677d338e68
+15	4854	7906909785253894	external/glfw/src/CMakeFiles/glfw.dir/init.c.obj	47672e81699101e9
+4771	9176	7906909832828684	external/glad/CMakeFiles/glad.dir/src/glad.c.obj	139d733da9713e36
+601	796	7906910888811782	PhysicsSim.exe	9a49a9457b428ac9
+9068	11145	7906909875777506	external/glfw/src/libglfw3.a	f31de701ad3bd89c
+4858	10483	7906909833691150	CMakeFiles/OpenGLStarter.dir/src/main.cpp.obj	c432247db183698b
+70	235	7906928371845628	CMakeFiles/PhysicsSim.dir/src/main.c.obj	fc2519393fcfbce9
+236	497	7906928373495802	PhysicsSim.exe	9a76d746fb381188
