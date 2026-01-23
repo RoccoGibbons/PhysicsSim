@@ -110,7 +110,8 @@ $(function(){ initResizable(false); });
   </li>
 </ul>
 </div>
-<div class="textblock"><p>There are several interfaces inside GLFW. Each interface has its own area of responsibility and its own naming conventions.</p>
+<div class="textblock"><p><a class="anchor" id="md__c_1_2_users_2rocco_2code_2physics__sim_2external_2glfw_2docs_2internal"></a></p>
+<p>There are several interfaces inside GLFW. Each interface has its own area of responsibility and its own naming conventions.</p>
 <h1><a class="anchor" id="internals_public"></a>
 Public interface</h1>
 <p>The most well-known is the public interface, described in the <a class="el" href="glfw3_8h.html" title="The header of the GLFW 3 API.">glfw3.h</a> header file. This is implemented in source files shared by all platforms and these files contain no platform-specific code. This code usually ends up calling the platform and internal interfaces to do the actual work.</p>
@@ -130,8 +131,11 @@ Internal interface</h1>
 <h1><a class="anchor" id="internals_platform"></a>
 Platform interface</h1>
 <p>The platform interface implements all platform-specific operations as a service to the public interface. This includes event processing. The platform interface is never directly called by application code and never directly calls application-provided callbacks. It is also prohibited from modifying the platform-independent part of the internal structs. Instead, it calls the event interface when events interesting to GLFW are received.</p>
-<p>The platform interface mirrors those parts of the public interface that needs to perform platform-specific operations on some or all platforms. The are also named the same except that the glfw function prefix is replaced by _glfwPlatform.</p>
-<p>Examples: <code>_glfwPlatformCreateWindow</code></p>
+<p>The platform interface mostly mirrors those parts of the public interface that needs to perform platform-specific operations on some or all platforms.</p>
+<p>The window system bits of the platform API is called through the <code>_GLFWplatform</code> struct of function pointers, to allow runtime selection of platform. This includes the window and context creation, input and event processing, monitor and Vulkan surface creation parts of GLFW. This is located in the global <code>_glfw</code> struct.</p>
+<p>Examples: <code>_glfw.platform.createWindow</code></p>
+<p>The timer, threading and module loading bits of the platform API are plain functions with a <code>_glfwPlatform</code> prefix, as these things are independent of what window system is being used.</p>
+<p>Examples: <code>_glfwPlatformGetTimerValue</code></p>
 <p>The platform interface also defines structs that contain platform-specific global and per-object state. Their names mirror those of the internal interface, except that an interface-specific suffix is added.</p>
 <p>Examples: <code>_GLFWwindowX11</code>, <code>_GLFWcontextWGL</code></p>
 <p>These structs are incorporated as members into the internal interface structs using special macros that name them after the specific interface used. This prevents shared code from accidentally using these members.</p>
@@ -147,14 +151,14 @@ Static functions</h1>
 <p>Examples: <code>isValidElementForJoystick</code></p>
 <h1><a class="anchor" id="internals_config"></a>
 Configuration macros</h1>
-<p>GLFW uses a number of configuration macros to select at compile time which interfaces and code paths to use. They are defined in the glfw_config.h header file, which is generated from the <code>glfw_config.h.in</code> file by CMake.</p>
+<p>GLFW uses a number of configuration macros to select at compile time which interfaces and code paths to use. They are defined in the GLFW CMake target.</p>
 <p>Configuration macros the same style as tokens in the public interface, except with a leading underscore.</p>
 <p>Examples: <code>_GLFW_WIN32</code>, <code>_GLFW_BUILD_DLL</code> </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <address class="footer">
 <p>
-Last update on Wed Jan 21 2026 for GLFW 3.4.0
+Last update on Fri Jan 23 2026 for GLFW 3.5.0
 </p>
 </address>
 </body>

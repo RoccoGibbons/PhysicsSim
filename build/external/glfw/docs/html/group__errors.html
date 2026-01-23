@@ -134,6 +134,9 @@ Macros</h2></td></tr>
 <tr class="memitem:ga5dda77e023e83151e8bd55a6758f946a" id="r_ga5dda77e023e83151e8bd55a6758f946a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga5dda77e023e83151e8bd55a6758f946a">GLFW_FEATURE_UNIMPLEMENTED</a>&#160;&#160;&#160;0x0001000D</td></tr>
 <tr class="memdesc:ga5dda77e023e83151e8bd55a6758f946a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The requested feature is not implemented for the platform.  <br /></td></tr>
 <tr class="separator:ga5dda77e023e83151e8bd55a6758f946a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3608c6c29ab7a72f3bf019f4c3a2563d" id="r_ga3608c6c29ab7a72f3bf019f4c3a2563d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga3608c6c29ab7a72f3bf019f4c3a2563d">GLFW_PLATFORM_UNAVAILABLE</a>&#160;&#160;&#160;0x0001000E</td></tr>
+<tr class="memdesc:ga3608c6c29ab7a72f3bf019f4c3a2563d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Platform unavailable or no matching platform was found.  <br /></td></tr>
+<tr class="separator:ga3608c6c29ab7a72f3bf019f4c3a2563d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="gafa30deee5db4d69c4c93d116ed87dbf4" name="gafa30deee5db4d69c4c93d116ed87dbf4"></a>
@@ -245,7 +248,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>GLFW could not find support for the requested API on the system.</p>
-<dl class="section user"><dt>Analysis</dt><dd>The installed graphics driver does not support the requested API, or does not support it via the chosen context creation backend. Below are a few examples.</dd></dl>
+<dl class="section user"><dt>Analysis</dt><dd>The installed graphics driver does not support the requested API, or does not support it via the chosen context creation API. Below are a few examples.</dd></dl>
 <dl class="section user"><dt></dt><dd>Some pre-installed Windows graphics drivers do not support OpenGL. AMD only supports OpenGL ES via EGL, while Nvidia and Intel only support it via a WGL or GLX extension. macOS does not provide OpenGL ES at all. The Mesa EGL, OpenGL and OpenGL ES libraries do not interface with the Nvidia binary driver. Older graphics drivers do not support Vulkan. </dd></dl>
 
 </div>
@@ -328,7 +331,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The specified standard cursor shape is not available, either because the current system cursor theme does not provide it or because it is not available on the platform.</p>
+<p>The specified standard cursor shape is not available, either because the current platform cursor theme does not provide it or because it is not available on the platform.</p>
 <dl class="section user"><dt>Analysis</dt><dd>Platform or system settings limitation. Pick another <a class="el" href="group__shapes.html">standard cursor shape</a> or create a <a class="el" href="input_guide.html#cursor_custom">custom cursor</a>. </dd></dl>
 
 </div>
@@ -367,10 +370,28 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a id="ga3608c6c29ab7a72f3bf019f4c3a2563d" name="ga3608c6c29ab7a72f3bf019f4c3a2563d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3608c6c29ab7a72f3bf019f4c3a2563d">&#9670;&#160;</a></span>GLFW_PLATFORM_UNAVAILABLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GLFW_PLATFORM_UNAVAILABLE&#160;&#160;&#160;0x0001000E</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>If emitted during initialization, no matching platform was found. If the <a class="el" href="intro_guide.html#GLFW_PLATFORM">GLFW_PLATFORM</a> init hint was set to <code>GLFW_ANY_PLATFORM</code>, GLFW could not detect any of the platforms supported by this library binary, except for the Null platform. If the init hint was set to a specific platform, it is either not supported by this library binary or GLFW was not able to detect it.</p>
+<p>If emitted by a native access function, GLFW was initialized for a different platform than the function is for.</p>
+<dl class="section user"><dt>Analysis</dt><dd>Failure to detect any platform usually only happens on non-macOS Unix systems, either when no window system is running or the program was run from a terminal that does not have the necessary environment variables. Fall back to a different platform if possible or notify the user that no usable platform was detected.</dd></dl>
+<p>Failure to detect a specific platform may have the same cause as above or be because support for that platform was not compiled in. Call <a class="el" href="group__init.html#ga8785d2b6b36632368d803e78079d38ed">glfwPlatformSupported</a> to check whether a specific platform is supported by a library binary. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 <address class="footer">
 <p>
-Last update on Wed Jan 21 2026 for GLFW 3.4.0
+Last update on Fri Jan 23 2026 for GLFW 3.5.0
 </p>
 </address>
 </body>

@@ -7,7 +7,6 @@ var searchData=
   ['joystick_20hat_20states_4',['Joystick hat states',['../group__hat__state.html',1,'Joystick hat states'],['../input_guide.html#joystick_hat',1,'Joystick hat states']]],
   ['joystick_20input_5',['Joystick input',['../input_guide.html#joystick',1,'']]],
   ['joystick_20name_6',['Joystick name',['../input_guide.html#joystick_name',1,'']]],
-  ['joystick_20support_20is_20initialized_20on_20demand_7',['Joystick support is initialized on demand',['../news.html#joysticks_34',1,'']]],
-  ['joystick_20user_20pointer_8',['Joystick user pointer',['../input_guide.html#joystick_userptr',1,'']]],
-  ['joysticks_9',['Joysticks',['../group__joysticks.html',1,'']]]
+  ['joystick_20user_20pointer_7',['Joystick user pointer',['../input_guide.html#joystick_userptr',1,'']]],
+  ['joysticks_8',['Joysticks',['../group__joysticks.html',1,'']]]
 ];

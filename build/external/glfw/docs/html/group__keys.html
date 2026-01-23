@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
-<title>GLFW: Keyboard keys</title>
+<title>GLFW: Keyboard key tokens</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -84,7 +84,7 @@ $(function(){ initResizable(false); });
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">Keyboard keys<div class="ingroups"><a class="el" href="group__input.html">Input reference</a></div></div></div>
+  <div class="headertitle"><div class="title">Keyboard key tokens<div class="ingroups"><a class="el" href="group__input.html">Input reference</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -92,7 +92,7 @@ $(function(){ initResizable(false); });
 <p>These key codes are inspired by the <em>USB HID Usage Tables v1.12</em> (p. 53-60), but re-arranged to map to 7-bit ASCII for printable keys (function keys are put in the 256+ range).</p>
 <p>The naming of the key codes follow these rules:</p><ul>
 <li>The US keyboard layout is used</li>
-<li>Names of printable alpha-numeric characters are used (e.g. "A", "R", "3", etc.)</li>
+<li>Names of printable alphanumeric characters are used (e.g. "A", "R", "3", etc.)</li>
 <li>For non-alphanumeric characters, Unicode:ish names are used (e.g. "COMMA", "LEFT_SQUARE_BRACKET", etc.). Note that some names do not correspond to the Unicode standard (usually for brevity)</li>
 <li>Keys that lack a clear US mapping are named "WORLD_x"</li>
 <li>For non-printable keys, custom names are used (e.g. "F4", "BACKSPACE", etc.) </li>
@@ -100,8 +100,6 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga99aacc875b6b27a072552631e13775c7" id="r_ga99aacc875b6b27a072552631e13775c7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga99aacc875b6b27a072552631e13775c7">GLFW_KEY_UNKNOWN</a>&#160;&#160;&#160;-1</td></tr>
-<tr class="separator:ga99aacc875b6b27a072552631e13775c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaddb2c23772b97fd7e26e8ee66f1ad014" id="r_gaddb2c23772b97fd7e26e8ee66f1ad014"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaddb2c23772b97fd7e26e8ee66f1ad014">GLFW_KEY_SPACE</a>&#160;&#160;&#160;32</td></tr>
 <tr class="separator:gaddb2c23772b97fd7e26e8ee66f1ad014"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6059b0b048ba6980b6107fffbd3b4b24" id="r_ga6059b0b048ba6980b6107fffbd3b4b24"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga6059b0b048ba6980b6107fffbd3b4b24">GLFW_KEY_APOSTROPHE</a>&#160;&#160;&#160;39  /* ' */</td></tr>
@@ -346,20 +344,6 @@ Macros</h2></td></tr>
 <tr class="separator:ga442cbaef7bfb9a4ba13594dd7fbf2789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ga99aacc875b6b27a072552631e13775c7" name="ga99aacc875b6b27a072552631e13775c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga99aacc875b6b27a072552631e13775c7">&#9670;&#160;</a></span>GLFW_KEY_UNKNOWN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GLFW_KEY_UNKNOWN&#160;&#160;&#160;-1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="gaddb2c23772b97fd7e26e8ee66f1ad014" name="gaddb2c23772b97fd7e26e8ee66f1ad014"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaddb2c23772b97fd7e26e8ee66f1ad014">&#9670;&#160;</a></span>GLFW_KEY_SPACE</h2>
 
@@ -2057,7 +2041,7 @@ Macros</h2></td></tr>
 </div><!-- contents -->
 <address class="footer">
 <p>
-Last update on Wed Jan 21 2026 for GLFW 3.4.0
+Last update on Fri Jan 23 2026 for GLFW 3.5.0
 </p>
 </address>
 </body>

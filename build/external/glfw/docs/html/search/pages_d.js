@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['standards_20conformance_0',['Standards conformance',['../compat_guide.html',1,'']]],
-  ['started_1',['Getting started',['../quick_guide.html',1,'']]],
-  ['structure_2',['Internal structure',['../internals_guide.html',1,'']]]
+  ['release_20notes_20for_20version_203_205_0',['Release notes for version 3.5',['../news.html',1,'']]]
 ];

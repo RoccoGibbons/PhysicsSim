@@ -79,8 +79,8 @@ function initResizable(treeview) {
     if (sidenav.width()>0) {
       newWidth=0;
     } else {
-      const width = Cookie.readSetting(RESIZE_COOKIE_NAME,300);
-      newWidth = (width>300 && width<$(window).width()) ? width : 300;
+      const width = Cookie.readSetting(RESIZE_COOKIE_NAME,250);
+      newWidth = (width>250 && width<$(window).width()) ? width : 250;
     }
     restoreWidth(newWidth);
     const sidenavWidth = $(sidenav).outerWidth();
@@ -127,7 +127,7 @@ function initResizable(treeview) {
       $('#nav-sync').css({ right:'34px' });
       barWidth=20;
     }
-    const width = Cookie.readSetting(RESIZE_COOKIE_NAME,300);
+    const width = Cookie.readSetting(RESIZE_COOKIE_NAME,250);
     if (width) { restoreWidth(width); } else { resizeWidth(); }
   }
   resizeHeight(treeview);

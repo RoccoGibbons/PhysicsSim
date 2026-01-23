@@ -241,9 +241,9 @@ build external/glfw/CMakeFiles/uninstall | ${cmake_ninja_workdir}external/glfw/C
 build cmake_object_order_depends_target_glfw: phony || .
 
 build external/glfw/src/CMakeFiles/glfw.dir/context.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/context.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
   DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\context.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
+  FLAGS = -g -std=c99 -Wall
   INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
@@ -251,9 +251,9 @@ build external/glfw/src/CMakeFiles/glfw.dir/context.c.obj: C_COMPILER__glfw_unsc
   TARGET_PDB = external\glfw\src\libglfw3.pdb
 
 build external/glfw/src/CMakeFiles/glfw.dir/init.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/init.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
   DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\init.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
+  FLAGS = -g -std=c99 -Wall
   INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
@@ -261,9 +261,9 @@ build external/glfw/src/CMakeFiles/glfw.dir/init.c.obj: C_COMPILER__glfw_unscann
   TARGET_PDB = external\glfw\src\libglfw3.pdb
 
 build external/glfw/src/CMakeFiles/glfw.dir/input.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/input.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
   DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\input.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
+  FLAGS = -g -std=c99 -Wall
   INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
@@ -271,9 +271,19 @@ build external/glfw/src/CMakeFiles/glfw.dir/input.c.obj: C_COMPILER__glfw_unscan
   TARGET_PDB = external\glfw\src\libglfw3.pdb
 
 build external/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/monitor.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
   DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\monitor.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/platform.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/platform.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\platform.c.obj.d
+  FLAGS = -g -std=c99 -Wall
   INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
@@ -281,9 +291,9 @@ build external/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj: C_COMPILER__glfw_unsc
   TARGET_PDB = external\glfw\src\libglfw3.pdb
 
 build external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/vulkan.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
   DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\vulkan.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
+  FLAGS = -g -std=c99 -Wall
   INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
@@ -291,79 +301,9 @@ build external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj: C_COMPILER__glfw_unsca
   TARGET_PDB = external\glfw\src\libglfw3.pdb
 
 build external/glfw/src/CMakeFiles/glfw.dir/window.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/window.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
   DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\window.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
-  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
-  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
-
-build external/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_init.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
-  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_init.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
-  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
-  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
-
-build external/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_joystick.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
-  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_joystick.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
-  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
-  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
-
-build external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_monitor.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
-  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_monitor.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
-  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
-  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
-
-build external/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_time.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
-  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_time.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
-  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
-  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
-
-build external/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_thread.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
-  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_thread.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
-  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
-  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
-
-build external/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_window.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
-  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_window.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
-  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
-  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
-
-build external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/wgl_context.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
-  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\wgl_context.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
+  FLAGS = -g -std=c99 -Wall
   INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
@@ -371,9 +311,9 @@ build external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj: C_COMPILER__glfw_
   TARGET_PDB = external\glfw\src\libglfw3.pdb
 
 build external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/egl_context.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
   DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\egl_context.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
+  FLAGS = -g -std=c99 -Wall
   INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
@@ -381,9 +321,129 @@ build external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj: C_COMPILER__glfw_
   TARGET_PDB = external\glfw\src\libglfw3.pdb
 
 build external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/osmesa_context.c || cmake_object_order_depends_target_glfw
-  DEFINES = -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
   DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\osmesa_context.c.obj.d
-  FLAGS = -g -std=c99 -Wall -Wdeclaration-after-statement
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/null_init.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/null_init.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\null_init.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/null_monitor.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\null_monitor.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/null_window.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/null_window.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\null_window.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/null_joystick.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\null_joystick.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/win32_module.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_module.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_module.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_time.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_time.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_thread.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_thread.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_init.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_init.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_joystick.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_joystick.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_monitor.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_monitor.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/win32_window.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\win32_window.c.obj.d
+  FLAGS = -g -std=c99 -Wall
+  INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
+  OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
+  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
+  TARGET_PDB = external\glfw\src\libglfw3.pdb
+
+build external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj: C_COMPILER__glfw_unscanned_Debug C$:/Users/rocco/code/physics_sim/external/glfw/src/wgl_context.c || cmake_object_order_depends_target_glfw
+  DEFINES = -DUNICODE -D_GLFW_WIN32 -D_UNICODE
+  DEP_FILE = external\glfw\src\CMakeFiles\glfw.dir\wgl_context.c.obj.d
+  FLAGS = -g -std=c99 -Wall
   INCLUDES = -IC:/Users/rocco/code/physics_sim/external/glfw/include -IC:/Users/rocco/code/physics_sim/external/glfw/src -IC:/Users/rocco/code/physics_sim/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
@@ -398,7 +458,7 @@ build external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj: C_COMPILER__gl
 #############################################
 # Link the static library external\glfw\src\libglfw3.a
 
-build external/glfw/src/libglfw3.a: C_STATIC_LIBRARY_LINKER__glfw_Debug external/glfw/src/CMakeFiles/glfw.dir/context.c.obj external/glfw/src/CMakeFiles/glfw.dir/init.c.obj external/glfw/src/CMakeFiles/glfw.dir/input.c.obj external/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj external/glfw/src/CMakeFiles/glfw.dir/window.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj
+build external/glfw/src/libglfw3.a: C_STATIC_LIBRARY_LINKER__glfw_Debug external/glfw/src/CMakeFiles/glfw.dir/context.c.obj external/glfw/src/CMakeFiles/glfw.dir/init.c.obj external/glfw/src/CMakeFiles/glfw.dir/input.c.obj external/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj external/glfw/src/CMakeFiles/glfw.dir/platform.c.obj external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj external/glfw/src/CMakeFiles/glfw.dir/window.c.obj external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj external/glfw/src/CMakeFiles/glfw.dir/null_init.c.obj external/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.obj external/glfw/src/CMakeFiles/glfw.dir/null_window.c.obj external/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_module.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj external/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   POST_BUILD = cd .
@@ -495,7 +555,7 @@ build external/glfw/src/CMakeFiles/update_mappings | ${cmake_ninja_workdir}exter
 #############################################
 # Utility command for docs
 
-build external/glfw/docs/docs: phony external/glfw/docs/html/index.html
+build external/glfw/docs/docs: phony external/glfw/docs/CMakeFiles/docs external/glfw/docs/html/index.html
 
 
 #############################################
@@ -564,9 +624,15 @@ build external/glfw/docs/install/strip: phony external/glfw/docs/CMakeFiles/inst
 
 
 #############################################
+# Phony custom command for external\glfw\docs\CMakeFiles\docs
+
+build external/glfw/docs/CMakeFiles/docs | ${cmake_ninja_workdir}external/glfw/docs/CMakeFiles/docs: phony external/glfw/docs/html/index.html
+
+
+#############################################
 # Custom command for external\glfw\docs\html\index.html
 
-build external/glfw/docs/html/index.html | ${cmake_ninja_workdir}external/glfw/docs/html/index.html: CUSTOM_COMMAND external/glfw/docs/Doxyfile C$:/Users/rocco/code/physics_sim/external/glfw/include/GLFW/glfw3.h C$:/Users/rocco/code/physics_sim/external/glfw/include/GLFW/glfw3native.h C$:/Users/rocco/code/physics_sim/external/glfw/docs/main.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/news.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/quick.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/moving.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/compile.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/build.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/intro.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/context.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/monitor.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/window.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/input.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/vulkan.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/compat.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/internal.dox C$:/Users/rocco/code/physics_sim/external/glfw/docs/DoxygenLayout.xml C$:/Users/rocco/code/physics_sim/external/glfw/docs/header.html C$:/Users/rocco/code/physics_sim/external/glfw/docs/footer.html C$:/Users/rocco/code/physics_sim/external/glfw/docs/extra.css C$:/Users/rocco/code/physics_sim/external/glfw/docs/spaces.svg
+build external/glfw/docs/html/index.html | ${cmake_ninja_workdir}external/glfw/docs/html/index.html: CUSTOM_COMMAND external/glfw/docs/Doxyfile C$:/Users/rocco/code/physics_sim/external/glfw/include/GLFW/glfw3.h C$:/Users/rocco/code/physics_sim/external/glfw/include/GLFW/glfw3native.h C$:/Users/rocco/code/physics_sim/external/glfw/docs/main.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/news.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/quick.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/moving.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/compile.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/build.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/intro.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/context.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/monitor.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/window.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/input.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/vulkan.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/compat.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/internal.md C$:/Users/rocco/code/physics_sim/external/glfw/docs/DoxygenLayout.xml C$:/Users/rocco/code/physics_sim/external/glfw/docs/header.html C$:/Users/rocco/code/physics_sim/external/glfw/docs/footer.html C$:/Users/rocco/code/physics_sim/external/glfw/docs/extra.css C$:/Users/rocco/code/physics_sim/external/glfw/docs/spaces.svg
   COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\rocco\code\physics_sim\build\external\glfw\docs && C:\mingw64\bin\doxygen.exe"
   DESC = Generating HTML documentation
   restat = 1
@@ -740,14 +806,14 @@ build external/glfw/src/all: phony external/glfw/src/libglfw3.a
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:/Users/rocco/code/physics_sim/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glad/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/CMake/cmake_uninstall.cmake.in C$:/Users/rocco/code/physics_sim/external/glfw/CMake/glfw3.pc.in C$:/Users/rocco/code/physics_sim/external/glfw/CMake/glfw3Config.cmake.in C$:/Users/rocco/code/physics_sim/external/glfw/docs/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/docs/Doxyfile.in C$:/Users/rocco/code/physics_sim/external/glfw/src/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/src/glfw_config.h.in C$:/mingw64/share/cmake-3.30/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCCompilerABI.c C$:/mingw64/share/cmake-3.30/Modules/CMakeCInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCompilerIdDetection.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDependentOption.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerSupport.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineRCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeFindBinUtils.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeLanguageInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeNinjaFindMake.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakePackageConfigHelpers.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseImplicitIncludeInfo.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseImplicitLinkInfo.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseLibraryArchitecture.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeRCCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeRCInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeSystem.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCompilerCommon.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestRCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckCSourceCompiles.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckIncludeFile.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckLibraryExists.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ADSP-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ARMCC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ARMClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/AppleClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Borland-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Bruce-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompilerInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Compaq-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Cray-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/CrayClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Embarcadero-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Fujitsu-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GHS-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-C.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-FindBinUtils.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/HP-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/HP-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IAR-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Intel-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/LCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/MSVC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/NVHPC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/NVIDIA-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/OrangeC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/PGI-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/PathScale-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SCO-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SDCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SunPro-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TI-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TIClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Tasking-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Watcom-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XL-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XL-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XLClang-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/zOS-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/FindDoxygen.cmake C$:/mingw64/share/cmake-3.30/Modules/FindOpenGL.cmake C$:/mingw64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake C$:/mingw64/share/cmake-3.30/Modules/FindPackageMessage.cmake C$:/mingw64/share/cmake-3.30/Modules/FindThreads.cmake C$:/mingw64/share/cmake-3.30/Modules/GNUInstallDirs.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/CMakeDetermineLinkerId.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/FeatureTesting.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-Determine-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-C.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake C$:/mingw64/share/cmake-3.30/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.30.4/CMakeCCompiler.cmake CMakeFiles/3.30.4/CMakeCXXCompiler.cmake CMakeFiles/3.30.4/CMakeRCCompiler.cmake CMakeFiles/3.30.4/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | C$:/Users/rocco/code/physics_sim/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glad/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/CMake/cmake_uninstall.cmake.in C$:/Users/rocco/code/physics_sim/external/glfw/CMake/glfw3.pc.in C$:/Users/rocco/code/physics_sim/external/glfw/CMake/glfw3Config.cmake.in C$:/Users/rocco/code/physics_sim/external/glfw/docs/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/docs/Doxyfile.in C$:/Users/rocco/code/physics_sim/external/glfw/src/CMakeLists.txt C$:/mingw64/share/cmake-3.30/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCCompilerABI.c C$:/mingw64/share/cmake-3.30/Modules/CMakeCInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCompilerIdDetection.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDependentOption.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerSupport.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineRCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeFindBinUtils.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeLanguageInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeNinjaFindMake.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakePackageConfigHelpers.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseImplicitIncludeInfo.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseImplicitLinkInfo.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseLibraryArchitecture.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeRCCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeRCInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeSystem.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCompilerCommon.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestRCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckCSourceCompiles.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckIncludeFile.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckLibraryExists.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ADSP-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ARMCC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ARMClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/AppleClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Borland-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Bruce-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompilerInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Compaq-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Cray-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/CrayClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Embarcadero-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Fujitsu-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GHS-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-C.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-FindBinUtils.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/HP-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/HP-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IAR-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Intel-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/LCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/MSVC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/NVHPC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/NVIDIA-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/OrangeC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/PGI-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/PathScale-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SCO-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SDCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SunPro-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TI-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TIClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Tasking-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Watcom-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XL-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XL-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XLClang-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/zOS-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/FindDoxygen.cmake C$:/mingw64/share/cmake-3.30/Modules/FindOpenGL.cmake C$:/mingw64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake C$:/mingw64/share/cmake-3.30/Modules/FindPackageMessage.cmake C$:/mingw64/share/cmake-3.30/Modules/FindThreads.cmake C$:/mingw64/share/cmake-3.30/Modules/GNUInstallDirs.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/CMakeDetermineLinkerId.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/FeatureTesting.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-Determine-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-C.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake C$:/mingw64/share/cmake-3.30/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.30.4/CMakeCCompiler.cmake CMakeFiles/3.30.4/CMakeCXXCompiler.cmake CMakeFiles/3.30.4/CMakeRCCompiler.cmake CMakeFiles/3.30.4/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:/Users/rocco/code/physics_sim/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glad/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/CMake/cmake_uninstall.cmake.in C$:/Users/rocco/code/physics_sim/external/glfw/CMake/glfw3.pc.in C$:/Users/rocco/code/physics_sim/external/glfw/CMake/glfw3Config.cmake.in C$:/Users/rocco/code/physics_sim/external/glfw/docs/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/docs/Doxyfile.in C$:/Users/rocco/code/physics_sim/external/glfw/src/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/src/glfw_config.h.in C$:/mingw64/share/cmake-3.30/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCCompilerABI.c C$:/mingw64/share/cmake-3.30/Modules/CMakeCInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCompilerIdDetection.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDependentOption.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerSupport.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineRCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeFindBinUtils.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeLanguageInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeNinjaFindMake.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakePackageConfigHelpers.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseImplicitIncludeInfo.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseImplicitLinkInfo.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseLibraryArchitecture.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeRCCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeRCInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeSystem.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCompilerCommon.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestRCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckCSourceCompiles.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckIncludeFile.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckLibraryExists.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ADSP-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ARMCC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ARMClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/AppleClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Borland-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Bruce-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompilerInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Compaq-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Cray-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/CrayClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Embarcadero-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Fujitsu-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GHS-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-C.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-FindBinUtils.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/HP-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/HP-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IAR-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Intel-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/LCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/MSVC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/NVHPC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/NVIDIA-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/OrangeC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/PGI-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/PathScale-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SCO-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SDCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SunPro-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TI-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TIClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Tasking-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Watcom-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XL-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XL-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XLClang-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/zOS-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/FindDoxygen.cmake C$:/mingw64/share/cmake-3.30/Modules/FindOpenGL.cmake C$:/mingw64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake C$:/mingw64/share/cmake-3.30/Modules/FindPackageMessage.cmake C$:/mingw64/share/cmake-3.30/Modules/FindThreads.cmake C$:/mingw64/share/cmake-3.30/Modules/GNUInstallDirs.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/CMakeDetermineLinkerId.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/FeatureTesting.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-Determine-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-C.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake C$:/mingw64/share/cmake-3.30/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.30.4/CMakeCCompiler.cmake CMakeFiles/3.30.4/CMakeCXXCompiler.cmake CMakeFiles/3.30.4/CMakeRCCompiler.cmake CMakeFiles/3.30.4/CMakeSystem.cmake: phony
+build C$:/Users/rocco/code/physics_sim/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glad/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/CMake/cmake_uninstall.cmake.in C$:/Users/rocco/code/physics_sim/external/glfw/CMake/glfw3.pc.in C$:/Users/rocco/code/physics_sim/external/glfw/CMake/glfw3Config.cmake.in C$:/Users/rocco/code/physics_sim/external/glfw/docs/CMakeLists.txt C$:/Users/rocco/code/physics_sim/external/glfw/docs/Doxyfile.in C$:/Users/rocco/code/physics_sim/external/glfw/src/CMakeLists.txt C$:/mingw64/share/cmake-3.30/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCCompilerABI.c C$:/mingw64/share/cmake-3.30/Modules/CMakeCInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp C$:/mingw64/share/cmake-3.30/Modules/CMakeCXXInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeCompilerIdDetection.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDependentOption.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineCompilerSupport.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineRCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeFindBinUtils.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeLanguageInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeNinjaFindMake.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakePackageConfigHelpers.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseImplicitIncludeInfo.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseImplicitLinkInfo.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeParseLibraryArchitecture.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeRCCompiler.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeRCInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeSystem.cmake.in C$:/mingw64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestCompilerCommon.cmake C$:/mingw64/share/cmake-3.30/Modules/CMakeTestRCCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckCSourceCompiles.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckIncludeFile.cmake C$:/mingw64/share/cmake-3.30/Modules/CheckLibraryExists.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ADSP-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ARMCC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/ARMClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/AppleClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Borland-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Bruce-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompilerInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Compaq-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Cray-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/CrayClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Embarcadero-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Fujitsu-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GHS-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-C.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU-FindBinUtils.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/GNU.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/HP-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/HP-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IAR-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Intel-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/LCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/MSVC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/NVHPC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/NVIDIA-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/OrangeC-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/PGI-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/PathScale-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SCO-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SDCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SunPro-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TI-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TIClang-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Tasking-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/Watcom-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XL-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XL-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XLClang-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/zOS-C-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake C$:/mingw64/share/cmake-3.30/Modules/FindDoxygen.cmake C$:/mingw64/share/cmake-3.30/Modules/FindOpenGL.cmake C$:/mingw64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake C$:/mingw64/share/cmake-3.30/Modules/FindPackageMessage.cmake C$:/mingw64/share/cmake-3.30/Modules/FindThreads.cmake C$:/mingw64/share/cmake-3.30/Modules/GNUInstallDirs.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/CMakeDetermineLinkerId.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake C$:/mingw64/share/cmake-3.30/Modules/Internal/FeatureTesting.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-Determine-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-C.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/Windows.cmake C$:/mingw64/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake C$:/mingw64/share/cmake-3.30/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.30.4/CMakeCCompiler.cmake CMakeFiles/3.30.4/CMakeCXXCompiler.cmake CMakeFiles/3.30.4/CMakeRCCompiler.cmake CMakeFiles/3.30.4/CMakeSystem.cmake: phony
 
 
 #############################################

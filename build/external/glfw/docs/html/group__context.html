@@ -150,8 +150,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This function makes the OpenGL or OpenGL ES context of the specified window current on the calling thread. A context must only be made current on a single thread at a time and each thread can have only a single current context at a time.</p>
-<p>When moving a context between threads, you must make it non-current on the old thread before making it current on the new one.</p>
+<p>This function makes the OpenGL or OpenGL ES context of the specified window current on the calling thread. It can also detach the current context from the calling thread without making a new one current by passing in <code>NULL</code>.</p>
+<p>A context must only be made current on a single thread at a time and each thread can have only a single current context at a time. Making a context current detaches any previously current context on the calling thread.</p>
+<p>When moving a context between threads, you must detach it (make it non-current) on the old thread before making it current on the new one.</p>
 <p>By default, making a context non-current implicitly forces a pipeline flush. On machines that support <code>GL_KHR_context_flush_control</code>, you can control whether a context performs this flush by setting the <a class="el" href="window_guide.html#GLFW_CONTEXT_RELEASE_BEHAVIOR_hint">GLFW_CONTEXT_RELEASE_BEHAVIOR</a> hint.</p>
 <p>The specified window must have an OpenGL or OpenGL ES context. Specifying a window without a context will generate a <a class="el" href="group__errors.html#gacff24d2757da752ae4c80bf452356487">GLFW_NO_WINDOW_CONTEXT</a> error.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -160,6 +161,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section remark"><dt>Remarks</dt><dd>If the previously current context was created via a different context creation API than the one passed to this function, GLFW will still detach the previous one from its API before making the new one current.</dd></dl>
 <dl class="section user"><dt>Errors</dt><dd>Possible errors include <a class="el" href="group__errors.html#ga2374ee02c177f12e1fa76ff3ed15e14a">GLFW_NOT_INITIALIZED</a>, <a class="el" href="group__errors.html#gacff24d2757da752ae4c80bf452356487">GLFW_NO_WINDOW_CONTEXT</a> and <a class="el" href="group__errors.html#gad44162d78100ea5e87cdd38426b8c7a1">GLFW_PLATFORM_ERROR</a>.</dd></dl>
 <dl class="section user"><dt>Thread safety</dt><dd>This function may be called from any thread.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="context_guide.html#context_current">Current context</a> </dd>
@@ -219,7 +221,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section user"><dt>Errors</dt><dd>Possible errors include <a class="el" href="group__errors.html#ga2374ee02c177f12e1fa76ff3ed15e14a">GLFW_NOT_INITIALIZED</a>, <a class="el" href="group__errors.html#gaa8290386e9528ccb9e42a3a4e16fc0d0">GLFW_NO_CURRENT_CONTEXT</a> and <a class="el" href="group__errors.html#gad44162d78100ea5e87cdd38426b8c7a1">GLFW_PLATFORM_ERROR</a>.</dd></dl>
-<dl class="section remark"><dt>Remarks</dt><dd>This function is not called during context creation, leaving the swap interval set to whatever is the default on that platform. This is done because some swap interval extensions used by GLFW do not allow the swap interval to be reset to zero once it has been set to a non-zero value.</dd>
+<dl class="section remark"><dt>Remarks</dt><dd>This function is not called during context creation, leaving the swap interval set to whatever is the default for that API. This is done because some swap interval extensions used by GLFW do not allow the swap interval to be reset to zero once it has been set to a non-zero value.</dd>
 <dd>
 Some GPU drivers do not honor the requested swap interval, either because of a user setting that overrides the application's request or due to bugs in the driver.</dd></dl>
 <dl class="section user"><dt>Thread safety</dt><dd>This function may be called from any thread.</dd></dl>
@@ -304,7 +306,7 @@ This function may return a non-<code>NULL</code> address despite the associated 
 </div><!-- contents -->
 <address class="footer">
 <p>
-Last update on Wed Jan 21 2026 for GLFW 3.4.0
+Last update on Fri Jan 23 2026 for GLFW 3.5.0
 </p>
 </address>
 </body>
