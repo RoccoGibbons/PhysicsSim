@@ -17,10 +17,15 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 335,
+				"line" : 362,
 				"parent" : 0
 			}
 		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 9
 	},
 	"installers" : 
 	[
@@ -33,7 +38,7 @@
 				"external/glfw/src/libglfw3.a"
 			],
 			"targetId" : "glfw::@ca12bac854c2ac6b2230",
-			"targetIndex" : 3,
+			"targetIndex" : 2,
 			"type" : "target"
 		}
 	],

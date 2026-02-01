@@ -53,6 +53,22 @@
 			}
 		]
 	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 9
+	},
+	"compileDependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "glfw::@ca12bac854c2ac6b2230"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "glad::@55512df44c152ef9a2ca"
+		}
+	],
 	"compileGroups" : 
 	[
 		{
@@ -66,15 +82,15 @@
 			[
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/rocco/code/physics_sim/external/glfw/include"
+					"path" : "C:/Users/rocco/code/Physics sim/external/glfw/include"
 				},
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/rocco/code/physics_sim/external/glad/include/glad"
+					"path" : "C:/Users/rocco/code/Physics sim/external/glad/include/glad"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/rocco/code/physics_sim/external/glad/include"
+					"path" : "C:/Users/rocco/code/Physics sim/external/glad/include"
 				}
 			],
 			"language" : "C",
@@ -105,17 +121,13 @@
 				"role" : "flags"
 			},
 			{
-				"fragment" : "",
-				"role" : "flags"
-			},
-			{
 				"backtrace" : 2,
-				"fragment" : "-LC:\\Users\\rocco\\code\\physics_sim\\external\\glfw\\src",
+				"fragment" : "-LC:\\Users\\rocco\\code\\PHYSIC~1\\external\\glfw\\src",
 				"role" : "libraryPath"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-LC:\\Users\\rocco\\code\\physics_sim\\external\\glad\\src}",
+				"fragment" : "-L\"C:\\Users\\rocco\\code\\Physics sim\\external\\glad\\src}\"",
 				"role" : "libraryPath"
 			},
 			{
@@ -140,6 +152,21 @@
 		],
 		"language" : "C"
 	},
+	"linkLibraries" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "glfw::@ca12bac854c2ac6b2230"
+		},
+		{
+			"backtrace" : 3,
+			"fragment" : "opengl32"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "glad::@55512df44c152ef9a2ca"
+		}
+	],
 	"name" : "PhysicsSim",
 	"nameOnDisk" : "PhysicsSim.exe",
 	"paths" : 
