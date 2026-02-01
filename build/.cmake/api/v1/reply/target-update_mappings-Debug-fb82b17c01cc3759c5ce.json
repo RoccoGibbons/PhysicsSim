@@ -23,6 +23,11 @@
 			}
 		]
 	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 9
+	},
 	"folder" : 
 	{
 		"name" : "GLFW3"

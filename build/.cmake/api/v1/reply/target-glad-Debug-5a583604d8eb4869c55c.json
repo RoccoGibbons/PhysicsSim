@@ -37,6 +37,11 @@
 			}
 		]
 	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 9
+	},
 	"compileGroups" : 
 	[
 		{
@@ -50,7 +55,7 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/rocco/code/physics_sim/external/glad/include"
+					"path" : "C:/Users/rocco/code/Physics sim/external/glad/include"
 				}
 			],
 			"language" : "C",

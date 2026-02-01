@@ -6,13 +6,13 @@ typedef struct {
     unsigned int ID;
 } Shader;
 
-Shader initialise(const char* vertexPath, const char* fragmentPath);
+Shader initialise_shader(const char* vertexPath, const char* fragmentPath);
 int length(char* myString);
 void checkCompileErrors(unsigned int shader, char* type);
 void use(Shader myShader);
 // Need to create uniform setter functions.
 
-Shader initialise(const char* vertexPath, const char* fragmentPath) {
+Shader initialise_shader(const char* vertexPath, const char* fragmentPath) {
     Shader myShader;
     
     FILE* vShaderFile = fopen(vertexPath, "r");
@@ -31,10 +31,10 @@ Shader initialise(const char* vertexPath, const char* fragmentPath) {
         strncat(vertexCode, buffer, length(buffer));
     }
 
-    char buffer[256];
+    char buffer2[256];
     char* fragmentCode;
     while(fgets(buffer, 256, fShaderFile)) {
-        strncat(fragmentCode, buffer, length(buffer));
+        strncat(fragmentCode, buffer2, length(buffer));
     }
 
     unsigned int vertex, fragment;
@@ -71,10 +71,19 @@ int length(char* myString) {
 void checkCompileErrors(unsigned int shader, char* type) {
     int success;
     char infoLog[512];
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        printf("ERROR::SHADER::%s::COMPILATION_FAILED %s /n", type, infoLog);
+    if (type != "PROGRAM") {
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+        if (!success) {
+            glGetShaderInfoLog(shader, 512, NULL, infoLog);
+            printf("ERROR::SHADER::%s::COMPILATION_FAILED %s /n", type, infoLog);
+        }
+    }
+    else {
+        glGetProgramiv(shader, GL_COMPILE_STATUS, &success);
+        if (!success) {
+            glGetProgramInfoLog(shader, 512, NULL, infoLog);
+            printf("ERROR::SHADER::%s::LINK_FAILED %s /n", type, infoLog);
+        }
     }
 }
 
