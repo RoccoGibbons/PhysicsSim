@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 
 // Procedure definitions
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -15,14 +16,18 @@ const unsigned int SCR_HEIGHT = 600;
 
 const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
+"layout (location = 1) in vec3 aColour;\n"
+"out vec3 ourColour;\n"
 "void main() {\n"
 "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"ourColour = aColour;\n"
 "}\0";
 
 const char *fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColour;\n"
+"in vec3 ourColour;\n"
 "void main () {\n"
-"FragColour = vec4(1.0f, 0.5f, 0.2f, 1.0f); \n"
+"FragColour = vec4(ourColour, 1.0);\n"
 "}\0";
 
 int main() {
@@ -101,10 +106,13 @@ int main() {
 	glDeleteShader(fragmentShader);
 
     float vertices[] = {
-        0.5f, 0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f
+        0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+    	// 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   
+    	// -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   
+    	// 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    
     };
 
 	unsigned int indices[] = {
@@ -124,8 +132,10 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -138,8 +148,17 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Draw
+		// Activate shader
 		glUseProgram(shaderProgram);
+
+		// Colourful stuff
+		float timeValue = glfwGetTime();
+		float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+		int vertexColourLocation = glGetUniformLocation(shaderProgram, "ourColour");
+		glUseProgram(shaderProgram);
+		glUniform4f(vertexColourLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+
 		glBindVertexArray(VAO);
 		// glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
