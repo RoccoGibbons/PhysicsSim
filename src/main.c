@@ -59,37 +59,39 @@ int main() {
         printf("Failed to initialise GLAD\n");
 		return -1;
 	}
-	printf("Reached1\n");
+
 	// Read files
-	FILE* vShaderFile = fopen("src/shader.vs", "r");
-    if (vShaderFile == NULL) {
-        printf("ERROR::SHADER::VERTEX::FILE_NOT_READ\n");
-    }
+	// FILE* vShaderFile = fopen("src/shader.vs", "r");
+    // if (vShaderFile == NULL) {
+    //     printf("ERROR::SHADER::VERTEX::FILE_NOT_READ\n");
+    // }
 
-    FILE* fShaderFile = fopen("src/shader.fs", "r");
-    if (fShaderFile == NULL) {
-        printf("ERROR::SHADER::FRAGMENT::FILE_NOT_READ\n");
-    }
-	printf("Reached2\n");
-	// Store contents of files as char
+    // FILE* fShaderFile = fopen("src/shader.fs", "r");
+    // if (fShaderFile == NULL) {
+    //     printf("ERROR::SHADER::FRAGMENT::FILE_NOT_READ\n");
+    // }
+	// // Store contents of files as char
 	
-	char* buffer = (char*)malloc(128 * sizeof(char));
-	char* vertexCode;
-	while(fgets(buffer, 128, vShaderFile)) {
-		printf("test\n");
-		strcat(vertexCode, buffer);
-	}
+	// // char* buffer = (char*)malloc(128 * sizeof(char));
+	// char buffer[128];
+	// char* vertexCode;
+	// while(fgets(buffer, 128, vShaderFile) != NULL) {
+	// 	printf("test\n");
+	// 	printf("%s", buffer);
+	// 	strcat(vertexCode, buffer);
+	// }
 
-	printf("%s\n", vertexCode);
+	// printf("%s\n", vertexCode);
+	// printf("end of veretx\n");
 
-	char* fragmentCode;
-	while(fgets(buffer, 128, fShaderFile)) {
-		strcat(fragmentCode, buffer);
-	}
-	free(buffer);
-	buffer = NULL;
-	printf("%s\n", fragmentCode);
-	
+	// char* fragmentCode;
+	// while(fgets(buffer, 128, fShaderFile)) {
+	// 	strcat(fragmentCode, buffer);
+	// }
+	// // free(buffer);
+	// // buffer = NULL;
+	// printf("%s\n", fragmentCode);
+	// printf("end of frag\n");
 	
 	
 	
@@ -119,6 +121,51 @@ int main() {
 	// 	addChar(fragmentCode, c);
 	// }
 	// printf("Reached4\n");
+
+    // Reads file
+    FILE* vShaderFile = fopen("test.txt", "r");
+    if (vShaderFile == NULL) {
+        printf("ERROR::SHADER::VERTEX::FILE_NOT_READ\n");
+    }
+	FILE* fShaderFile = fopen("src/shader.fs", "r");
+    if (fShaderFile == NULL) {
+        printf("ERROR::SHADER::FRAGMENT::FILE_NOT_READ\n");
+    }
+
+    // Sets a pointer to the end of the file
+    // Finds the position of the end of the file and saves that value as the length of file
+    // Sets the pointer back the the beginning of the file 
+    fseek(vShaderFile, 0, SEEK_END);
+    unsigned int vFileSize = ftell(vShaderFile);
+    rewind(vShaderFile);
+
+	fseek(fShaderFile, 0, SEEK_END);
+    unsigned int fFileSize = ftell(fShaderFile);
+    rewind(fShaderFile);
+
+    // Sets a buffer for each line of the file and allocates memory for the entire file to be saved
+    char buffer[128];
+	char* vertexCode = (char*)malloc(vFileSize * sizeof(char));
+    // Makes sure the allocated memory starts off as blank
+    strcpy(vertexCode, "");
+
+    // Concatenates buffer onto vertexCode for each line
+    while(fgets(buffer, 128, vShaderFile) != NULL) {
+		strcat(vertexCode, buffer);
+	}
+
+	// Repeated for fragment shader
+	char* fragmentCode = (char*)malloc(fFileSize * sizeof(char));
+    strcpy(fragmentCode, "");
+
+    while(fgets(buffer, 128, fShaderFile) != NULL) {
+		strcat(fragmentCode, buffer);
+	}
+
+    // // Frees the allocated memory
+    // printf("%s", vertexCode);
+    // free(vertexCode);
+    // vertexCode = NULL;	
 
 	fclose(vShaderFile);
 	fclose(fShaderFile);
