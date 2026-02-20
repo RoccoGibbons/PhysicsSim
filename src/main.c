@@ -18,23 +18,6 @@ void addChar(char *s, char c);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-// Shaders
-
-// const char *vertexShaderSource = "#version 330 core\n"
-// "layout (location = 0) in vec3 aPos;\n"
-// "layout (location = 1) in vec3 aColour;\n"
-// "out vec3 ourColour;\n"
-// "void main() {\n"
-// "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-// "ourColour = aColour;\n"
-// "}\0";
-
-// const char *fragmentShaderSource = "#version 330 core\n"
-// "out vec4 FragColour;\n"
-// "in vec3 ourColour;\n"
-// "void main () {\n"
-// "FragColour = vec4(ourColour, 1.0);\n"
-// "}\0";
 
 int main() {
 	glfwInit();
@@ -60,70 +43,8 @@ int main() {
 		return -1;
 	}
 
-	// Read files
-	// FILE* vShaderFile = fopen("src/shader.vs", "r");
-    // if (vShaderFile == NULL) {
-    //     printf("ERROR::SHADER::VERTEX::FILE_NOT_READ\n");
-    // }
-
-    // FILE* fShaderFile = fopen("src/shader.fs", "r");
-    // if (fShaderFile == NULL) {
-    //     printf("ERROR::SHADER::FRAGMENT::FILE_NOT_READ\n");
-    // }
-	// // Store contents of files as char
-	
-	// // char* buffer = (char*)malloc(128 * sizeof(char));
-	// char buffer[128];
-	// char* vertexCode;
-	// while(fgets(buffer, 128, vShaderFile) != NULL) {
-	// 	printf("test\n");
-	// 	printf("%s", buffer);
-	// 	strcat(vertexCode, buffer);
-	// }
-
-	// printf("%s\n", vertexCode);
-	// printf("end of veretx\n");
-
-	// char* fragmentCode;
-	// while(fgets(buffer, 128, fShaderFile)) {
-	// 	strcat(fragmentCode, buffer);
-	// }
-	// // free(buffer);
-	// // buffer = NULL;
-	// printf("%s\n", fragmentCode);
-	// printf("end of frag\n");
-	
-	
-	
-	
-	// char buffer[256];
-    // char* vertexCode;
-    // while(fgets(buffer, 256, vShaderFile)) {
-    //     strncat(vertexCode, buffer, length(buffer));
-    // }
-
-    // char buffer2[256];
-    // char* fragmentCode;
-    // while(fgets(buffer, 256, fShaderFile)) {
-    //     strncat(fragmentCode, buffer2, length(buffer));
-    // }
-
-	// char c;
-	// printf("Reached2.5\n");
-	// char* vertexCode;
-	// while (c = fgetc(vShaderFile) != EOF) {
-	// 	printf("%c", c);
-	// 	addChar(vertexCode, c);
-	// }
-	// printf("Reached3\n");
-	// char* fragmentCode;
-	// while (c = fgetc(fShaderFile) != EOF) {
-	// 	addChar(fragmentCode, c);
-	// }
-	// printf("Reached4\n");
-
     // Reads file
-    FILE* vShaderFile = fopen("test.txt", "r");
+    FILE* vShaderFile = fopen("src/shader.vs", "r");
     if (vShaderFile == NULL) {
         printf("ERROR::SHADER::VERTEX::FILE_NOT_READ\n");
     }
@@ -162,17 +83,9 @@ int main() {
 		strcat(fragmentCode, buffer);
 	}
 
-    // // Frees the allocated memory
-    // printf("%s", vertexCode);
-    // free(vertexCode);
-    // vertexCode = NULL;	
-
 	fclose(vShaderFile);
 	fclose(fShaderFile);
-	printf("%s\n", vertexCode);
-	printf("%s\n", fragmentCode);
 
-	printf("Testing\n");
 	// Build shader programs
 	unsigned int vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -226,6 +139,10 @@ int main() {
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
+    free(vertexCode);
+    vertexCode = NULL;	
+	free(fragmentCode);
+	fragmentCode = NULL;
 
 	// Shader shaderProgram = initialise_shader("shader.vs", "shader.fs");
 
@@ -263,28 +180,6 @@ int main() {
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
-
-
-	// // ---------------------- READING A FILE TEST AREA ---------------------------
-	// FILE *fptr;
-
-	// // Open a file in read mode
-	// fptr = fopen("src/test.txt", "r");
-
-	// // Store the content of the file
-	// char myString[100];
-
-	// // Read the content and store it inside myString
-	// fgets(myString, 100, fptr);
-
-	// // Print the file content
-	// printf("%s", myString);
-
-	// // Close the file
-	// fclose(fptr); 
-
-	// // ---------------------- READING A FILE TEST AREA ---------------------------
 
 	while (!glfwWindowShouldClose(window)) {
         // Input
