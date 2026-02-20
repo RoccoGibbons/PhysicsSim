@@ -44,7 +44,7 @@ int main() {
 	}
 
 	// Create a shader program
-	unsigned int shaderProgram = initialiseShader("src/shader.vs", "src/shader.fs");
+	unsigned int shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
 	// Shape properties
     float vertices[] = {
