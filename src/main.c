@@ -44,7 +44,7 @@ int main() {
 	}
 
 	// Create a shader program
-	unsigned int shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
+	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
 	// Shape properties
     float vertices[] = {
@@ -52,9 +52,6 @@ int main() {
         0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
         -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
 		-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
-    	// 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   
-    	// -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   
-    	// 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    
     };
 
 	unsigned int indices[] = {
@@ -93,16 +90,9 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Activate shader
-		glUseProgram(shaderProgram);
+		use(shaderProgram);
 
-		// Colourful stuff
-		float timeValue = glfwGetTime();
-		float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-		int vertexColourLocation = glGetUniformLocation(shaderProgram, "ourColour");
-		glUseProgram(shaderProgram);
-		glUniform4f(vertexColourLocation, 0.0f, greenValue, 0.0f, 1.0f);
-
-
+		// Render shape
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -114,7 +104,7 @@ int main() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-	glDeleteProgram(shaderProgram);
+	glDeleteProgram(shaderProgram.ID);
 	
 	glfwTerminate();
 	return 0;

@@ -2,14 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
-unsigned int initialiseShader(const char* vertexPath, const char* fragmentPath);
+typedef struct Shader {
+    unsigned int ID;
+} Shader;
+
+
+Shader initialiseShader(const char* vertexPath, const char* fragmentPath);
 unsigned int buildShaderPrograms(const char* path, const char* shaderType);
 void checkCompileErrors(unsigned int shader, const char* type);
-// void use(Shader myShader);
+void use(Shader myShader);
 
 
-unsigned int initialiseShader(const char* vertexPath, const char* fragmentPath) {
+Shader initialiseShader(const char* vertexPath, const char* fragmentPath) {
+    Shader myShader;
 
     // Builds each individual shader program
     unsigned int vertexShader = buildShaderPrograms(vertexPath, "VERTEX");
@@ -17,17 +24,16 @@ unsigned int initialiseShader(const char* vertexPath, const char* fragmentPath) 
 
 
 	// Links the shader programs together
-	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-    checkCompileErrors(shaderProgram, "PROGRAM");
+	myShader.ID = glCreateProgram();
+	glAttachShader(myShader.ID, vertexShader);
+	glAttachShader(myShader.ID, fragmentShader);
+	glLinkProgram(myShader.ID);
+    checkCompileErrors(myShader.ID, "PROGRAM");
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-    return shaderProgram;
+    return myShader;
 }
 
 unsigned int buildShaderPrograms(const char* path, const char* shaderType) {
@@ -78,6 +84,22 @@ unsigned int buildShaderPrograms(const char* path, const char* shaderType) {
     shaderCode = NULL;
 
     return shader;
+}
+
+void use(Shader myShader) {
+    glUseProgram(myShader.ID);
+}
+
+void setBool(Shader myShader, const char* name, bool value) {
+    glUniform1i(glGetUniformLocation(myShader.ID, name), (int)value);
+}
+
+void setInt(Shader myShader, const char* name, bool value) {
+    glUniform1i(glGetUniformLocation(myShader.ID, name), value);
+}
+
+void setFloat(Shader myShader, const char* name, bool value) {
+    glUniform1f(glGetUniformLocation(myShader.ID, name), value);
 }
 
 void checkCompileErrors(unsigned int shader, const char* shaderType) {
