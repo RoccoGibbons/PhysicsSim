@@ -1,8 +1,10 @@
 #include <glad/glad.h>
+#include <cglm/cglm.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
 
 typedef struct Shader {
     unsigned int ID;
@@ -100,6 +102,39 @@ void setInt(Shader myShader, const char* name, bool value) {
 
 void setFloat(Shader myShader, const char* name, bool value) {
     glUniform1f(glGetUniformLocation(myShader.ID, name), value);
+}
+
+void setVec2(Shader myShader, const char* name, const vec2 value) { 
+    glUniform2fv(glGetUniformLocation(myShader.ID, name), 1, &value[0]); 
+}
+void setVec2(Shader myShader, const char* name, float x, float y) { 
+    glUniform2f(glGetUniformLocation(myShader.ID, name), x, y); 
+}
+
+void setVec3(Shader myShader, const char* name, const vec3 value) { 
+    glUniform3fv(glGetUniformLocation(myShader.ID, name), 1, &value[0]); 
+}
+void setVec3(Shader myShader, const char* name, float x, float y, float z) { 
+    glUniform3f(glGetUniformLocation(myShader.ID, name), x, y, z); 
+}
+
+void setVec4(Shader myShader, const char* name, const vec4 value) { 
+    glUniform4fv(glGetUniformLocation(myShader.ID, name), 1, &value[0]); 
+}
+void setVec4(Shader myShader, const char* name, float x, float y, float z, float w) { 
+    glUniform4f(glGetUniformLocation(myShader.ID, name), x, y, z, w); 
+}
+
+void setMat2(Shader myShader, const char* name, const mat2 mat) {
+    glUniformMatrix2fv(glGetUniformLocation(myShader.ID, name), 1, GL_FALSE, &mat[0][0]);
+}
+
+void setMat3(Shader myShader, const char* name, const mat3 mat) {
+    glUniformMatrix3fv(glGetUniformLocation(myShader.ID, name), 1, GL_FALSE, &mat[0][0]);
+}
+
+void setMat4(Shader myShader, const char* name, const mat4 mat) {
+    glUniformMatrix4fv(glGetUniformLocation(myShader.ID, name), 1, GL_FALSE, &mat[0][0]);
 }
 
 void checkCompileErrors(unsigned int shader, const char* shaderType) {

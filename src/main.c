@@ -1,5 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <cglm/cglm.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -89,8 +91,17 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		// Transformations
+		mat4 trans;
+		glm_mat4_identity(trans);
+		glm_rotate(trans, (float)glfwGetTime(), (vec3){0.0f, 0.0f, 1.0f});
+		glm_scale(trans, (vec3){0.5f, 0.5f, 0.5f});
+
 		// Activate shader
 		use(shaderProgram);
+
+		unsigned int transformLoc = glGetUniformLocation(shaderProgram.ID, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, trans[0]);
 
 		// Render shape
 		glBindVertexArray(VAO);
