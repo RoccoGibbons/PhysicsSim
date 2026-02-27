@@ -100,8 +100,19 @@ int main() {
 		// Activate shader
 		use(shaderProgram);
 
-		unsigned int transformLoc = glGetUniformLocation(shaderProgram.ID, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, trans[0]);
+		// Transformations
+		mat4 model;
+		glm_mat4_identity(model);
+		mat4 view;
+		glm_mat4_identity(view);
+		mat4 projection;
+		glm_mat4_identity(projection);
+
+		glm_rotate(model, glm_rad(-55.0f), (vec3){1.0f, 0.0f, 0.0f});
+		glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
+		glm_ortho(0.0f, SCR_WIDTH, SCR_HEIGHT, 0.0f, -2.5f, 100.0f, projection);
+
+		// -- LEFT OFF HERE, NEED TO SET TO VERTEX SHADER -- 
 
 		// Render shape
 		glBindVertexArray(VAO);
