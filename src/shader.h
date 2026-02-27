@@ -5,16 +5,27 @@
 #include <string.h>
 #include <stdbool.h>
 
-
 typedef struct Shader {
     unsigned int ID;
 } Shader;
 
-
+// Function definitions
 Shader initialiseShader(const char* vertexPath, const char* fragmentPath);
 unsigned int buildShaderPrograms(const char* path, const char* shaderType);
 void checkCompileErrors(unsigned int shader, const char* type);
 void use(Shader myShader);
+void setBool(Shader myShader, const char* name, bool value);
+void setInt(Shader myShader, const char* name, bool value);
+void setFloat(Shader myShader, const char* name, bool value);
+void setVec2(Shader myShader, const char* name, const vec2 value);
+void setVec2(Shader myShader, const char* name, float x, float y);
+void setVec3(Shader myShader, const char* name, const vec3 value);
+void setVec3(Shader myShader, const char* name, float x, float y, float z);
+void setVec4(Shader myShader, const char* name, const vec4 value);
+void setVec4(Shader myShader, const char* name, float x, float y, float z, float w);
+void setMat2(Shader myShader, const char* name, const mat2 mat);
+void setMat3(Shader myShader, const char* name, const mat3 mat);
+void setMat4(Shader myShader, const char* name, const mat4 mat);
 
 
 Shader initialiseShader(const char* vertexPath, const char* fragmentPath) {
