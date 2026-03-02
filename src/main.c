@@ -45,6 +45,9 @@ int main() {
 		return -1;
 	}
 
+	// Enable depth in OpenGL
+	glEnable(GL_DEPTH_TEST);
+
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
@@ -89,7 +92,7 @@ int main() {
 
         // Rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Transformations
 		mat4 trans;
