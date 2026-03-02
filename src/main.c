@@ -110,9 +110,13 @@ int main() {
 
 		glm_rotate(model, glm_rad(-55.0f), (vec3){1.0f, 0.0f, 0.0f});
 		glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
-		glm_ortho(0.0f, SCR_WIDTH, SCR_HEIGHT, 0.0f, -2.5f, 100.0f, projection);
+		float aspect = (float)SCR_WIDTH/SCR_HEIGHT;
+		glm_ortho(-aspect, aspect, -1.0f, 1.0f, 0.1f, 100.0f, projection);
+		// glm_perspective(glm_rad(45.0f), SCR_WIDTH/SCR_HEIGHT, 0.1f, 100.0f, projection);
 
-		// -- LEFT OFF HERE, NEED TO SET TO VERTEX SHADER -- 
+		setMat4(shaderProgram, "model", model);
+		setMat4(shaderProgram, "view", view);
+		setMat4(shaderProgram, "projection", projection);
 
 		// Render shape
 		glBindVertexArray(VAO);
