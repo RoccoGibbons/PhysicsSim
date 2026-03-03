@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "shader.h"
+#include "simulation_calculations.h"
 
 // Procedure definitions
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -84,6 +85,19 @@ int main() {
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+
+	struct Object obj1;
+	struct Object wall;
+	obj1.bearing = 130.0f;
+	obj1.type = (char*)"BALL";
+	wall.bearing = glm_rad(90.0f);
+	wall.type = (char*)"WALL";
+
+	calcCollision(&obj1, &wall, 0.5);
+
+
+
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {

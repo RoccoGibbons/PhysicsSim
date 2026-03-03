@@ -16,8 +16,16 @@ typedef struct Object {
     float bearing;
 } Object;
 
+// Function Definitions
+void calcCollision(Object *obj1, Object *obj2, float e);
+void boundaryCollision(Object *obj, Object *wall, float e);
+void objectCollision(Object *obj1, Object *obj2, float e);
+
 // e is the coefficient of restitution between the 2 objects
 void calcCollision(Object *obj1, Object *obj2, float e) {
+    printf("%s\n", obj1->type);
+    printf("%s\n", obj2->type);
+
     if (strcmp(obj1->type, "WALL")) {
         boundaryCollision(obj2, obj1, e);
     } else if (strcmp(obj2->type, "WALL")) {
@@ -29,17 +37,18 @@ void calcCollision(Object *obj1, Object *obj2, float e) {
 
 void boundaryCollision(Object *obj, Object *wall, float e) {
     vec3 bearingVector = {sin(obj->bearing), cos(obj->bearing), 0};
-    vec3 wallVector;
-    if (wall->bearing == 0){
-        wallVector = {1, 0, 0};
-    } else if (wall->bearing == M_PI) {
-        wallVector = {0, 1, 1};
+    vec3 wallVector = GLM_VEC3_ZERO_INIT;
+    printf("%f\n", wall->bearing);
+    if (wall->bearing == 0.0f){
+        glm_vec3_add(wallVector, (vec3){1, 0, 0}, wallVector);
+    } else if (wall->bearing == glm_rad(90.0f)) {
+        glm_vec3_add(wallVector, (vec3){0, 1, 0}, wallVector);
     } else {
-        printf("ERROR::BOUNDARY_CALC::WALL_VECTOR");
+        printf("ERROR::BOUNDARY_CALC::WALL_VECTOR\n");
     }
     
-    float angleOfApproach = acos((abs(glm_vec3_dot(bearingVector, wallVector)))/)
-
+    float angleOfApproach = acos( (abs(glm_vec3_dot(bearingVector, wallVector))) / (glm_vec3_norm(bearingVector) * glm_vec3_norm(wallVector)));
+    printf("%f", angleOfApproach);
     
     
      
