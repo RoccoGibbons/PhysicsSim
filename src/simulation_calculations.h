@@ -23,13 +23,12 @@ void objectCollision(Object *obj1, Object *obj2, float e);
 
 // e is the coefficient of restitution between the 2 objects
 void calcCollision(Object *obj1, Object *obj2, float e) {
-    printf("%s\n", obj1->type);
-    printf("%s\n", obj2->type);
-
-    if (strcmp(obj1->type, "WALL")) {
+    if (strcmp(obj1->type, "WALL") == 0) {
+        printf("1\n");
         boundaryCollision(obj2, obj1, e);
-    } else if (strcmp(obj2->type, "WALL")) {
+    } else if (strcmp(obj2->type, "WALL") == 0) {
         boundaryCollision(obj1, obj2, e);
+        printf("2\n");
     } else {
         objectCollision(obj1, obj2, e);
     }
@@ -38,7 +37,6 @@ void calcCollision(Object *obj1, Object *obj2, float e) {
 void boundaryCollision(Object *obj, Object *wall, float e) {
     vec3 bearingVector = {sin(obj->bearing), cos(obj->bearing), 0};
     vec3 wallVector = GLM_VEC3_ZERO_INIT;
-    printf("%f\n", wall->bearing);
     if (wall->bearing == 0.0f){
         glm_vec3_add(wallVector, (vec3){1, 0, 0}, wallVector);
     } else if (wall->bearing == glm_rad(90.0f)) {

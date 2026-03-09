@@ -89,9 +89,10 @@ int main() {
 
 	struct Object obj1;
 	struct Object wall;
-	obj1.bearing = 130.0f;
+	obj1.bearing = glm_rad(130.0f);
 	obj1.type = (char*)"BALL";
-	wall.bearing = glm_rad(90.0f);
+
+	wall.bearing = glm_rad(0.0f);
 	wall.type = (char*)"WALL";
 
 	calcCollision(&obj1, &wall, 0.5);
