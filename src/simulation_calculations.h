@@ -14,6 +14,7 @@ typedef struct Object {
     float radius;
     float speed;
     float bearing;
+    float mass;
 } Object;
 
 // Function Definitions
@@ -76,5 +77,30 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
 }
 
 void objectCollision(Object *obj1, Object *obj2, float e) {
+    vec3 lineOfCentresVector = {obj1->position[0] - obj2->position[0], obj1->position[1] - obj2->position[1], 0};
+    vec3 northVector = {0, 1, 0};
+    float lineOfCentresBearing = acos( (abs(glm_vec3_dot(lineOfCentresVector, northVector))) / (glm_vec3_norm(lineOfCentresVector) * glm_vec3_norm(northVector)));
 
+    float obj1ToLineOfCentresAngle = (abs(obj1->bearing - lineOfCentresBearing) > 180) ? 360 - abs(obj1->bearing - lineOfCentresBearing) : abs(obj1->bearing - lineOfCentresBearing);
+    float obj2ToLineOfCentresAngle = (abs(obj2->bearing - lineOfCentresBearing) > 180) ? 360 - abs(obj2->bearing - lineOfCentresBearing) : abs(obj2->bearing - lineOfCentresBearing);;
+    
+    // The first value is along the line of centres, the second value is perpendicular to the line of centres
+    // Note: currently not taken into account the direction that these speeds are being resolved to 
+    float obj1SpeedResolved[] = {obj1->speed * cos(obj1ToLineOfCentresAngle), obj1->speed * sin(obj1ToLineOfCentresAngle)};
+    float obj2SpeedResolved[] = {obj2->speed * cos(obj2ToLineOfCentresAngle), obj2->speed * sin(obj2ToLineOfCentresAngle)};
+
+    float initialMomentum = obj1->mass * obj1SpeedResolved[0] + obj2->mass * obj2SpeedResolved[0];
+    float restitutionCalc = e * (obj1SpeedResolved[0] - obj2SpeedResolved[0]);
+
+    // Solve simultaneous equations using conservation of momentum and restitution to find final velocities along line of centres
+    mat2 simultaneous = {{obj1->mass, obj2->mass}, {-1, 1}};
+    mat2 inverse;
+    glm_mat2_inv(simultaneous, inverse);
+    vec2 finalVelocity;
+    glm_mat2_mulv(inverse, (vec2){initialMomentum, restitutionCalc}, finalVelocity);
+
+    obj1->speed = sqrt( pow(finalVelocity[0], 2) + pow(obj1SpeedResolved[1], 2));
+    obj2->speed = sqrt( pow(finalVelocity[1], 2) + pow(obj2SpeedResolved[1], 2));
+
+    //find bearings and stuff -> requires the previous velocities of lines of centres to be correct directions so fix next
 }
