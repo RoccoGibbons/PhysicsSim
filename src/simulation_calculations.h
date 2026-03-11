@@ -23,6 +23,7 @@ void boundaryCollision(Object *obj, Object *wall, float e);
 void objectCollision(Object *obj1, Object *obj2, float e);
 int directionCheck(Object *obj, float lineOfCentresBearing, char* type);
 float normaliseBearing(float bearing);
+void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
 
 // e is the coefficient of restitution between the 2 objects
 void calcCollision(Object *obj1, Object *obj2, float e) {
@@ -107,21 +108,8 @@ void objectCollision(Object *obj1, Object *obj2, float e) {
     obj2->speed = sqrt( pow(finalVelocity[1], 2) + pow(obj2SpeedResolved[1], 2));
 
     // Find the bearings of objects after collision
-    if (finalVelocity[0] == 0.0f) {
-        obj1->bearing = normaliseBearing(lineOfCentresBearing + (glm_rad(90.0f) * directionCheck(obj1, lineOfCentresBearing, "VERTICAL")));
-    } else {
-        float angleFromLineOfCentres = abs(tan(obj1SpeedResolved[1] / finalVelocity[0]));
-
-
-    }
-    if (finalVelocity[1] == 0.0f) {
-        obj2->bearing = normaliseBearing(lineOfCentresBearing + (glm_rad(90.0f) * directionCheck(obj2, lineOfCentresBearing, "VERTICAL")));
-    } else {
-        float angleFromLineOfCentres = abs(tan(obj2SpeedResolved[1] / finalVelocity[1]));
-    }
-    
-
-
+    setBearing(obj1, lineOfCentresBearing, obj1SpeedResolved[1], finalVelocity[0]);
+    setBearing(obj2, lineOfCentresBearing, obj2SpeedResolved[1], finalVelocity[1]);
 }
 
 int directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
@@ -133,7 +121,7 @@ int directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
     } else if (strcmp(type, "VERTICAL") == 0) {
         lower = lineOfCentresBearing;
         upper = lineOfCentresBearing + glm_rad(180.0f);
-        // 'below' line of centres is modelled as positive, 'above' line of centres is modelled as negative
+        // bearing from line of centres 180 degrees in positive direction is modelled as positive
     } else {
         printf("ERROR::DIRECTION_CHECK::DIRECTION_CHOICE\n");
     }
@@ -166,3 +154,27 @@ float normaliseBearing(float bearing) {
         return bearing;
     }
 }
+ //  setBearing(obj1, lineOfCentresBearing, obj1SpeedResolved[1], finalVelocity[0]);
+
+void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed) {
+    if (horizontalSpeed == 0.0f) {
+        obj->bearing = normaliseBearing(lineOfCentresBearing + (glm_rad(90.0f) * directionCheck(obj, lineOfCentresBearing, "VERTICAL")));
+    } else {
+        float angleFromLineOfCentres = abs(atan(verticalSpeed / horizontalSpeed));
+        // if horizontalSpeed > 0, along line of centres
+        // if verticalSpeed > 0, from line of centres in positive direction
+        if (horizontalSpeed > 0) { 
+            if (verticalSpeed > 0) {
+                obj->bearing = normaliseBearing(lineOfCentresBearing + angleFromLineOfCentres);
+            } else {
+                obj->bearing = normaliseBearing(lineOfCentresBearing - angleFromLineOfCentres);
+            }
+        } else {
+            if (verticalSpeed > 0) {
+                obj->bearing = normaliseBearing(glm_rad(180.0f) + lineOfCentresBearing + angleFromLineOfCentres);
+            } else {
+                obj->bearing = normaliseBearing(glm_rad(180.0f) - lineOfCentresBearing - angleFromLineOfCentres);
+            }
+        }
+    }
+}   
