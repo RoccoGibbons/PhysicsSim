@@ -41,42 +41,81 @@ void calcCollision(Object *obj1, Object *obj2, float e) {
 void boundaryCollision(Object *obj, Object *wall, float e) {
     vec3 bearingVector = {sin(obj->bearing), cos(obj->bearing), 0};
     vec3 wallVector = GLM_VEC3_ZERO_INIT;
-    char* wallDirection; 
+    float perpWallBearing; 
+    char* wallDirection;
 
     if (wall->bearing == 0.0f){
         glm_vec3_add(wallVector, (vec3){1, 0, 0}, wallVector);
+        if (obj->bearing > glm_rad(90.0f) && obj->bearing < glm_rad(270.0f)) { // Bottom wall
+            perpWallBearing = 0.0f;
+        } else {
+            perpWallBearing = glm_rad(180.0f);
+        }
         wallDirection = "HORIZONTAL";
     } else if (wall->bearing == glm_rad(90.0f)) {
         glm_vec3_add(wallVector, (vec3){0, 1, 0}, wallVector);
+        if (obj->bearing > 0.0f && obj->bearing < glm_rad(180.0f)) { // Right wall
+            perpWallBearing = glm_rad(270.0f);
+        } else {
+            perpWallBearing = glm_rad(90.0f);
+        }
         wallDirection = "VERTICAL";
     } else {
-        printf("ERROR::BOUNDARY_CALC::WALL_VECTOR\n");
+        printf("ERROR::BOUNDARY_COLLISION::WALL_VECTOR\n");
     }
     
     float angleOfApproach = acos( (abs(glm_vec3_dot(bearingVector, wallVector))) / (glm_vec3_norm(bearingVector) * glm_vec3_norm(wallVector)));
     
-    float angleOfDeflection = atan(e * tan(angleOfApproach));
+    float angleOfDeflection = abs(atan(e * tan(angleOfApproach)));
+    float angleOfDeflection2 = glm_rad(90.0f) - angleOfDeflection;
 
     float speed = sqrt( pow((e * obj->speed * sin(angleOfApproach)), 2) + pow((obj->speed * cos(angleOfApproach)), 2) );
 
-    float newBearing;
-
-    
-    // BACKUP IF NO OTHER SOL.
-
-    // if (strcmp(wallDirection, "HORIZONTAL") == 0 && (obj->bearing >= 0 && obj->bearing < glm_rad(180.0f))) {
-    //     printf("");
-    // } else if (strcmp(wallDirection, "HORIZONTAL") == 0 && (obj->bearing >= glm_rad(180.0f) && obj->bearing < glm_rad(360.0f))) {
-    //     printf("");
-    // } else if (strcmp(wallDirection, "VERTICAL") == 0 && (obj->bearing >= 0 && obj->bearing < glm_rad(180.0f))) {
-    //     printf("");
-    // } else if (strcmp(wallDirection, "VERTICAL") == 0 && (obj->bearing >= glm_rad(180.0f) && obj->bearing < glm_rad(360.0f))) {
-    //     printf("");
-    // } else {
-    //     printf("ERROR::BOUNDARY_CALC::NEW_BEARING\n");
-    // }
-
-     
+    float option1 = normaliseBearing(perpWallBearing + angleOfDeflection2);
+    float option2 = normaliseBearing(perpWallBearing + angleOfDeflection2);
+    if (strcmp(wallDirection, "HORIZONTAL") == 0) {
+        if (obj->bearing >= 0.0f && obj->bearing < glm_rad(180.0f)) {
+            // object moving right
+            if (option1 >= 0.0f && option1 < glm_rad(180.0f)) {
+                obj->bearing = option1;
+            } else if (option2 >= 0.0f && option2 < glm_rad(180.0f)) {
+                obj->bearing = option2;
+            } else {
+                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::RIGHT");
+            }
+        } else {
+            // object moving left
+            if (option1 >= glm_rad(180.0f) && option1 < glm_rad(360.0f)) {
+                obj->bearing = option1;
+            } else if (option2 >= glm_rad(180.0f) && option2 < glm_rad(360.0f)) {
+                obj->bearing = option2;
+            } else {
+                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::LEFT");
+            }
+        }
+    } else if (strcmp(wallDirection, "VERTICAL") == 0) {
+        if (obj->bearing >= glm_rad(90.0f) && obj->bearing < glm_rad(270.0f)) {
+            // object moving down
+            if (option1 >= glm_rad(90.0f) && option1 < glm_rad(270.0f)) {
+                obj->bearing = option1;
+            } else if (option2 >= glm_rad(90.0f) && option2 < glm_rad(270.0f)) {
+                obj->bearing = option2;
+            } else {
+                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::DOWN");
+            }
+        } else {
+            // object moving up
+            if ((option1 >= glm_rad(270.0f) && option1 < glm_rad(360.0f)) || (option1 >= 0.0f && option1 < glm_rad(90.0f))) {
+                obj->bearing = option1;
+            } else if ((option2 >= glm_rad(270.0f) && option2 < glm_rad(360.0f)) || (option2 >= 0.0f && option2 < glm_rad(90.0f))) {
+                obj->bearing = option2;
+            } else {
+                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::UP");
+            }
+        }
+    } else {
+        printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING");
+    }
 }
 
 void objectCollision(Object *obj1, Object *obj2, float e) {
@@ -154,7 +193,6 @@ float normaliseBearing(float bearing) {
         return bearing;
     }
 }
- //  setBearing(obj1, lineOfCentresBearing, obj1SpeedResolved[1], finalVelocity[0]);
 
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed) {
     if (horizontalSpeed == 0.0f) {
