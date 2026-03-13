@@ -18,6 +18,8 @@ typedef struct Object {
 } Object;
 
 // Function Definitions
+Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass);
+bool checkCollision(Object *obj1, Object *obj2);
 void calcCollision(Object *obj1, Object *obj2, float e);
 void boundaryCollision(Object *obj, Object *wall, float e);
 void objectCollision(Object *obj1, Object *obj2, float e);
@@ -35,6 +37,55 @@ Object initialiseObject(char* type, vec3 position, float radius, float speed, fl
     obj.mass = mass;
 
     return obj;
+}
+
+bool checkCollision(Object *obj1, Object *obj2) {
+    if (strcmp(obj1->type, "WALL") == 0) {
+        // the first object is a wall
+        if (obj1->bearing == 0.0f) { // Horizontal wall
+            float distance = abs(obj1->position[1] - obj2->position[1]);
+            if (distance < obj2->radius) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (obj1->bearing == glm_rad(90.0f)) { // Vertical wall
+            float distance = abs(obj1->position[0] - obj2->position[0]);
+            if (distance < obj2->radius) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            printf("ERROR::COLLISION_CHECK::OBJ1_IS_WALL\n");
+        }
+    } else if (strcmp(obj2->type, "WALL") == 0) {
+        // the second object is a wall
+        if (obj2->bearing == 0.0f) { // Horizontal wall
+            float distance = abs(obj1->position[1] - obj2->position[1]);
+            if (distance < obj1->radius) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (obj2->bearing == glm_rad(90.0f)) { // Vertical wall
+            float distance = abs(obj1->position[0] - obj2->position[0]);
+            if (distance < obj1->radius) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            printf("ERROR::COLLISION_CHECK::OBJ2_IS_WALL\n");
+        }
+    } else {
+        float distance = sqrt(pow(obj1->position[0] - obj2->position[0], 2) + pow(obj1->position[1] - obj2->position[1], 2));
+        if (distance < obj1->radius + obj2->radius) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 // e is the coefficient of restitution between the 2 objects
@@ -61,7 +112,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
         if (obj->bearing > glm_rad(90.0f) && obj->bearing < glm_rad(270.0f)) { // Bottom wall
             perpWallBearing = 0.0f;
         } else {
-            perpWallBearing = glm_rad(180.0f);
+            perpWallBearing = glm_rad(180.0f); // Top wall
         }
         wallDirection = "HORIZONTAL";
     } else if (wall->bearing == glm_rad(90.0f)) {
@@ -69,7 +120,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
         if (obj->bearing > 0.0f && obj->bearing < glm_rad(180.0f)) { // Right wall
             perpWallBearing = glm_rad(270.0f);
         } else {
-            perpWallBearing = glm_rad(90.0f);
+            perpWallBearing = glm_rad(90.0f); // Left wall
         }
         wallDirection = "VERTICAL";
     } else {
