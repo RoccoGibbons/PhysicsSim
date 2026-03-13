@@ -86,18 +86,11 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-
-	struct Object obj1;
-	struct Object wall;
-	obj1.bearing = glm_rad(130.0f);
-	obj1.type = (char*)"BALL";
-
-	wall.bearing = glm_rad(0.0f);
-	wall.type = (char*)"WALL";
+	vec3 startingPos = {0, 0, 0};
+	struct Object obj1 = initialiseObject((char*)"BALL", startingPos, 1.0f, 10.0f, glm_rad(130.0f), 10.0f);
+	struct Object wall = initialiseObject((char*)"WALL", (vec3){0, 0, 0}, 0.0f, 0.0f, glm_rad(0.0f), 100000.0f);
 
 	calcCollision(&obj1, &wall, 0.5);
-
-
 
 
 	// Render loop
