@@ -10,11 +10,13 @@
 
 #include "shader.h"
 #include "simulation_calculations.h"
+#include "linked_list.h"
 
 // Procedure definitions
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
+Node* objectList;
 
 // Constants
 const unsigned int SCR_WIDTH = 800;
@@ -52,6 +54,9 @@ int main() {
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
+	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){0, 0, 0}, 1.0f, 10.0f, glm_rad(130.0f), 10.0f));
+
+
 	// Shape properties
     float vertices[] = {
         0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
@@ -86,11 +91,7 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	vec3 startingPos = {0, 0, 0};
-	struct Object obj1 = initialiseObject((char*)"BALL", startingPos, 1.0f, 10.0f, glm_rad(130.0f), 10.0f);
-	struct Object wall = initialiseObject((char*)"WALL", (vec3){0, 0, 0}, 0.0f, 0.0f, glm_rad(0.0f), 100000.0f);
 
-	calcCollision(&obj1, &wall, 0.5);
 
 
 	// Render loop
@@ -150,6 +151,9 @@ int main() {
 void processInput(GLFWwindow *window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){0.8, 0.8, 0}, 1.0f, 10.0f, glm_rad(130.0f), 10.0f));
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {

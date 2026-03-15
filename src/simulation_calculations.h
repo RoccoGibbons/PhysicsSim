@@ -24,6 +24,7 @@ void calcCollision(Object *obj1, Object *obj2, float e);
 void boundaryCollision(Object *obj, Object *wall, float e);
 void objectCollision(Object *obj1, Object *obj2, float e);
 int directionCheck(Object *obj, float lineOfCentresBearing, char* type);
+void moveObject(Object *obj, float time, float acceleration);
 float normaliseBearing(float bearing);
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
 
@@ -245,6 +246,12 @@ int directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
             return -1;
         }
     }
+}
+
+void moveObject(Object *obj, float time, float acceleration) {
+    // s u v a t
+
+    // figure out time settings first
 }
 
 float normaliseBearing(float bearing) {
