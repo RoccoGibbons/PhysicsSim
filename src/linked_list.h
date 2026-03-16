@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "simulation_calculations.h"
-
 
 typedef struct Node {
     Object obj;

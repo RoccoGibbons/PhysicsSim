@@ -8,7 +8,7 @@
 
 // Temporary struct for object definition
 
-typedef struct Object {
+typedef struct Object{
     char* type;
     vec3 position;
     float radius;
@@ -17,8 +17,9 @@ typedef struct Object {
     float mass;
 } Object;
 
-// Function Definitions
+// // Function Definitions
 Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass);
+void createObjectVertices(Object* obj, float* vertices);
 bool checkCollision(Object *obj1, Object *obj2);
 void calcCollision(Object *obj1, Object *obj2, float e);
 void boundaryCollision(Object *obj, Object *wall, float e);
@@ -29,7 +30,7 @@ float normaliseBearing(float bearing);
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
 
 Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass) {
-    struct Object obj;
+    Object obj;
     obj.type = type;
     obj.position[0], obj.position[1], obj.position[2] = position[0], position[1], position[2];
     obj.radius = radius;
@@ -38,6 +39,56 @@ Object initialiseObject(char* type, vec3 position, float radius, float speed, fl
     obj.mass = mass;
 
     return obj;
+}
+
+void createObjectVertices(Object* obj, float* vertices) {
+    // Top Right
+    // Position
+    vertices[0] = obj->position[0] + obj->radius;
+    vertices[1] = obj->position[1] + obj->radius;
+    vertices[2] = 0.0f;
+    // Colour
+    vertices[3] = 1.0f;
+    vertices[4] = 0.0f;
+    vertices[5] = 0.0f;
+
+    // Bottom Right
+    // Position
+    vertices[6] = obj->position[0] + obj->radius;
+    vertices[7] = obj->position[1] - obj->radius;
+    vertices[8] = 0.0f;
+    // Colour
+    vertices[9] = 0.0f;
+    vertices[10] = 0.0f;
+    vertices[11] = 1.0f;
+
+    // Bottom Left
+    // Position
+    vertices[12] = obj->position[0] - obj->radius;
+    vertices[13] = obj->position[1] - obj->radius;
+    vertices[14] = 0.0f;
+    // Colour
+    vertices[15] = 1.0f;
+    vertices[16] = 0.0f;
+    vertices[17] = 0.0f;
+
+    // Top Left
+    // Position
+    vertices[18] = obj->position[0] - obj->radius;
+    vertices[19] = obj->position[1] + obj->radius;
+    vertices[20] = 0.0f;
+    // Colour
+    vertices[21] = 0.0f;
+    vertices[22] = 0.0f;
+    vertices[23] = 1.0f;
+    
+    // {
+    //     obj->position[0] + obj->radius, obj->position[1] + obj->radius, 0.0f, 1.0f, 0.0f, 0.0f,  // top right
+    //     obj->position[0] + obj->radius, obj->position[1] - obj->radius, 0.0f, 0.0f, 0.0f, 1.0f,  // bottom right
+    //     obj->position[0] - obj->radius, obj->position[1] - obj->radius, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom left
+    //     obj->position[0] - obj->radius, obj->position[1] + obj->radius, 0.0f, 0.0f, 0.0f, 1.0f   // top left
+    // };
+
 }
 
 bool checkCollision(Object *obj1, Object *obj2) {
@@ -87,6 +138,7 @@ bool checkCollision(Object *obj1, Object *obj2) {
             return false;
         }
     }
+    return false;
 }
 
 // e is the coefficient of restitution between the 2 objects
@@ -115,7 +167,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
         } else {
             perpWallBearing = glm_rad(180.0f); // Top wall
         }
-        wallDirection = "HORIZONTAL";
+        wallDirection = (char*)"HORIZONTAL";
     } else if (wall->bearing == glm_rad(90.0f)) {
         glm_vec3_add(wallVector, (vec3){0, 1, 0}, wallVector);
         if (obj->bearing > 0.0f && obj->bearing < glm_rad(180.0f)) { // Right wall
@@ -123,7 +175,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
         } else {
             perpWallBearing = glm_rad(90.0f); // Left wall
         }
-        wallDirection = "VERTICAL";
+        wallDirection = (char*)"VERTICAL";
     } else {
         printf("ERROR::BOUNDARY_COLLISION::WALL_VECTOR\n");
     }
@@ -192,10 +244,10 @@ void objectCollision(Object *obj1, Object *obj2, float e) {
     
     // The first value is along the line of centres, the second value is perpendicular to the line of centres
     // From obj1 to obj2 should be considered positive, 'below' this line is positive and 'above' this line is negative
-    float obj1SpeedResolved[] = {directionCheck(obj1, lineOfCentresBearing, "HORIZONTAL") * abs(obj1->speed * cos(obj1ToLineOfCentresAngle)), 
-        directionCheck(obj1, lineOfCentresBearing, "VERTICAL") * abs(obj1->speed * sin(obj1ToLineOfCentresAngle))};
-    float obj2SpeedResolved[] = {directionCheck(obj2, lineOfCentresBearing, "HORIZONTAL") * (obj2->speed * cos(obj2ToLineOfCentresAngle)), 
-        directionCheck(obj2, lineOfCentresBearing, "VERTICAL") * abs(obj2->speed * sin(obj2ToLineOfCentresAngle))};
+    float obj1SpeedResolved[] = {directionCheck(obj1, lineOfCentresBearing, (char*)"HORIZONTAL") * abs(obj1->speed * cos(obj1ToLineOfCentresAngle)), 
+        directionCheck(obj1, lineOfCentresBearing, (char*)"VERTICAL") * abs(obj1->speed * sin(obj1ToLineOfCentresAngle))};
+    float obj2SpeedResolved[] = {directionCheck(obj2, lineOfCentresBearing, (char*)"HORIZONTAL") * (obj2->speed * cos(obj2ToLineOfCentresAngle)), 
+        directionCheck(obj2, lineOfCentresBearing, (char*)"VERTICAL") * abs(obj2->speed * sin(obj2ToLineOfCentresAngle))};
 
     float initialMomentum = obj1->mass * obj1SpeedResolved[0] + obj2->mass * obj2SpeedResolved[0];
     float restitutionCalc = e * (obj1SpeedResolved[0] - obj2SpeedResolved[0]);
@@ -266,7 +318,7 @@ float normaliseBearing(float bearing) {
 
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed) {
     if (horizontalSpeed == 0.0f) {
-        obj->bearing = normaliseBearing(lineOfCentresBearing + (glm_rad(90.0f) * directionCheck(obj, lineOfCentresBearing, "VERTICAL")));
+        obj->bearing = normaliseBearing(lineOfCentresBearing + (glm_rad(90.0f) * directionCheck(obj, lineOfCentresBearing, (char*)"VERTICAL")));
     } else {
         float angleFromLineOfCentres = abs(atan(verticalSpeed / horizontalSpeed));
         // if horizontalSpeed > 0, along line of centres

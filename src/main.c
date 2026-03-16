@@ -54,16 +54,24 @@ int main() {
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
-	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){0, 0, 0}, 1.0f, 10.0f, glm_rad(130.0f), 10.0f));
+	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){0, 0, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
 
 
 	// Shape properties
-    float vertices[] = {
-        0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
-    };
+    // float vertices[] = {
+    //     0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // top right
+    //     0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  // bottom right
+    //     -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom left
+	// 	-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f  // top left
+    // };
+
+	int size = 24; // current size with the colour stuff -> may reduce in the future
+    float* vertices = (float*)malloc(sizeof(float) * size);
+	createObjectVertices(&objectList->obj, vertices);
+
+	for (int i = 0; i < 24; i++) {
+		printf("%f\n", vertices[i]);
+	}
 
 	unsigned int indices[] = {
 		0, 1, 3,
@@ -78,7 +86,7 @@ int main() {
 	glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), vertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -92,8 +100,6 @@ int main() {
 	glBindVertexArray(0);
 
 
-
-
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
         // Input
@@ -104,10 +110,10 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Transformations
-		mat4 trans;
-		glm_mat4_identity(trans);
-		glm_rotate(trans, (float)glfwGetTime(), (vec3){0.0f, 0.0f, 1.0f});
-		glm_scale(trans, (vec3){0.5f, 0.5f, 0.5f});
+		// mat4 trans;
+		// glm_mat4_identity(trans);
+		// glm_rotate(trans, (float)glfwGetTime(), (vec3){0.0f, 0.0f, 1.0f});
+		// glm_scale(trans, (vec3){0.5f, 0.5f, 0.5f});
 
 		// Activate shader
 		use(shaderProgram);
@@ -120,10 +126,10 @@ int main() {
 		mat4 projection;
 		glm_mat4_identity(projection);
 
-		glm_rotate(model, glm_rad(-55.0f), (vec3){1.0f, 0.0f, 0.0f});
-		glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
-		float aspect = (float)SCR_WIDTH/SCR_HEIGHT;
-		glm_ortho(-aspect, aspect, -1.0f, 1.0f, 0.1f, 100.0f, projection);
+		// glm_rotate(model, glm_rad(-55.0f), (vec3){1.0f, 0.0f, 0.0f});
+		// glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
+		// float aspect = (float)SCR_WIDTH/SCR_HEIGHT;
+		// glm_ortho(-aspect, aspect, -1.0f, 1.0f, 0.1f, 100.0f, projection);
 		// glm_perspective(glm_rad(45.0f), SCR_WIDTH/SCR_HEIGHT, 0.1f, 100.0f, projection);
 
 		setMat4(shaderProgram, "model", model);
