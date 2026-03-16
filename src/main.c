@@ -17,6 +17,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 Node* objectList;
+Node* wallList;
 
 // Constants
 const unsigned int SCR_WIDTH = 800;
@@ -54,7 +55,7 @@ int main() {
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
-	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){0.0f, 0.0f, 0.0f}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
+	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){400.0f, 300.0f, 0.0f}, 50.0f, 10.0f, glm_rad(130.0f), 10.0f));
 	Object newObj = initialiseObject((char*)"BALL", (vec3){1.0f, 1.0f, 1.0f}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f);
 	appendLinkedList(objectList, newObj);
 	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){0, 0, 1}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
@@ -62,6 +63,13 @@ int main() {
 	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){1, 0, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
 
 	printLinkedList(objectList);
+
+	// Linked list holding all of the walls, all currently identical so need to set up the positions and bearings of each
+	wallList = initialiseLinkedList(initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
+	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
+	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
+	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
+
 
 	// Shape properties
 	int size = 24; // current size with the colour stuff -> may reduce in the future
@@ -122,9 +130,12 @@ int main() {
 		glm_mat4_identity(projection);
 
 		// glm_rotate(model, glm_rad(-55.0f), (vec3){1.0f, 0.0f, 0.0f});
-		// glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
+		glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
 		// float aspect = (float)SCR_WIDTH/SCR_HEIGHT;
 		// glm_ortho(-aspect, aspect, -1.0f, 1.0f, 0.1f, 100.0f, projection);
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
+		glm_ortho(0.0f, width, 0.0f, height, 0.1f, 100.0f, projection);
 		// glm_perspective(glm_rad(45.0f), SCR_WIDTH/SCR_HEIGHT, 0.1f, 100.0f, projection);
 
 		setMat4(shaderProgram, "model", model);
