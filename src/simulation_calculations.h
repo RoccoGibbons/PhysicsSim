@@ -32,7 +32,9 @@ void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, fl
 Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass) {
     Object obj;
     obj.type = type;
-    obj.position[0], obj.position[1], obj.position[2] = position[0], position[1], position[2];
+    obj.position[0] = position[0];
+    obj.position[1] = position[1];
+    obj.position[2] = position[2];
     obj.radius = radius;
     obj.speed = speed;
     obj.bearing = bearing;

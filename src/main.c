@@ -54,24 +54,19 @@ int main() {
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
-	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){0, 0, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
+	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){0.0f, 0.0f, 0.0f}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
+	Object newObj = initialiseObject((char*)"BALL", (vec3){1.0f, 1.0f, 1.0f}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f);
+	appendLinkedList(objectList, newObj);
+	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){0, 0, 1}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
+	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){0, 1, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
+	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){1, 0, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
 
+	printLinkedList(objectList);
 
 	// Shape properties
-    // float vertices[] = {
-    //     0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // top right
-    //     0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  // bottom right
-    //     -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom left
-	// 	-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f  // top left
-    // };
-
 	int size = 24; // current size with the colour stuff -> may reduce in the future
     float* vertices = (float*)malloc(sizeof(float) * size);
 	createObjectVertices(&objectList->obj, vertices);
-
-	for (int i = 0; i < 24; i++) {
-		printf("%f\n", vertices[i]);
-	}
 
 	unsigned int indices[] = {
 		0, 1, 3,
@@ -145,6 +140,7 @@ int main() {
 		glfwPollEvents();
 	}
 
+	freeLinkedList(objectList);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
