@@ -62,7 +62,7 @@ int main() {
 	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){0, 1, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
 	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){1, 0, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
 
-	printLinkedList(objectList);
+	// printLinkedList(objectList);
 
 	// Linked list holding all of the walls, all currently identical so need to set up the positions and bearings of each
 	wallList = initialiseLinkedList(initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
@@ -141,6 +141,9 @@ int main() {
 		setMat4(shaderProgram, "model", model);
 		setMat4(shaderProgram, "view", view);
 		setMat4(shaderProgram, "projection", projection);
+		setVec3(shaderProgram, "centre", objectList->obj.position);
+		setFloat(shaderProgram, "radius", objectList->obj.position);
+		setVec2(shaderProgram, "resolution", (vec2){(float)width, (float)height});
 
 		// Render shape
 		glBindVertexArray(VAO);
