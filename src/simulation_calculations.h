@@ -49,7 +49,7 @@ void createObjectVertices(Object* obj, float* vertices, int size) {
     vertices[1] = obj->position[1];
     vertices[2] = 0.0f;
     printf("%f, %f, %f\n", vertices[0], vertices[1], vertices[2]);
-    for (int i = 3; i < size; i+=3) {
+    for (int i = 3; i < size*3; i+=3) {
         vertices[i] = vertices[0] + (obj->radius * cos(i * glm_rad(360) / size));
         vertices[i+1] = vertices[1] + (obj->radius * sin(i * glm_rad(360) / size));
         vertices[i+2] = vertices[2];

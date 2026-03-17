@@ -73,8 +73,8 @@ int main() {
 
 
 	// Shape properties
-	int size = 180; // current size with the colour stuff -> may reduce in the future
-    float* vertices = (float*)malloc(sizeof(float) * size);
+	int size = 90; // current size with the colour stuff -> may reduce in the future
+    float* vertices = (float*)malloc(sizeof(float) * size * 3);
 	createObjectVertices(&objectList->obj, vertices, size);
 
 	// unsigned int indices[] = {
@@ -90,7 +90,7 @@ int main() {
 	glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float) * 3, vertices, GL_STATIC_DRAW);
 
 	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
