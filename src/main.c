@@ -49,8 +49,9 @@ int main() {
 		return -1;
 	}
 
-	// Enable depth in OpenGL
+	// Enable depth and transparency in OpenGL
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);  
 
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
@@ -72,32 +73,32 @@ int main() {
 
 
 	// Shape properties
-	int size = 24; // current size with the colour stuff -> may reduce in the future
+	int size = 180; // current size with the colour stuff -> may reduce in the future
     float* vertices = (float*)malloc(sizeof(float) * size);
-	createObjectVertices(&objectList->obj, vertices);
+	createObjectVertices(&objectList->obj, vertices, size);
 
-	unsigned int indices[] = {
-		0, 1, 3,
-		1, 2, 3
-	}; 
+	// unsigned int indices[] = {
+	// 	0, 1, 3,
+	// 	1, 2, 3
+	// }; 
 
 	// Convert shape properties into a form that is readable by OpenGL
     unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	// glGenBuffers(1, &EBO);
 	glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), vertices, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	// glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3 * sizeof(float)));
+	// glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -141,13 +142,10 @@ int main() {
 		setMat4(shaderProgram, "model", model);
 		setMat4(shaderProgram, "view", view);
 		setMat4(shaderProgram, "projection", projection);
-		setVec3(shaderProgram, "centre", objectList->obj.position);
-		setFloat(shaderProgram, "radius", objectList->obj.position);
-		setVec2(shaderProgram, "resolution", (vec2){(float)width, (float)height});
 
 		// Render shape
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, size);
 
         // Check and call events, Swap buffers
 		glfwSwapBuffers(window);

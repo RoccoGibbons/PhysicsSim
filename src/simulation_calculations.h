@@ -19,7 +19,7 @@ typedef struct Object{
 
 // // Function Definitions
 Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass);
-void createObjectVertices(Object* obj, float* vertices);
+void createObjectVertices(Object* obj, float* vertices, int size);
 bool checkCollision(Object *obj1, Object *obj2);
 void calcCollision(Object *obj1, Object *obj2, float e);
 void boundaryCollision(Object *obj, Object *wall, float e);
@@ -43,53 +43,65 @@ Object initialiseObject(char* type, vec3 position, float radius, float speed, fl
     return obj;
 }
 
-void createObjectVertices(Object* obj, float* vertices) {
-    // Top Right
-    // Position
-    vertices[0] = obj->position[0] + obj->radius;
-    vertices[1] = obj->position[1] + obj->radius;
+void createObjectVertices(Object* obj, float* vertices, int size) {
+    // Centre
+    vertices[0] = obj->position[0];
+    vertices[1] = obj->position[1];
     vertices[2] = 0.0f;
-    // Colour
-    vertices[3] = 1.0f;
-    vertices[4] = 0.0f;
-    vertices[5] = 0.0f;
+    printf("%f, %f, %f\n", vertices[0], vertices[1], vertices[2]);
+    for (int i = 3; i < size; i+=3) {
+        vertices[i] = vertices[0] + (obj->radius * cos(i * glm_rad(360) / size));
+        vertices[i+1] = vertices[1] + (obj->radius * sin(i * glm_rad(360) / size));
+        vertices[i+2] = vertices[2];
+        printf("%f, %f, %f\n", vertices[i], vertices[i+1], vertices[i+2]);
+    }
 
-    // Bottom Right
-    // Position
-    vertices[6] = obj->position[0] + obj->radius;
-    vertices[7] = obj->position[1] - obj->radius;
-    vertices[8] = 0.0f;
-    // Colour
-    vertices[9] = 0.0f;
-    vertices[10] = 0.0f;
-    vertices[11] = 1.0f;
+    // // Top Right
+    // // Position
+    // vertices[0] = obj->position[0] + obj->radius;
+    // vertices[1] = obj->position[1] + obj->radius;
+    // vertices[2] = 0.0f;
+    // // Colour
+    // vertices[3] = 1.0f;
+    // vertices[4] = 0.0f;
+    // vertices[5] = 0.0f;
 
-    // Bottom Left
-    // Position
-    vertices[12] = obj->position[0] - obj->radius;
-    vertices[13] = obj->position[1] - obj->radius;
-    vertices[14] = 0.0f;
-    // Colour
-    vertices[15] = 1.0f;
-    vertices[16] = 0.0f;
-    vertices[17] = 0.0f;
+    // // Bottom Right
+    // // Position
+    // vertices[6] = obj->position[0] + obj->radius;
+    // vertices[7] = obj->position[1] - obj->radius;
+    // vertices[8] = 0.0f;
+    // // Colour
+    // vertices[9] = 0.0f;
+    // vertices[10] = 0.0f;
+    // vertices[11] = 1.0f;
 
-    // Top Left
-    // Position
-    vertices[18] = obj->position[0] - obj->radius;
-    vertices[19] = obj->position[1] + obj->radius;
-    vertices[20] = 0.0f;
-    // Colour
-    vertices[21] = 0.0f;
-    vertices[22] = 0.0f;
-    vertices[23] = 1.0f;
+    // // Bottom Left
+    // // Position
+    // vertices[12] = obj->position[0] - obj->radius;
+    // vertices[13] = obj->position[1] - obj->radius;
+    // vertices[14] = 0.0f;
+    // // Colour
+    // vertices[15] = 1.0f;
+    // vertices[16] = 0.0f;
+    // vertices[17] = 0.0f;
+
+    // // Top Left
+    // // Position
+    // vertices[18] = obj->position[0] - obj->radius;
+    // vertices[19] = obj->position[1] + obj->radius;
+    // vertices[20] = 0.0f;
+    // // Colour
+    // vertices[21] = 0.0f;
+    // vertices[22] = 0.0f;
+    // vertices[23] = 1.0f;
     
-    // {
-    //     obj->position[0] + obj->radius, obj->position[1] + obj->radius, 0.0f, 1.0f, 0.0f, 0.0f,  // top right
-    //     obj->position[0] + obj->radius, obj->position[1] - obj->radius, 0.0f, 0.0f, 0.0f, 1.0f,  // bottom right
-    //     obj->position[0] - obj->radius, obj->position[1] - obj->radius, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom left
-    //     obj->position[0] - obj->radius, obj->position[1] + obj->radius, 0.0f, 0.0f, 0.0f, 1.0f   // top left
-    // };
+    // // {
+    // //     obj->position[0] + obj->radius, obj->position[1] + obj->radius, 0.0f, 1.0f, 0.0f, 0.0f,  // top right
+    // //     obj->position[0] + obj->radius, obj->position[1] - obj->radius, 0.0f, 0.0f, 0.0f, 1.0f,  // bottom right
+    // //     obj->position[0] - obj->radius, obj->position[1] - obj->radius, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom left
+    // //     obj->position[0] - obj->radius, obj->position[1] + obj->radius, 0.0f, 0.0f, 0.0f, 1.0f   // top left
+    // // };
 
 }
 
