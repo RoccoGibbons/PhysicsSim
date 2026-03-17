@@ -13,7 +13,9 @@
 #include "linked_list.h"
 
 // Procedure definitions
+void render(GLFWwindow *window);
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void window_refresh_callback(GLFWwindow *window);
 void processInput(GLFWwindow *window);
 
 Node* objectList;
@@ -43,6 +45,7 @@ int main() {
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetWindowRefreshCallback(window, window_refresh_callback);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         printf("Failed to initialise GLAD\n");
@@ -59,9 +62,9 @@ int main() {
 	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){400.0f, 300.0f, 0.0f}, 50.0f, 10.0f, glm_rad(130.0f), 10.0f));
 	Object newObj = initialiseObject((char*)"BALL", (vec3){1.0f, 1.0f, 1.0f}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f);
 	appendLinkedList(objectList, newObj);
-	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){0, 0, 1}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
-	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){0, 1, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
-	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){1, 0, 0}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f));
+	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){100.0f, 100.0f, 0.0f}, 50.0f, 10.0f, glm_rad(130.0f), 10.0f));
+	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){600.0f, 200.0f, 0.0f}, 100.0f, 10.0f, glm_rad(130.0f), 10.0f));
+	appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){1000.0f, 1000.0f, 0.0f}, 200.0f, 10.0f, glm_rad(130.0f), 10.0f));
 
 	// printLinkedList(objectList);
 
@@ -73,7 +76,7 @@ int main() {
 
 
 	// Shape properties
-	int size = 90; // current size with the colour stuff -> may reduce in the future
+	int size = 50; // current size with the colour stuff -> may reduce in the future
     float* vertices = (float*)malloc(sizeof(float) * size * 3);
 	createObjectVertices(&objectList->obj, vertices, size);
 
@@ -123,8 +126,6 @@ int main() {
 		use(shaderProgram);
 
 		// Transformations
-		mat4 model;
-		glm_mat4_identity(model);
 		mat4 view;
 		glm_mat4_identity(view);
 		mat4 projection;
@@ -139,13 +140,29 @@ int main() {
 		glm_ortho(0.0f, width, 0.0f, height, 0.1f, 100.0f, projection);
 		// glm_perspective(glm_rad(45.0f), SCR_WIDTH/SCR_HEIGHT, 0.1f, 100.0f, projection);
 
-		setMat4(shaderProgram, "model", model);
 		setMat4(shaderProgram, "view", view);
 		setMat4(shaderProgram, "projection", projection);
 
 		// Render shape
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, size);
+		Node* traverseObjectList = objectList;
+		while (traverseObjectList != NULL) {
+			mat4 model;
+			glm_mat4_identity(model);
+			glm_translate(model, traverseObjectList->obj.position);
+			setMat4(shaderProgram, "model", model);
+			glDrawArrays(GL_TRIANGLE_FAN, 0, size);
+			traverseObjectList = traverseObjectList->next;	
+			if (traverseObjectList == NULL) {
+				break;
+			} else {
+				free(vertices);
+    			float* vertices = (float*)malloc(sizeof(float) * size * 3);
+				createObjectVertices(&objectList->obj, vertices, size);
+				glBindVertexArray(VAO);
+	
+			}
+		}
 
         // Check and call events, Swap buffers
 		glfwSwapBuffers(window);
@@ -162,6 +179,10 @@ int main() {
 	return 0;
 }
 
+void render(GLFWwindow *window) {
+
+}
+
 void processInput(GLFWwindow *window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -172,5 +193,11 @@ void processInput(GLFWwindow *window) {
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 	glViewport(0, 0, width, height);
+}
+
+void window_refresh_callback(GLFWwindow *window) {
+    render;
+    glfwSwapBuffers(window);
+    glFinish(); 
 }
 
