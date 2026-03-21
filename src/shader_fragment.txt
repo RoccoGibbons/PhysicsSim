@@ -3,7 +3,42 @@
 out vec4 FragColour;
 
 in vec3 ourColour;
+in vec4 centrePos;
+in vec4 u_radius;
+
+uniform vec2 resolution;
+uniform float radius;
 
 void main () {
-    FragColour = vec4(ourColour, 1.0f);
+    //vec2 uv = gl_FragCoord.xy / resolution.xy;
+    vec2 uv = (gl_FragCoord.xy - resolution.xy * 0.5) / min(resolution.x, resolution.y) * 2.0f;
+    float aspect = resolution.x / resolution.y;
+    uv.x *= aspect;
+
+    vec2 u_centre = vec2(centrePos[0], centrePos[1]);
+
+    float dist = distance(u_centre, uv);
+    vec3 circle = vec3(smoothstep(0.0f, 0.003f, dist));
+
+    FragColour = vec4(circle, 1.0f);
+    FragColour.rgb *= ourColour;
+
+
+    //vec2 st = gl_FragCoord.xy / resolution.xy;
+    //st = st * 2.0 - 1;
+    //st.x *= resolution.x / resolution.y;
+
+    //vec2 u_centre = vec2(centrePos[0], centrePos[1]);
+    //vec2 distance_vec = st - u_centre;
+    
+    //float dist = distance(u_centre, st);
+
+    //float circle = smoothstep(u_radius[0], u_radius[0] + 0.003, dist);
+
+    //if (dist < 0.1) {
+    //    FragColour = vec4(ourColour, 1.0f);
+    //} else {
+    //    //FragColour = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    //    discard;
+    //}
 }

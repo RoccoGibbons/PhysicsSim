@@ -76,36 +76,35 @@ int main() {
 
 
 	// Shape properties
-	int size = 50; // current size with the colour stuff -> may reduce in the future
-    float* vertices = (float*)malloc(sizeof(float) * size * 3);
+	int size = 24; // current size with the colour stuff -> may reduce in the future
+    float* vertices = (float*)malloc(sizeof(float) * size);
 	createObjectVertices(&objectList->obj, vertices, size);
 
-	// unsigned int indices[] = {
-	// 	0, 1, 3,
-	// 	1, 2, 3
-	// }; 
+	unsigned int indices[] = {
+		0, 1, 3,
+		1, 2, 3
+	}; 
 
 	// Convert shape properties into a form that is readable by OpenGL
     unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	// glGenBuffers(1, &EBO);
+	glGenBuffers(1, &EBO);
 	glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float) * 3, vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), vertices, GL_STATIC_DRAW);
 
-	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	// glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3 * sizeof(float)));
-	// glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -126,6 +125,8 @@ int main() {
 		use(shaderProgram);
 
 		// Transformations
+		mat4 model;
+		glm_mat4_identity(model);
 		mat4 view;
 		glm_mat4_identity(view);
 		mat4 projection;
@@ -136,33 +137,22 @@ int main() {
 		// float aspect = (float)SCR_WIDTH/SCR_HEIGHT;
 		// glm_ortho(-aspect, aspect, -1.0f, 1.0f, 0.1f, 100.0f, projection);
 		int width, height;
-		glfwGetWindowSize(window, &width, &height);
+		width = SCR_WIDTH;
+		height = SCR_HEIGHT;
+		// glfwGetWindowSize(window, &width, &height);
 		glm_ortho(0.0f, width, 0.0f, height, 0.1f, 100.0f, projection);
 		// glm_perspective(glm_rad(45.0f), SCR_WIDTH/SCR_HEIGHT, 0.1f, 100.0f, projection);
 
+		setMat4(shaderProgram, "model", model);
 		setMat4(shaderProgram, "view", view);
 		setMat4(shaderProgram, "projection", projection);
+		setVec3(shaderProgram, "centre", objectList->obj.position);
+		setFloat(shaderProgram, "radius", objectList->obj.position);
+		setVec2(shaderProgram, "resolution", (vec2){(float)width, (float)height});
 
 		// Render shape
 		glBindVertexArray(VAO);
-		Node* traverseObjectList = objectList;
-		while (traverseObjectList != NULL) {
-			mat4 model;
-			glm_mat4_identity(model);
-			glm_translate(model, traverseObjectList->obj.position);
-			setMat4(shaderProgram, "model", model);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, size);
-			traverseObjectList = traverseObjectList->next;	
-			if (traverseObjectList == NULL) {
-				break;
-			} else {
-				free(vertices);
-    			float* vertices = (float*)malloc(sizeof(float) * size * 3);
-				createObjectVertices(&objectList->obj, vertices, size);
-				glBindVertexArray(VAO);
-	
-			}
-		}
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // Check and call events, Swap buffers
 		glfwSwapBuffers(window);
