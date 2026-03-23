@@ -25,9 +25,13 @@ void calcCollision(Object *obj1, Object *obj2, float e);
 void boundaryCollision(Object *obj, Object *wall, float e);
 void objectCollision(Object *obj1, Object *obj2, float e);
 int directionCheck(Object *obj, float lineOfCentresBearing, char* type);
-void moveObject(Object *obj, float time, float acceleration);
+void moveObject(Object *obj, float deltaTime);
 float normaliseBearing(float bearing);
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
+
+// Simulation constants
+float accelerationDueToGravity = -9.81;
+float scale;
 
 Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass) {
     Object obj;
@@ -264,10 +268,27 @@ int directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
     }
 }
 
-void moveObject(Object *obj, float time, float acceleration) {
-    // s u v a t
+void moveObject(Object *obj, float deltaTime) {
+    vec3 velocityVector = {obj->speed * sin(obj->bearing), obj->speed * cos(obj->bearing), 0.0f};
+    vec3 northVector = {0.0f, 1.0f, 0.0f};
+    float angleToVertical =  acos( (abs(glm_vec3_dot(velocityVector, northVector))) / (glm_vec3_norm(velocityVector) * glm_vec3_norm(northVector)));
 
-    // figure out time settings first
+    float speedResolved[] = {directionCheck(obj, glm_rad(0.0f), (char*)"HORIZONTAL") * abs(obj->speed * sin(angleToVertical)), 
+        directionCheck(obj, glm_rad(0.0f), (char*)"VERTICAL") * abs(obj->speed * cos(angleToVertical))};
+
+
+    // Currently no horizontal acceleration is implemented so this can be modelled as a simple s = ut equation, the horizontal component doesn't change
+    // Horizontal
+    obj->position[0] += speedResolved[0] * deltaTime;
+    float newHorizontalSpeed = speedResolved[0];
+    
+    // Vertical: s = ut + 0.5at^2   v = u + at
+    obj->position[1] += (speedResolved[1] * deltaTime + 0.5 * accelerationDueToGravity * pow(deltaTime, 2));
+    float newVerticalSpeed = speedResolved[1] + accelerationDueToGravity * deltaTime;
+
+    
+    obj->speed = sqrt(pow(newHorizontalSpeed, 2) + pow(newVerticalSpeed, 2));
+    setBearing(obj, glm_rad(0.0f), newVerticalSpeed, newHorizontalSpeed);
 }
 
 float normaliseBearing(float bearing) {
