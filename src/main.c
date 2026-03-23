@@ -63,7 +63,7 @@ int main() {
 
 	Object stockObject = initialiseObject((char*)"BALL", (vec3){0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, glm_rad(0.0f), 10.0f);
 
-	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){400.0f, 300.0f, 0.0f}, 50.0f, 10.0f, glm_rad(130.0f), 10.0f));
+	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){400.0f, 300.0f, 0.0f}, 50.0f, 50.0f, glm_rad(90.0f), 10.0f));
 	// Object newObj = initialiseObject((char*)"BALL", (vec3){1.0f, 1.0f, 1.0f}, 0.5f, 10.0f, glm_rad(130.0f), 10.0f);
 	// appendLinkedList(objectList, newObj);
 	// appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){100.0f, 100.0f, 0.0f}, 50.0f, 10.0f, glm_rad(130.0f), 10.0f));
@@ -73,10 +73,10 @@ int main() {
 	// printLinkedList(objectList);
 
 	// Linked list holding all of the walls, all currently identical so need to set up the positions and bearings of each
-	wallList = initialiseLinkedList(initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
-	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
-	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
-	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));
+	wallList = initialiseLinkedList(initialiseObject((char*)"WALL", (vec3){0.0f, SCR_HEIGHT, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // top
+	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // bottom
+	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f)); // left
+	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){SCR_WIDTH, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));	// right
 
 
 	// Shape properties
@@ -132,8 +132,33 @@ int main() {
 
 		// Render shape
 		glBindVertexArray(VAO);
+
 		Node* traverseObjectList = objectList;
+
 		while (traverseObjectList != NULL) {
+			// Check for collisions with walls
+			Node* traverseWallList = wallList;
+			while (traverseWallList!= NULL) {
+				if (checkCollision(&traverseObjectList->obj, &traverseWallList->obj) == true) {
+					calcCollision(&traverseObjectList->obj, &traverseWallList->obj, 1);
+				} traverseWallList = traverseWallList->next;
+			}
+
+			// Check for collisions with other objects
+			Node* traverseObjectList2 = objectList;
+			while (traverseObjectList2!= NULL) {
+				if (traverseObjectList->obj.position[0] == traverseObjectList2->obj.position[0] && traverseObjectList->obj.position[1] == traverseObjectList2->obj.position[1]) {
+					traverseObjectList2 = traverseObjectList2->next;
+					continue;
+				}
+				
+				if (checkCollision(&traverseObjectList->obj, &traverseObjectList2->obj) == true) {
+					calcCollision(&traverseObjectList->obj, &traverseObjectList2->obj, 1);
+				} traverseObjectList2 = traverseObjectList2->next;
+			}
+
+			moveObject(&traverseObjectList->obj, deltaTime);
+			
 			mat4 model;
 			glm_mat4_identity(model);
 			glm_translate(model, traverseObjectList->obj.position);
@@ -167,7 +192,7 @@ void processInput(GLFWwindow *window) {
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){0.8, 0.8, 0}, 1.0f, 10.0f, glm_rad(130.0f), 10.0f));
+		appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){200.0f, 100.0f, 0}, 10.0f, 10.0f, glm_rad(130.0f), 10.0f));
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {

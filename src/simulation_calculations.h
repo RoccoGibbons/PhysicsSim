@@ -62,14 +62,14 @@ void createObjectVertices(Object* obj, float* vertices, int size) {
 bool checkCollision(Object *obj1, Object *obj2) {
     if (strcmp(obj1->type, "WALL") == 0) {
         // the first object is a wall
-        if (obj1->bearing == 0.0f) { // Horizontal wall
+        if (obj1->bearing == glm_rad(90.0f)) { // Horizontal wall
             float distance = abs(obj1->position[1] - obj2->position[1]);
             if (distance < obj2->radius) {
                 return true;
             } else {
                 return false;
             }
-        } else if (obj1->bearing == glm_rad(90.0f)) { // Vertical wall
+        } else if (obj1->bearing == 0.0f) { // Vertical wall
             float distance = abs(obj1->position[0] - obj2->position[0]);
             if (distance < obj2->radius) {
                 return true;
@@ -81,14 +81,14 @@ bool checkCollision(Object *obj1, Object *obj2) {
         }
     } else if (strcmp(obj2->type, "WALL") == 0) {
         // the second object is a wall
-        if (obj2->bearing == 0.0f) { // Horizontal wall
+        if (obj2->bearing == glm_rad(90.0f)) { // Horizontal wall
             float distance = abs(obj1->position[1] - obj2->position[1]);
             if (distance < obj1->radius) {
                 return true;
             } else {
                 return false;
             }
-        } else if (obj2->bearing == glm_rad(90.0f)) { // Vertical wall
+        } else if (obj2->bearing == 0.0f) { // Vertical wall
             float distance = abs(obj1->position[0] - obj2->position[0]);
             if (distance < obj1->radius) {
                 return true;
@@ -112,11 +112,11 @@ bool checkCollision(Object *obj1, Object *obj2) {
 // e is the coefficient of restitution between the 2 objects
 void calcCollision(Object *obj1, Object *obj2, float e) {
     if (strcmp(obj1->type, "WALL") == 0) {
-        printf("1\n");
+        //printf("1\n");
         boundaryCollision(obj2, obj1, e);
     } else if (strcmp(obj2->type, "WALL") == 0) {
         boundaryCollision(obj1, obj2, e);
-        printf("2\n");
+        //printf("2\n");
     } else {
         objectCollision(obj1, obj2, e);
     }
@@ -165,7 +165,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             } else if (option2 >= 0.0f && option2 < glm_rad(180.0f)) {
                 obj->bearing = option2;
             } else {
-                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::RIGHT");
+                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::RIGHT\n");
             }
         } else {
             // object moving left
@@ -174,7 +174,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             } else if (option2 >= glm_rad(180.0f) && option2 < glm_rad(360.0f)) {
                 obj->bearing = option2;
             } else {
-                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::LEFT");
+                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::LEFT\n");
             }
         }
     } else if (strcmp(wallDirection, "VERTICAL") == 0) {
@@ -185,7 +185,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             } else if (option2 >= glm_rad(90.0f) && option2 < glm_rad(270.0f)) {
                 obj->bearing = option2;
             } else {
-                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::DOWN");
+                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::DOWN\n");
             }
         } else {
             // object moving up
@@ -194,11 +194,11 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             } else if ((option2 >= glm_rad(270.0f) && option2 < glm_rad(360.0f)) || (option2 >= 0.0f && option2 < glm_rad(90.0f))) {
                 obj->bearing = option2;
             } else {
-                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::UP");
+                printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::UP\n");
             }
         }
     } else {
-        printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING");
+        printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING\n");
     }
 }
 
@@ -288,7 +288,7 @@ void moveObject(Object *obj, float deltaTime) {
 
     
     obj->speed = sqrt(pow(newHorizontalSpeed, 2) + pow(newVerticalSpeed, 2));
-    setBearing(obj, glm_rad(0.0f), newVerticalSpeed, newHorizontalSpeed);
+    setBearing(obj, glm_rad(90.0f), newVerticalSpeed, newHorizontalSpeed);
 }
 
 float normaliseBearing(float bearing) {
