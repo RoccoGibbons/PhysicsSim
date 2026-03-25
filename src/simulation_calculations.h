@@ -112,11 +112,9 @@ bool checkCollision(Object *obj1, Object *obj2) {
 // e is the coefficient of restitution between the 2 objects
 void calcCollision(Object *obj1, Object *obj2, float e) {
     if (strcmp(obj1->type, "WALL") == 0) {
-        //printf("1\n");
         boundaryCollision(obj2, obj1, e);
     } else if (strcmp(obj2->type, "WALL") == 0) {
         boundaryCollision(obj1, obj2, e);
-        //printf("2\n");
     } else {
         objectCollision(obj1, obj2, e);
     }
@@ -128,7 +126,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
     float perpWallBearing; 
     char* wallDirection;
 
-    if (wall->bearing == 0.0f){
+    if (wall->bearing == glm_rad(90.0f)){
         glm_vec3_add(wallVector, (vec3){1, 0, 0}, wallVector);
         if (obj->bearing > glm_rad(90.0f) && obj->bearing < glm_rad(270.0f)) { // Bottom wall
             perpWallBearing = 0.0f;
@@ -136,7 +134,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             perpWallBearing = glm_rad(180.0f); // Top wall
         }
         wallDirection = (char*)"HORIZONTAL";
-    } else if (wall->bearing == glm_rad(90.0f)) {
+    } else if (wall->bearing == glm_rad(0.0f)) {
         glm_vec3_add(wallVector, (vec3){0, 1, 0}, wallVector);
         if (obj->bearing > 0.0f && obj->bearing < glm_rad(180.0f)) { // Right wall
             perpWallBearing = glm_rad(270.0f);
@@ -160,7 +158,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
     if (strcmp(wallDirection, "HORIZONTAL") == 0) {
         if (obj->bearing >= 0.0f && obj->bearing < glm_rad(180.0f)) {
             // object moving right
-            if (option1 >= 0.0f && option1 < glm_rad(180.0f)) {
+            if (option1 >= 0.0f && option1 <= glm_rad(180.0f)) {
                 obj->bearing = option1;
             } else if (option2 >= 0.0f && option2 < glm_rad(180.0f)) {
                 obj->bearing = option2;
@@ -180,7 +178,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
     } else if (strcmp(wallDirection, "VERTICAL") == 0) {
         if (obj->bearing >= glm_rad(90.0f) && obj->bearing < glm_rad(270.0f)) {
             // object moving down
-            if (option1 >= glm_rad(90.0f) && option1 < glm_rad(270.0f)) {
+            if (option1 >= glm_rad(90.0f) && option1 <= glm_rad(270.0f)) {
                 obj->bearing = option1;
             } else if (option2 >= glm_rad(90.0f) && option2 < glm_rad(270.0f)) {
                 obj->bearing = option2;
@@ -189,7 +187,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             }
         } else {
             // object moving up
-            if ((option1 >= glm_rad(270.0f) && option1 < glm_rad(360.0f)) || (option1 >= 0.0f && option1 < glm_rad(90.0f))) {
+            if ((option1 >= glm_rad(270.0f) && option1 < glm_rad(360.0f)) || (option1 >= 0.0f && option1 <= glm_rad(90.0f))) {
                 obj->bearing = option1;
             } else if ((option2 >= glm_rad(270.0f) && option2 < glm_rad(360.0f)) || (option2 >= 0.0f && option2 < glm_rad(90.0f))) {
                 obj->bearing = option2;
@@ -269,14 +267,6 @@ int directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
 }
 
 void moveObject(Object *obj, float deltaTime) { 
-    // ALL OF THIS IS UNNECCESSARY, cos(bearing) and sin(bearing) give the sufficient 'sign' for direction automatically
-    // vec3 velocityVector = {obj->speed * sin(obj->bearing), obj->speed * cos(obj->bearing), 0.0f};
-    // vec3 northVector = {0.0f, 1.0f, 0.0f};
-    // float angleToVertical =  acos( (abs(glm_vec3_dot(velocityVector, northVector))) / (glm_vec3_norm(velocityVector) * glm_vec3_norm(northVector)));
-
-    // float speedResolved[] = {directionCheck(obj, glm_rad(0.0f), (char*)"HORIZONTAL") * abs(obj->speed * sin(angleToVertical)), 
-    //     directionCheck(obj, glm_rad(0.0f), (char*)"VERTICAL") * abs(obj->speed * cos(angleToVertical))};
-
     vec3 velocityVector = {obj->speed * sin(obj->bearing), obj->speed * cos(obj->bearing), 0.0f};
 
     // Currently no horizontal acceleration is implemented so this can be modelled as a simple s = ut equation, the horizontal component doesn't change
@@ -290,7 +280,6 @@ void moveObject(Object *obj, float deltaTime) {
 
     
     obj->speed = sqrt(pow(newHorizontalSpeed, 2) + pow(newVerticalSpeed, 2));
-    // setBearing(obj, glm_rad(90.0f), newVerticalSpeed, newHorizontalSpeed);
     // Calculate bearing
     if (obj->speed == 0.0f) {
         obj->bearing == 0.0f;
