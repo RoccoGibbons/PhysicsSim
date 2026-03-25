@@ -30,7 +30,7 @@ float normaliseBearing(float bearing);
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
 
 // Simulation constants
-float accelerationDueToGravity = 0.0f;
+float accelerationDueToGravity = -100.0f;
 float scale;
 
 Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass) {
@@ -129,7 +129,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
     if (wall->bearing == glm_rad(90.0f)){
         glm_vec3_add(wallVector, (vec3){1, 0, 0}, wallVector);
         if (obj->bearing > glm_rad(90.0f) && obj->bearing < glm_rad(270.0f)) { // Bottom wall
-            perpWallBearing = 0.0f;
+            perpWallBearing = glm_rad(0.0f);
         } else {
             perpWallBearing = glm_rad(180.0f); // Top wall
         }
@@ -154,7 +154,8 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
     float speed = sqrt( pow((e * obj->speed * sin(angleOfApproach)), 2) + pow((obj->speed * cos(angleOfApproach)), 2) );
 
     float option1 = normaliseBearing(perpWallBearing + angleOfDeflection2);
-    float option2 = normaliseBearing(perpWallBearing + angleOfDeflection2);
+    float option2 = normaliseBearing(perpWallBearing - angleOfDeflection2);
+    printf("o1: %f, o2: %f\n", option1, option2);
     if (strcmp(wallDirection, "HORIZONTAL") == 0) {
         if (obj->bearing >= 0.0f && obj->bearing < glm_rad(180.0f)) {
             // object moving right
