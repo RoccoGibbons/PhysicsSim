@@ -30,7 +30,7 @@ float normaliseBearing(float bearing);
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
 
 // Simulation constants
-float accelerationDueToGravity = -9.81;
+float accelerationDueToGravity = 0.0f;
 float scale;
 
 Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass) {
@@ -160,16 +160,16 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             // object moving right
             if (option1 >= 0.0f && option1 <= glm_rad(180.0f)) {
                 obj->bearing = option1;
-            } else if (option2 >= 0.0f && option2 < glm_rad(180.0f)) {
+            } else if (option2 >= 0.0f && option2 <= glm_rad(180.0f)) {
                 obj->bearing = option2;
             } else {
                 printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::RIGHT\n");
             }
         } else {
             // object moving left
-            if (option1 >= glm_rad(180.0f) && option1 < glm_rad(360.0f)) {
+            if (option1 >= glm_rad(180.0f) && option1 <= glm_rad(360.0f)) {
                 obj->bearing = option1;
-            } else if (option2 >= glm_rad(180.0f) && option2 < glm_rad(360.0f)) {
+            } else if (option2 >= glm_rad(180.0f) && option2 <= glm_rad(360.0f)) {
                 obj->bearing = option2;
             } else {
                 printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::LEFT\n");
@@ -180,7 +180,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             // object moving down
             if (option1 >= glm_rad(90.0f) && option1 <= glm_rad(270.0f)) {
                 obj->bearing = option1;
-            } else if (option2 >= glm_rad(90.0f) && option2 < glm_rad(270.0f)) {
+            } else if (option2 >= glm_rad(90.0f) && option2 <= glm_rad(270.0f)) {
                 obj->bearing = option2;
             } else {
                 printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::DOWN\n");
@@ -189,9 +189,10 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
             // object moving up
             if ((option1 >= glm_rad(270.0f) && option1 < glm_rad(360.0f)) || (option1 >= 0.0f && option1 <= glm_rad(90.0f))) {
                 obj->bearing = option1;
-            } else if ((option2 >= glm_rad(270.0f) && option2 < glm_rad(360.0f)) || (option2 >= 0.0f && option2 < glm_rad(90.0f))) {
+            } else if ((option2 >= glm_rad(270.0f) && option2 < glm_rad(360.0f)) || (option2 >= 0.0f && option2 <= glm_rad(90.0f))) {
                 obj->bearing = option2;
             } else {
+                printf("option1: %f, option2: %f\n", option1, option2);
                 printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING::UP\n");
             }
         }
