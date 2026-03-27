@@ -24,13 +24,13 @@ bool checkCollision(Object *obj1, Object *obj2);
 void calcCollision(Object *obj1, Object *obj2, float e);
 void boundaryCollision(Object *obj, Object *wall, float e);
 void objectCollision(Object *obj1, Object *obj2, float e);
-int directionCheck(Object *obj, float lineOfCentresBearing, char* type);
+float directionCheck(Object *obj, float lineOfCentresBearing, char* type);
 void moveObject(Object *obj, float deltaTime);
 float normaliseBearing(float bearing);
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
 
 // Simulation constants
-float accelerationDueToGravity = -100.0f;
+float accelerationDueToGravity = 0.0f;
 float scale;
 
 Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass) {
@@ -155,7 +155,7 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
 
     float option1 = normaliseBearing(perpWallBearing + angleOfDeflection2);
     float option2 = normaliseBearing(perpWallBearing - angleOfDeflection2);
-    printf("o1: %f, o2: %f\n", option1, option2);
+    // printf("o1: %f, o2: %f\n", option1, option2);
     if (strcmp(wallDirection, "HORIZONTAL") == 0) {
         if (obj->bearing >= 0.0f && obj->bearing < glm_rad(180.0f)) {
             // object moving right
@@ -207,21 +207,32 @@ void objectCollision(Object *obj1, Object *obj2, float e) {
     vec3 northVector = {0.0f, 1.0f, 0.0f};
     float lineOfCentresBearing = acos( (abs(glm_vec3_dot(lineOfCentresVector, northVector))) / (glm_vec3_norm(lineOfCentresVector) * glm_vec3_norm(northVector)));
 
-    float obj1ToLineOfCentresAngle = (abs(obj1->bearing - lineOfCentresBearing) > 180.0f) ? 360.0f - abs(obj1->bearing - lineOfCentresBearing) : abs(obj1->bearing - lineOfCentresBearing);
-    float obj2ToLineOfCentresAngle = (abs(obj2->bearing - lineOfCentresBearing) > 180.0f) ? 360.0f - abs(obj2->bearing - lineOfCentresBearing) : abs(obj2->bearing - lineOfCentresBearing);;
+    float obj1ToLineOfCentresAngle = (abs(obj1->bearing - lineOfCentresBearing) > glm_rad(180.0f)) ? glm_rad(360.0f) - abs(obj1->bearing - lineOfCentresBearing) : abs(obj1->bearing - lineOfCentresBearing);
+    float obj2ToLineOfCentresAngle = (abs(obj2->bearing - lineOfCentresBearing) > glm_rad(180.0f)) ? glm_rad(360.0f) - abs(obj2->bearing - lineOfCentresBearing) : abs(obj2->bearing - lineOfCentresBearing);
     
     // The first value is along the line of centres, the second value is perpendicular to the line of centres
     // From obj1 to obj2 should be considered positive, 'below' this line is positive and 'above' this line is negative
     float obj1SpeedResolved[] = {directionCheck(obj1, lineOfCentresBearing, (char*)"HORIZONTAL") * abs(obj1->speed * cos(obj1ToLineOfCentresAngle)), 
         directionCheck(obj1, lineOfCentresBearing, (char*)"VERTICAL") * abs(obj1->speed * sin(obj1ToLineOfCentresAngle))};
-    float obj2SpeedResolved[] = {directionCheck(obj2, lineOfCentresBearing, (char*)"HORIZONTAL") * (obj2->speed * cos(obj2ToLineOfCentresAngle)), 
+
+    float obj2SpeedResolved[] = {directionCheck(obj2, lineOfCentresBearing, (char*)"HORIZONTAL") * abs(obj2->speed * cos(obj2ToLineOfCentresAngle)), 
         directionCheck(obj2, lineOfCentresBearing, (char*)"VERTICAL") * abs(obj2->speed * sin(obj2ToLineOfCentresAngle))};
+    
+    // printf("1 angle: %f\n", obj1ToLineOfCentresAngle);
+    // printf("2 angle: %f\n", obj2ToLineOfCentresAngle);
+    // printf("1 hor: %f, ver:%f\n", abs(obj1->speed * cos(obj1ToLineOfCentresAngle)), abs(obj1->speed * sin(obj1ToLineOfCentresAngle)));
+    // printf("2 hor: %f, ver:%f\n", abs(obj2->speed * cos(obj2ToLineOfCentresAngle)), abs(obj2->speed * sin(obj2ToLineOfCentresAngle)));
+    // printf("1 dir hor: %f, ver: %f\n", directionCheck(obj1, lineOfCentresBearing, (char*)"HORIZONTAL"), directionCheck(obj1, lineOfCentresBearing, (char*)"VERTICAL"));
+    // printf("2 dir hor: %f, ver: %f\n", directionCheck(obj2, lineOfCentresBearing, (char*)"HORIZONTAL"), directionCheck(obj2, lineOfCentresBearing, (char*)"VERTICAL"));
+    // printf("\n");
+    // printf("1 total: %f, hor: %f, ver: %f\n", obj1->speed, obj1SpeedResolved[0], obj1SpeedResolved[1]);
+    // printf("2 total: %f, hor: %f, ver: %f\n\n", obj2->speed, obj2SpeedResolved[0], obj2SpeedResolved[1]);
 
     float initialMomentum = obj1->mass * obj1SpeedResolved[0] + obj2->mass * obj2SpeedResolved[0];
     float restitutionCalc = e * (obj1SpeedResolved[0] - obj2SpeedResolved[0]);
 
     // Solve simultaneous equations using conservation of momentum and restitution to find final velocities along line of centres
-    mat2 simultaneous = {{obj1->mass, obj2->mass}, {-1, 1}};
+    mat2 simultaneous = {{obj1->mass, -1}, {obj2->mass, 1}};
     mat2 inverse;
     glm_mat2_inv(simultaneous, inverse);
     vec2 finalVelocity;
@@ -230,12 +241,15 @@ void objectCollision(Object *obj1, Object *obj2, float e) {
     obj1->speed = sqrt( pow(finalVelocity[0], 2) + pow(obj1SpeedResolved[1], 2));
     obj2->speed = sqrt( pow(finalVelocity[1], 2) + pow(obj2SpeedResolved[1], 2));
 
+    // printf("1 final total:%f, hor: %f, ver:%f\n", obj1->speed, finalVelocity[0], obj1SpeedResolved[1]);
+    // printf("2 final total:%f, hor: %f, ver:%f\n\n\n", obj2->speed, finalVelocity[1], obj2SpeedResolved[1]);
+
     // Find the bearings of objects after collision
     setBearing(obj1, lineOfCentresBearing, obj1SpeedResolved[1], finalVelocity[0]);
     setBearing(obj2, lineOfCentresBearing, obj2SpeedResolved[1], finalVelocity[1]);
 }
 
-int directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
+float directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
     // Find bounds for which direction the object is going relative to line of centres
     float lower, upper;
     if (strcmp(type, "HORIZONTAL") == 0) {
@@ -254,16 +268,16 @@ int directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
 
     if (lower < upper) {
         if (obj->bearing >= lower && obj->bearing < upper) {
-            return 1;
+            return 1.0f;
         } else {
-            return -1;
+            return -1.0f;
         }
 
     } else {
         if ((obj->bearing >= lower && obj->bearing < glm_rad(360.0f)) || (obj->bearing >= 0.0f && obj->bearing < upper)) {
-            return 1;
+            return 1.0f;
         } else {
-            return -1;
+            return -1.0f;
         }
     }
 }
@@ -318,7 +332,7 @@ void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, fl
     if (horizontalSpeed == 0.0f) {
         obj->bearing = normaliseBearing(lineOfCentresBearing + (glm_rad(90.0f) * directionCheck(obj, lineOfCentresBearing, (char*)"VERTICAL")));
     } else {
-        float angleFromLineOfCentres = abs(atan(verticalSpeed / horizontalSpeed));
+        float angleFromLineOfCentres = atan(abs(verticalSpeed) / abs(horizontalSpeed));
         // if horizontalSpeed > 0, along line of centres
         // if verticalSpeed > 0, from line of centres in positive direction
         if (horizontalSpeed > 0) { 
@@ -331,8 +345,8 @@ void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, fl
             if (verticalSpeed > 0) {
                 obj->bearing = normaliseBearing(glm_rad(180.0f) + lineOfCentresBearing + angleFromLineOfCentres);
             } else {
-                obj->bearing = normaliseBearing(glm_rad(180.0f) - lineOfCentresBearing - angleFromLineOfCentres);
+                obj->bearing = normaliseBearing(glm_rad(180.0f) + lineOfCentresBearing - angleFromLineOfCentres);
             }
         }
     }
-}   
+}  
