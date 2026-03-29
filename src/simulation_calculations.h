@@ -11,6 +11,7 @@
 typedef struct Object{
     char* type;
     vec3 position;
+    vec3 previousPosition;
     float radius;
     float speed;
     float bearing;
@@ -43,6 +44,9 @@ Object initialiseObject(char* type, vec3 position, float radius, float speed, fl
     obj.speed = speed;
     obj.bearing = bearing;
     obj.mass = mass;
+    obj.previousPosition[0] = 0.0f;
+    obj.previousPosition[1] = 0.0f;
+    obj.previousPosition[2] = 0.0f;
 
     return obj;
 }
@@ -200,9 +204,23 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
     } else {
         printf("ERROR::BOUNDARY_COLLISION::NEW_BEARING\n");
     }
+    // Resets position to previous state to avoid clipping inside wall before collision
+    obj->position[0] = obj->previousPosition[0];
+    obj->position[1] = obj->previousPosition[1];
+    obj->position[2] = obj->previousPosition[2];
 }
 
 void objectCollision(Object *obj1, Object *obj2, float e) {
+    // Resets position to previous state to avoid clipping inside other object before collision
+    // The one with less speed changes so there is minimal movement
+    int unclipFlag = 0;
+    if (obj1->speed < obj2->speed) {
+        unclipFlag = 1;
+    } else {
+        unclipFlag = 2;
+    }
+
+
     vec3 lineOfCentresVector = {obj2->position[0] - obj1->position[0], obj2->position[1] - obj1->position[1], 0};
     vec3 northVector = {0.0f, 1.0f, 0.0f};
     float lineOfCentresBearing = acos( (abs(glm_vec3_dot(lineOfCentresVector, northVector))) / (glm_vec3_norm(lineOfCentresVector) * glm_vec3_norm(northVector)));
@@ -247,6 +265,17 @@ void objectCollision(Object *obj1, Object *obj2, float e) {
     // Find the bearings of objects after collision
     setBearing(obj1, lineOfCentresBearing, obj1SpeedResolved[1], finalVelocity[0]);
     setBearing(obj2, lineOfCentresBearing, obj2SpeedResolved[1], finalVelocity[1]);
+
+    // Acually changes the position to unclip objects
+    if (unclipFlag == 1) {
+        obj1->position[0] = obj1->previousPosition[0];
+        obj1->position[1] = obj1->previousPosition[1];
+        obj1->position[2] = obj1->previousPosition[2];
+    } else {
+        obj2->position[0] = obj2->previousPosition[0];
+        obj2->position[1] = obj2->previousPosition[1];
+        obj2->position[2] = obj2->previousPosition[2];
+    }
 }
 
 float directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
@@ -283,6 +312,10 @@ float directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
 }
 
 void moveObject(Object *obj, float deltaTime) { 
+    obj->previousPosition[0] = obj->position[0];
+    obj->previousPosition[1] = obj->position[1];
+    obj->previousPosition[2] = obj->position[2];
+
     vec3 velocityVector = {obj->speed * sin(obj->bearing), obj->speed * cos(obj->bearing), 0.0f};
 
     // Currently no horizontal acceleration is implemented so this can be modelled as a simple s = ut equation, the horizontal component doesn't change
