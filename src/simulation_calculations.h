@@ -258,7 +258,7 @@ void objectCollision(Object *obj1, Object *obj2, float e) {
 
     obj1->speed = sqrt( pow(finalVelocity[0], 2) + pow(obj1SpeedResolved[1], 2));
     obj2->speed = sqrt( pow(finalVelocity[1], 2) + pow(obj2SpeedResolved[1], 2));
-
+    //
     // printf("1 final total:%f, hor: %f, ver:%f\n", obj1->speed, finalVelocity[0], obj1SpeedResolved[1]);
     // printf("2 final total:%f, hor: %f, ver:%f\n\n\n", obj2->speed, finalVelocity[1], obj2SpeedResolved[1]);
 
