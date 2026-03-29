@@ -13,9 +13,8 @@
 #include "linked_list.h"
 
 // Procedure definitions
-void render(GLFWwindow *window);
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
-void processInput(GLFWwindow *window);
+void processInput(GLFWwindow *window, int key, int scancode, int action, int mods);
 
 Node* objectList;
 Node* wallList;
@@ -48,6 +47,7 @@ int main() {
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetKeyCallback(window, processInput);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         printf("Failed to initialise GLAD\n");
@@ -107,7 +107,7 @@ int main() {
 		lastFrame = currentFrame;
 
         // Input
-		processInput(window);
+		// processInput(window);
 
         // Rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -187,7 +187,7 @@ int main() {
 	return 0;
 }
 
-void processInput(GLFWwindow *window) {
+void processInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
