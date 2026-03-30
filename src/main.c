@@ -32,6 +32,16 @@ float lastFrame = 0.0f;
 // Object ID counter
 int id = 0;
 
+// Pause flag
+bool pause = false;
+
+// Simulation Colour Scheme:
+// 4F 6D 7A		0.31, 0.427, 0.478
+// C0 D6 DF		0.753, 0.839, 0.875
+// DB E9 EE		0.859, 0.914, 0.933
+// 4A 6F A5		0.29, 0.435, 0.647
+// 16 60 88		0.086, 0.376, 0.533
+
 int main() {
 	// Initialise libraries create a window variable
 	glfwInit();
@@ -116,7 +126,7 @@ int main() {
 		// processInput(window);
 
         // Rendering
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Activate shader
@@ -149,33 +159,34 @@ int main() {
 		glBindVertexArray(VAO);
 
 		Node* traverseObjectList = objectList;
-
 		while (traverseObjectList != NULL) {
-			// Check for collisions with walls
-			Node* traverseWallList = wallList;
-			while (traverseWallList!= NULL) {
-				if (checkCollision(&traverseObjectList->obj, &traverseWallList->obj) == true) {
-					calcCollision(&traverseObjectList->obj, &traverseWallList->obj, 1.0f);
-				} traverseWallList = traverseWallList->next;
-			}
-
-			// Check for collisions with other objects
-			Node* traverseObjectList2 = objectList;
-			while (traverseObjectList2!= NULL) {
-				if (traverseObjectList->obj.position[0] == traverseObjectList2->obj.position[0] && traverseObjectList->obj.position[1] == traverseObjectList2->obj.position[1]) {
-					traverseObjectList2 = traverseObjectList2->next;
-					continue;
+			if (pause == false) {	
+				// Check for collisions with walls
+				Node* traverseWallList = wallList;
+				while (traverseWallList!= NULL) {
+					if (checkCollision(&traverseObjectList->obj, &traverseWallList->obj) == true) {
+						calcCollision(&traverseObjectList->obj, &traverseWallList->obj, 1.0f);
+					} traverseWallList = traverseWallList->next;
 				}
-				
-				if (checkCollision(&traverseObjectList->obj, &traverseObjectList2->obj) == true) {
-					calcCollision(&traverseObjectList->obj, &traverseObjectList2->obj, 1.0f);
-				} traverseObjectList2 = traverseObjectList2->next;
-			}
 
-			if (traverseObjectList->obj.position[2] < 0) {
-				deleteNode(objectList, traverseObjectList->obj.id);
+				// Check for collisions with other objects
+				Node* traverseObjectList2 = objectList;
+				while (traverseObjectList2!= NULL) {
+					if (traverseObjectList->obj.position[0] == traverseObjectList2->obj.position[0] && traverseObjectList->obj.position[1] == traverseObjectList2->obj.position[1]) {
+						traverseObjectList2 = traverseObjectList2->next;
+						continue;
+					}
+					
+					if (checkCollision(&traverseObjectList->obj, &traverseObjectList2->obj) == true) {
+						calcCollision(&traverseObjectList->obj, &traverseObjectList2->obj, 1.0f);
+					} traverseObjectList2 = traverseObjectList2->next;
+				}
+
+				if (traverseObjectList->obj.position[2] < 0) {
+					deleteNode(objectList, traverseObjectList->obj.id);
+				}
+				moveObject(&traverseObjectList->obj, deltaTime);
 			}
-			moveObject(&traverseObjectList->obj, deltaTime);
 			
 			mat4 model;
 			glm_mat4_identity(model);
@@ -213,6 +224,9 @@ void processInput(GLFWwindow *window, int key, int scancode, int action, int mod
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		appendLinkedList(objectList, initialiseObject(id, (char*)"BALL", (vec3){200.0f, 100.0f, 0}, 10.0f, 10.0f, glm_rad(130.0f), 10.0f));
 		id++;
+
+	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+		pause = !pause;
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
