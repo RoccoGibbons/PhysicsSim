@@ -27,6 +27,8 @@ const unsigned int SCR_HEIGHT = 600;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+// Object ID counter
+int id = 0;
 
 int main() {
 	// Initialise libraries create a window variable
@@ -61,11 +63,13 @@ int main() {
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
-	Object stockObject = initialiseObject((char*)"BALL", (vec3){0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, glm_rad(0.0f), 10.0f);
+	Object stockObject = initialiseObject(-1, (char*)"BALL", (vec3){0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, glm_rad(0.0f), 10.0f);
 
-	objectList = initialiseLinkedList(initialiseObject((char*)"BALL", (vec3){200.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(90.0f), 10.0f));
-	Object newObj = initialiseObject((char*)"BALL", (vec3){600.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(270.0f), 10.0f);
+	objectList = initialiseLinkedList(initialiseObject(id, (char*)"BALL", (vec3){200.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(90.0f), 10.0f));
+	id++;
+	Object newObj = initialiseObject(id, (char*)"BALL", (vec3){600.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(270.0f), 10.0f);
 	appendLinkedList(objectList, newObj);
+	id++;
 	// appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){100.0f, 100.0f, 0.0f}, 50.0f, 10.0f, glm_rad(130.0f), 10.0f));
 	// appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){600.0f, 200.0f, 0.0f}, 100.0f, 10.0f, glm_rad(130.0f), 10.0f));
 	// appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){1000.0f, 1000.0f, 0.0f}, 200.0f, 10.0f, glm_rad(130.0f), 10.0f));
@@ -73,10 +77,10 @@ int main() {
 	// printLinkedList(objectList);
 
 	// Linked list holding all of the walls, all currently identical so need to set up the positions and bearings of each
-	wallList = initialiseLinkedList(initialiseObject((char*)"WALL", (vec3){0.0f, SCR_HEIGHT, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // top
-	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // bottom
-	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f)); // left
-	appendLinkedList(wallList, initialiseObject((char*)"WALL", (vec3){SCR_WIDTH, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));	// right
+	wallList = initialiseLinkedList(initialiseObject(-1, (char*)"WALL", (vec3){0.0f, SCR_HEIGHT, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // top
+	appendLinkedList(wallList, initialiseObject(-1, (char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // bottom
+	appendLinkedList(wallList, initialiseObject(-1, (char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f)); // left
+	appendLinkedList(wallList, initialiseObject(-1, (char*)"WALL", (vec3){SCR_WIDTH, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));	// right
 
 
 	// Shape properties
@@ -157,6 +161,9 @@ int main() {
 				} traverseObjectList2 = traverseObjectList2->next;
 			}
 
+			if (traverseObjectList->obj.position[2] < 0) {
+				deleteNode(objectList, traverseObjectList->obj.id);
+			}
 			moveObject(&traverseObjectList->obj, deltaTime);
 			
 			mat4 model;
@@ -171,6 +178,7 @@ int main() {
 
 			traverseObjectList = traverseObjectList->next;	
 		}
+		printLinkedList(objectList);
 
         // Check and call events, Swap buffers
 		glfwSwapBuffers(window);
@@ -192,7 +200,8 @@ void processInput(GLFWwindow *window, int key, int scancode, int action, int mod
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){200.0f, 100.0f, 0}, 10.0f, 10.0f, glm_rad(130.0f), 10.0f));
+		appendLinkedList(objectList, initialiseObject(id, (char*)"BALL", (vec3){200.0f, 100.0f, 0}, 10.0f, 10.0f, glm_rad(130.0f), 10.0f));
+		id++;
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {

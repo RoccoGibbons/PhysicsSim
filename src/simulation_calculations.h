@@ -9,6 +9,7 @@
 // Temporary struct for object definition
 
 typedef struct Object{
+    int id;
     char* type;
     vec3 position;
     vec3 previousPosition;
@@ -19,7 +20,7 @@ typedef struct Object{
 } Object;
 
 // // Function Definitions
-Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass);
+Object initialiseObject(int id, char* type, vec3 position, float radius, float speed, float bearing, float mass);
 void createObjectVertices(Object* obj, float* vertices, int size);
 bool checkCollision(Object *obj1, Object *obj2);
 void calcCollision(Object *obj1, Object *obj2, float e);
@@ -34,8 +35,9 @@ void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, fl
 float accelerationDueToGravity = 0.0f;
 float scale;
 
-Object initialiseObject(char* type, vec3 position, float radius, float speed, float bearing, float mass) {
+Object initialiseObject(int id, char* type, vec3 position, float radius, float speed, float bearing, float mass) {
     Object obj;
+    obj.id = id;
     obj.type = type;
     obj.position[0] = position[0];
     obj.position[1] = position[1];
@@ -46,7 +48,7 @@ Object initialiseObject(char* type, vec3 position, float radius, float speed, fl
     obj.mass = mass;
     obj.previousPosition[0] = 0.0f;
     obj.previousPosition[1] = 0.0f;
-    obj.previousPosition[2] = 0.0f;
+    obj.previousPosition[2] = -100.0f;
 
     return obj;
 }

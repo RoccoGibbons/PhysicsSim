@@ -37,11 +37,28 @@ void appendLinkedList(Node* head, Object data) {
     search->next = newNode;
 }
 
+void deleteNode(Node* head, int deleteID) {
+    Node *search = head;
+    Node *previous = head;
+
+    while (search->obj.id != deleteID && search != NULL) {
+        previous = search;
+        search = search->next;
+    }
+    if (search == NULL) {
+        return;
+    } else {
+        previous->next = search->next;
+        free(search);
+    }
+}
+
 void printLinkedList(Node* head) {
     struct Node *search = head;
 
     while (search != NULL) {
-        printf("%f, %f, %f\n", search->obj.position[0], search->obj.position[1], search->obj.position[2]);
+        // printf("%f, %f, %f\n", search->obj.position[0], search->obj.position[1], search->obj.position[2]);
+        printf("%i\n", search->obj.id);
         search = search->next;
     }
 }
