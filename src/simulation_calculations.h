@@ -32,7 +32,7 @@ float normaliseBearing(float bearing);
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
 
 // Simulation constants
-float accelerationDueToGravity = -100.0f;
+float accelerationDueToGravity = 0.0f;
 float scale;
 
 Object initialiseObject(int id, char* type, vec3 position, float radius, float speed, float bearing, float mass) {

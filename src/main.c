@@ -1,6 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <cglm/cglm.h>
+#define NK_IMPLEMENTATION
+#include <nuklear/nuklear.h>
 
 #include <stdio.h>
 #include <stdlib.h>
