@@ -67,9 +67,9 @@ int main() {
 
 	objectList = initialiseLinkedList(initialiseObject(id, (char*)"BALL", (vec3){200.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(90.0f), 10.0f));
 	id++;
-	Object newObj = initialiseObject(id, (char*)"BALL", (vec3){600.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(270.0f), 10.0f);
-	appendLinkedList(objectList, newObj);
-	id++;
+	// Object newObj = initialiseObject(id, (char*)"BALL", (vec3){600.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(270.0f), 10.0f);
+	// appendLinkedList(objectList, newObj);
+	// id++;
 	// appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){100.0f, 100.0f, 0.0f}, 50.0f, 10.0f, glm_rad(130.0f), 10.0f));
 	// appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){600.0f, 200.0f, 0.0f}, 100.0f, 10.0f, glm_rad(130.0f), 10.0f));
 	// appendLinkedList(objectList, initialiseObject((char*)"BALL", (vec3){1000.0f, 1000.0f, 0.0f}, 200.0f, 10.0f, glm_rad(130.0f), 10.0f));
@@ -131,6 +131,15 @@ int main() {
 		glfwGetWindowSize(window, &width, &height);
 		glm_ortho(0.0f, width, 0.0f, height, 0.1f, 100.0f, projection);
 
+		Node* updateWallList = wallList;
+		while (updateWallList != NULL) {
+			if (updateWallList->obj.position[1] != 0.0f) {
+				updateWallList->obj.position[1] = height;
+			} else if (updateWallList->obj.position[0] != 0.0f) {
+				updateWallList->obj.position[0] = width;
+			} updateWallList = updateWallList->next;
+		}
+
 		setMat4(shaderProgram, "view", view);
 		setMat4(shaderProgram, "projection", projection);
 
@@ -144,7 +153,7 @@ int main() {
 			Node* traverseWallList = wallList;
 			while (traverseWallList!= NULL) {
 				if (checkCollision(&traverseObjectList->obj, &traverseWallList->obj) == true) {
-					calcCollision(&traverseObjectList->obj, &traverseWallList->obj, 0.5f);
+					calcCollision(&traverseObjectList->obj, &traverseWallList->obj, 1.0f);
 				} traverseWallList = traverseWallList->next;
 			}
 
@@ -157,7 +166,7 @@ int main() {
 				}
 				
 				if (checkCollision(&traverseObjectList->obj, &traverseObjectList2->obj) == true) {
-					calcCollision(&traverseObjectList->obj, &traverseObjectList2->obj, 0.5f);
+					calcCollision(&traverseObjectList->obj, &traverseObjectList2->obj, 1.0f);
 				} traverseObjectList2 = traverseObjectList2->next;
 			}
 
@@ -178,7 +187,7 @@ int main() {
 
 			traverseObjectList = traverseObjectList->next;	
 		}
-		printLinkedList(objectList);
+		// printLinkedList(objectList);
 
         // Check and call events, Swap buffers
 		glfwSwapBuffers(window);
