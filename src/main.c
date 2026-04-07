@@ -7,6 +7,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <cglm/cglm.h>
+#include <stb/stb_image.h>
 
 // Nuklear GUI library
 #define MAX_VERTEX_BUFFER 512 * 1024
@@ -35,6 +36,7 @@
 #include "shader.h"
 #include "simulation_calculations.h"
 #include "linked_list.h"
+#include "user_interface.h"
 
 // Procedure definitions
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -154,6 +156,11 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	struct nk_image pauseButtonImage = generateTexture("img/pause.png");
+	struct nk_image settingsButtonImage = generateTexture("img/settings.png");
+	struct nk_image terminalButtonImage = generateTexture("img/terminal.png");
+	struct nk_image navbarButtonImage = generateTexture("img/navbar.png");
+
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -174,10 +181,15 @@ int main() {
 		nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
 		if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
 			nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
-			if (nk_button_label(ctx, "pauseButton")) fprintf(stdout, "pause pressed\n");
-			if (nk_button_label(ctx, "settingsButton")) fprintf(stdout, "settings pressed\n");
-			if (nk_button_label(ctx, "terminalButton")) fprintf(stdout, "terminal pressed\n");
-			if (nk_button_label(ctx, "navbarButton")) fprintf(stdout, "navbar pressed\n");
+			// if (nk_button_label(ctx, "pauseButton")) fprintf(stdout, "pause pressed\n");
+			// if (nk_button_label(ctx, "settingsButton")) fprintf(stdout, "settings pressed\n");
+			// if (nk_button_label(ctx, "terminalButton")) fprintf(stdout, "terminal pressed\n");
+			// if (nk_button_label(ctx, "navbarButton")) fprintf(stdout, "navbar pressed\n");
+
+			if (nk_button_image(ctx, pauseButtonImage)) fprintf(stdout, "pause pressed\n");
+			if (nk_button_image(ctx, settingsButtonImage)) fprintf(stdout, "settings pressed\n");
+			if (nk_button_image(ctx, terminalButtonImage)) fprintf(stdout, "terminal pressed\n");
+			if (nk_button_image(ctx, navbarButtonImage)) fprintf(stdout, "navbar pressed\n");
 
 		} nk_end(ctx);
 		nk_style_pop_style_item(ctx);
