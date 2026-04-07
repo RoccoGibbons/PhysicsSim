@@ -9,6 +9,8 @@
 #include <cglm/cglm.h>
 
 // Nuklear GUI library
+#define MAX_VERTEX_BUFFER 512 * 1024
+#define MAX_ELEMENT_BUFFER 128 * 1024
 #define NK_INCLUDE_FIXED_TYPES
 #define NK_INCLUDE_STANDARD_IO
 #define NK_INCLUDE_STANDARD_VARARGS
@@ -17,7 +19,7 @@
 #define NK_INCLUDE_FONT_BAKING
 #define NK_INCLUDE_DEFAULT_FONT
 #define NK_IMPLEMENTATION
-#define NK_GLFW_GL4_IMPLEMENTATION
+#define NK_GLFW_GL3_IMPLEMENTATION
 #include <nuklear/nuklear.h>
 #include <nuklear/nuklear_glfw_gl3.h>
 
@@ -75,6 +77,7 @@ int main() {
 	#endif
 
 	// Creation of a window using GLFW
+	struct nk_glfw glfw = {0};
 	GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Physics Simulation", NULL, NULL);
 	if (window == NULL) {
         printf("Failed to create GLFW window\n");
@@ -90,6 +93,13 @@ int main() {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         printf("Failed to initialise GLAD\n");
 		return -1;
+	}
+
+	struct nk_context *ctx = nk_glfw3_init(&glfw, window, NK_GLFW3_INSTALL_CALLBACKS);
+	{
+		struct nk_font_atlas *atlas;
+		nk_glfw3_font_stash_begin(&glfw, &atlas);
+		nk_glfw3_font_stash_end(&glfw);
 	}
 
 	// Enable depth and transparency in OpenGL
@@ -144,10 +154,27 @@ int main() {
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
+		glfwPollEvents();
+		nk_glfw3_new_frame(&glfw);
+
 		// Calculate the time passed since last iteration
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+
+		// Find new window size, this is needed incase the user resizes the window
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
+
+		// GUI width-(width * 0.25)
+		if (nk_begin(ctx, "Navbar", nk_rect(width-200, 0, width, height), 0)) {
+			nk_layout_row_dynamic(ctx, 120, 1);
+			nk_label(ctx, "Hello world!", NK_TEXT_LEFT);
+
+			nk_layout_row_static(ctx, 50, 100, 1);
+			if (nk_button_label(ctx, "Button"))
+				fprintf(stdout, "pressed\n");
+		} nk_end(ctx);
 
         // Rendering
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -163,8 +190,6 @@ int main() {
 		glm_mat4_identity(projection);
 
 		glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
-		int width, height;
-		glfwGetWindowSize(window, &width, &height);
 		glm_ortho(0.0f, width, 0.0f, height, 0.1f, 100.0f, projection);
 
 		// Updates the boundaries of the simulation to the border of the window: this is incase the window has been resized
@@ -234,9 +259,8 @@ int main() {
 		}
 		// printLinkedList(objectList);
 
-        // Check and call events, Swap buffers
+		nk_glfw3_render(&glfw, NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
 		glfwSwapBuffers(window);
-		glfwPollEvents();
 	}
 	freeLinkedList(objectList);
 	freeLinkedList(wallList);
@@ -244,6 +268,7 @@ int main() {
 	glDeleteBuffers(1, &VBO);
 	glDeleteProgram(shaderProgram.ID);
 	
+	nk_glfw3_shutdown(&glfw);
 	glfwTerminate();
 	return 0;
 }
