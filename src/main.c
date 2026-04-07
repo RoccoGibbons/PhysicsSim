@@ -47,6 +47,8 @@ Node* wallList;
 // Constants
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+const float BUTTON_PADDING = 10.0f;
+const float BUTTON_SIZE = 40.0f;
 
 // Timing
 float deltaTime = 0.0f;
@@ -105,6 +107,7 @@ int main() {
 	// Enable depth and transparency in OpenGL
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);  
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
@@ -166,18 +169,31 @@ int main() {
 		int width, height;
 		glfwGetWindowSize(window, &width, &height);
 
-		// GUI width-(width * 0.25)
-		if (nk_begin(ctx, "Navbar", nk_rect(width-200, 0, width, height), 0)) {
-			nk_layout_row_dynamic(ctx, 120, 1);
-			nk_label(ctx, "Hello world!", NK_TEXT_LEFT);
+		// GUI 
+		// Top buttons
+		nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
+		if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
+			nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
+			if (nk_button_label(ctx, "pauseButton")) fprintf(stdout, "pause pressed\n");
+			if (nk_button_label(ctx, "settingsButton")) fprintf(stdout, "settings pressed\n");
+			if (nk_button_label(ctx, "terminalButton")) fprintf(stdout, "terminal pressed\n");
+			if (nk_button_label(ctx, "navbarButton")) fprintf(stdout, "navbar pressed\n");
 
-			nk_layout_row_static(ctx, 50, 100, 1);
-			if (nk_button_label(ctx, "Button"))
-				fprintf(stdout, "pressed\n");
 		} nk_end(ctx);
+		nk_style_pop_style_item(ctx);
+
+		// ------                           width-(width * 0.25)
+		// if (nk_begin(ctx, "Navbar", nk_rect(width-200, 0, width, height), 0)) {
+			// nk_layout_row_dynamic(ctx, 120, 1);
+		// 	nk_label(ctx, "Hello world!", NK_TEXT_LEFT);
+
+		// 	nk_layout_row_static(ctx, 50, 100, 1);
+		// 	if (nk_button_label(ctx, "Button"))
+		// 		fprintf(stdout, "pressed\n");
+		// } nk_end(ctx);
 
         // Rendering
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Activate shader
