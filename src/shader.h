@@ -18,7 +18,7 @@ void setBool(Shader myShader, const char* name, bool value);
 void setInt(Shader myShader, const char* name, bool value);
 void setFloat(Shader myShader, const char* name, bool value);
 
-
+// Creates a shader program
 Shader initialiseShader(const char* vertexPath, const char* fragmentPath) {
     Shader myShader;
 
@@ -90,10 +90,12 @@ unsigned int buildShaderPrograms(const char* path, const char* shaderType) {
     return shader;
 }
 
+// Enables the shader program
 void use(Shader myShader) {
     glUseProgram(myShader.ID);
 }
 
+// Sets given values as a uniform within the shader program
 void setBool(Shader myShader, const char* name, bool value) {
     glUniform1i(glGetUniformLocation(myShader.ID, name), (int)value);
 }
@@ -139,6 +141,7 @@ void setMat4(Shader myShader, const char* name, const mat4 mat) {
     glUniformMatrix4fv(glGetUniformLocation(myShader.ID, name), 1, GL_FALSE, &mat[0][0]);
 }
 
+// Checks if all of the shaders have compiled correctly into the shader program, if not it reports which shader has errored
 void checkCompileErrors(unsigned int shader, const char* shaderType) {
     int success;
     char infoLog[512];

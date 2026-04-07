@@ -1,13 +1,13 @@
 #include <glad/glad.h>
 #include <cglm/cglm.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
 
-// Temporary struct for object definition
-
+// A struct containing all of the data necessary for an object to be created 
 typedef struct Object{
     int id;
     char* type;
@@ -35,6 +35,7 @@ void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, fl
 float accelerationDueToGravity = -100.0f;
 float scale;
 
+// Create a new object
 Object initialiseObject(int id, char* type, vec3 position, float radius, float speed, float bearing, float mass) {
     Object obj;
     obj.id = id;
@@ -53,6 +54,7 @@ Object initialiseObject(int id, char* type, vec3 position, float radius, float s
     return obj;
 }
 
+// Generates a triangle fan around a centre point for the stock object
 void createObjectVertices(Object* obj, float* vertices, int size) {
     // Centre
     vertices[0] = obj->position[0];
@@ -65,6 +67,7 @@ void createObjectVertices(Object* obj, float* vertices, int size) {
     }
 }
 
+// Checks if the two objects are colliding
 bool checkCollision(Object *obj1, Object *obj2) {
     if (strcmp(obj1->type, "WALL") == 0) {
         // the first object is a wall
@@ -105,6 +108,7 @@ bool checkCollision(Object *obj1, Object *obj2) {
             printf("ERROR::COLLISION_CHECK::OBJ2_IS_WALL\n");
         }
     } else {
+        // Neither object is a wall
         float distance = sqrt(pow(obj1->position[0] - obj2->position[0], 2) + pow(obj1->position[1] - obj2->position[1], 2));
         if (distance < obj1->radius + obj2->radius) {
             return true;
@@ -115,8 +119,8 @@ bool checkCollision(Object *obj1, Object *obj2) {
     return false;
 }
 
-// e is the coefficient of restitution between the 2 objects
-void calcCollision(Object *obj1, Object *obj2, float e) {
+// When two object collide, this function is run and it sends the object to the correct function based on if their is a wall or not
+void calcCollision(Object *obj1, Object *obj2, float e) {     // e is the coefficient of restitution between the 2 objects
     if (strcmp(obj1->type, "WALL") == 0) {
         boundaryCollision(obj2, obj1, e);
     } else if (strcmp(obj2->type, "WALL") == 0) {
@@ -126,12 +130,15 @@ void calcCollision(Object *obj1, Object *obj2, float e) {
     }
 }
 
+// Calculates collisions when one of the objects is a wall
 void boundaryCollision(Object *obj, Object *wall, float e) {
+    // Turns the object's bearing into a vector
     vec3 bearingVector = {sin(obj->bearing), cos(obj->bearing), 0};
     vec3 wallVector = GLM_VEC3_ZERO_INIT;
     float perpWallBearing; 
     char* wallDirection;
 
+    // Determines which wall is being collided with and sets appropriate variables in eachg case
     if (wall->bearing == glm_rad(90.0f)){
         glm_vec3_add(wallVector, (vec3){1, 0, 0}, wallVector);
         if (obj->bearing > glm_rad(90.0f) && obj->bearing < glm_rad(270.0f)) { // Bottom wall
@@ -152,13 +159,18 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
         printf("ERROR::BOUNDARY_COLLISION::WALL_VECTOR\n");
     }
     
+    // Determines the angle between the wall and the bearing of the object
     float angleOfApproach = acos( (abs(glm_vec3_dot(bearingVector, wallVector))) / (glm_vec3_norm(bearingVector) * glm_vec3_norm(wallVector)));
     
+    // Determines the angle of deflection upon collision with the wall and the angle between this and the normal to the wall
     float angleOfDeflection = abs(atan(e * tan(angleOfApproach)));
     float angleOfDeflection2 = glm_rad(90.0f) - angleOfDeflection;
 
-    float speed = sqrt( pow((e * obj->speed * sin(angleOfApproach)), 2) + pow((obj->speed * cos(angleOfApproach)), 2) );
+    // Find the new speed of the object
+    obj->speed = sqrt( pow((e * obj->speed * sin(angleOfApproach)), 2) + pow((obj->speed * cos(angleOfApproach)), 2) );
 
+    // Calculate the bearing of the angle of deflection
+    // This is dependent upon which wall is being collided with and which direction along that wall the collision is happening
     float option1 = normaliseBearing(perpWallBearing + angleOfDeflection2);
     float option2 = normaliseBearing(perpWallBearing - angleOfDeflection2);
     // printf("o1: %f, o2: %f\n", option1, option2);
@@ -212,21 +224,23 @@ void boundaryCollision(Object *obj, Object *wall, float e) {
     obj->position[2] = obj->previousPosition[2];
 }
 
+// Calculates collisions between two objects
 void objectCollision(Object *obj1, Object *obj2, float e) {
     // Resets position to previous state to avoid clipping inside other object before collision
     // The one with less speed changes so there is minimal movement
-    int unclipFlag = 0;
-    if (obj1->speed < obj2->speed) {
-        unclipFlag = 1;
-    } else {
-        unclipFlag = 2;
-    }
+    // int unclipFlag = 0;
+    // if (obj1->speed < obj2->speed) {
+    //     unclipFlag = 1;
+    // } else {
+    //     unclipFlag = 2;
+    // }
 
-
+    // Find the line which connects the centres of each object, this is important as values perpendicular to this line will remain constant whilst values along this line change on collision
     vec3 lineOfCentresVector = {obj2->position[0] - obj1->position[0], obj2->position[1] - obj1->position[1], 0};
     vec3 northVector = {0.0f, 1.0f, 0.0f};
     float lineOfCentresBearing = acos( (abs(glm_vec3_dot(lineOfCentresVector, northVector))) / (glm_vec3_norm(lineOfCentresVector) * glm_vec3_norm(northVector)));
 
+    // Find the angle between the bearing of the object and the line of centres
     float obj1ToLineOfCentresAngle = (abs(obj1->bearing - lineOfCentresBearing) > glm_rad(180.0f)) ? glm_rad(360.0f) - abs(obj1->bearing - lineOfCentresBearing) : abs(obj1->bearing - lineOfCentresBearing);
     float obj2ToLineOfCentresAngle = (abs(obj2->bearing - lineOfCentresBearing) > glm_rad(180.0f)) ? glm_rad(360.0f) - abs(obj2->bearing - lineOfCentresBearing) : abs(obj2->bearing - lineOfCentresBearing);
     
@@ -247,7 +261,8 @@ void objectCollision(Object *obj1, Object *obj2, float e) {
     // printf("\n");
     // printf("1 total: %f, hor: %f, ver: %f\n", obj1->speed, obj1SpeedResolved[0], obj1SpeedResolved[1]);
     // printf("2 total: %f, hor: %f, ver: %f\n\n", obj2->speed, obj2SpeedResolved[0], obj2SpeedResolved[1]);
-
+    
+    // Calculations involving the rule of conservation of momentum and newtons experimental law
     float initialMomentum = obj1->mass * obj1SpeedResolved[0] + obj2->mass * obj2SpeedResolved[0];
     float restitutionCalc = e * (obj1SpeedResolved[0] - obj2SpeedResolved[0]);
 
@@ -268,18 +283,25 @@ void objectCollision(Object *obj1, Object *obj2, float e) {
     setBearing(obj1, lineOfCentresBearing, obj1SpeedResolved[1], finalVelocity[0]);
     setBearing(obj2, lineOfCentresBearing, obj2SpeedResolved[1], finalVelocity[1]);
 
-    // Acually changes the position to unclip objects
-    if (unclipFlag == 1) {
-        obj1->position[0] = obj1->previousPosition[0];
-        obj1->position[1] = obj1->previousPosition[1];
-        obj1->position[2] = obj1->previousPosition[2];
-    } else {
-        obj2->position[0] = obj2->previousPosition[0];
-        obj2->position[1] = obj2->previousPosition[1];
-        obj2->position[2] = obj2->previousPosition[2];
-    }
+    // // Acually changes the position to unclip objects
+    // if (unclipFlag == 1) {
+    //     obj1->position[0] = obj1->previousPosition[0];
+    //     obj1->position[1] = obj1->previousPosition[1];
+    //     obj1->position[2] = obj1->previousPosition[2];
+    // } else {
+    //     obj2->position[0] = obj2->previousPosition[0];
+    //     obj2->position[1] = obj2->previousPosition[1];
+    //     obj2->position[2] = obj2->previousPosition[2];
+    // }
+    obj1->position[0] = obj1->previousPosition[0];
+    obj1->position[1] = obj1->previousPosition[1];
+    obj1->position[2] = obj1->previousPosition[2];
+    obj2->position[0] = obj2->previousPosition[0];
+    obj2->position[1] = obj2->previousPosition[1];
+    obj2->position[2] = obj2->previousPosition[2];
 }
 
+// Finds which direction along the line of centres the obnject is travelling
 float directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
     // Find bounds for which direction the object is going relative to line of centres
     float lower, upper;
@@ -313,6 +335,7 @@ float directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
     }
 }
 
+// Moves the object with constant acceleration formulae
 void moveObject(Object *obj, float deltaTime) { 
     obj->previousPosition[0] = obj->position[0];
     obj->previousPosition[1] = obj->position[1];
@@ -353,6 +376,7 @@ void moveObject(Object *obj, float deltaTime) {
     }
 }
 
+// Returns a bearing into the correct range of 0 <= angle < 2pi
 float normaliseBearing(float bearing) {
     if (bearing >= glm_rad(360.0f)) {
         return bearing - glm_rad(360.0f);
@@ -363,6 +387,7 @@ float normaliseBearing(float bearing) {
     }
 }
 
+// Finds the new bearing of the object after collision with another object
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed) {
     if (horizontalSpeed == 0.0f) {
         obj->bearing = normaliseBearing(lineOfCentresBearing + (glm_rad(90.0f) * directionCheck(obj, lineOfCentresBearing, (char*)"VERTICAL")));

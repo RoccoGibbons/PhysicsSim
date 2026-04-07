@@ -6,7 +6,7 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-
+// Creates a new linked list and sets the head's value
 Node* initialiseLinkedList(Object obj) {
     struct Node *head = NULL;
 
@@ -22,6 +22,7 @@ Node* initialiseLinkedList(Object obj) {
     return head;
 }
 
+// Adds a new object to the linked list
 void appendLinkedList(Node* head, Object data) {
     struct Node *search = head;
 
@@ -37,6 +38,7 @@ void appendLinkedList(Node* head, Object data) {
     search->next = newNode;
 }
 
+// Deletes a specific node from the linked list
 void deleteNode(Node* head, int deleteID) {
     Node *search = head;
     Node *previous = head;
@@ -53,6 +55,7 @@ void deleteNode(Node* head, int deleteID) {
     }
 }
 
+// Displays the linked list in the terminal
 void printLinkedList(Node* head) {
     struct Node *search = head;
 
@@ -63,7 +66,7 @@ void printLinkedList(Node* head) {
     }
 }
 
-
+// Frees all of the memory allocated to the linked list
 void freeLinkedList(Node* head) {
     if (head->next == NULL) {
         free(head);

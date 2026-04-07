@@ -1,15 +1,23 @@
+/* 
+	This project is a Physics Simulation which aims to provide a toolkit for an A-Level Physics or Maths student can use 
+	to experiment with ideas learnt about in mechanics topics in lesson.
+*/
+
+// Graphics Libraries
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <cglm/cglm.h>
 #define NK_IMPLEMENTATION
 #include <nuklear/nuklear.h>
 
+// Standard C libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
 
+// Custom header files
 #include "shader.h"
 #include "simulation_calculations.h"
 #include "linked_list.h"
@@ -18,6 +26,7 @@
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window, int key, int scancode, int action, int mods);
 
+// Linked list initialisations
 Node* objectList;
 Node* wallList;
 
@@ -53,6 +62,7 @@ int main() {
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	#endif
 
+	// Creation of a window using GLFW
 	GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Physics Simulation", NULL, NULL);
 	if (window == NULL) {
         printf("Failed to create GLFW window\n");
@@ -60,9 +70,11 @@ int main() {
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
+	// Callbacks provide 'interrupts' for the programs and will handle a task when it happens instead of checking for a condition constantly in the render loop
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetKeyCallback(window, processInput);
 
+	// Initialise GLAD
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         printf("Failed to initialise GLAD\n");
 		return -1;
@@ -75,8 +87,10 @@ int main() {
 	// Create a shader program
 	Shader shaderProgram = initialiseShader("src/shader_vertex.txt", "src/shader_fragment.txt");
 
+	// Create a stock object: this object will be used for transformations to all of the other objects but this individual object will never be rendered
 	Object stockObject = initialiseObject(-1, (char*)"BALL", (vec3){0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, glm_rad(0.0f), 10.0f);
 
+	// Add objects into the data structure where they are stored
 	objectList = initialiseLinkedList(initialiseObject(id, (char*)"BALL", (vec3){200.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(90.0f), 10.0f));
 	id++;
 	// Object newObj = initialiseObject(id, (char*)"BALL", (vec3){600.0f, 300.0f, 0.0f}, 50.0f, 100.0f, glm_rad(270.0f), 10.0f);
@@ -118,12 +132,10 @@ int main() {
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
+		// Calculate the time passed since last iteration
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-
-        // Input
-		// processInput(window);
 
         // Rendering
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -143,6 +155,7 @@ int main() {
 		glfwGetWindowSize(window, &width, &height);
 		glm_ortho(0.0f, width, 0.0f, height, 0.1f, 100.0f, projection);
 
+		// Updates the boundaries of the simulation to the border of the window: this is incase the window has been resized
 		Node* updateWallList = wallList;
 		while (updateWallList != NULL) {
 			if (updateWallList->obj.position[1] != 0.0f) {
@@ -150,16 +163,20 @@ int main() {
 			} else if (updateWallList->obj.position[0] != 0.0f) {
 				updateWallList->obj.position[0] = width;
 			} updateWallList = updateWallList->next;
-		}
+		} 
 
+		// Send uniforms to the shader program
+		setVec3(shaderProgram, "aColour", (vec3){0.29, 0.435, 0.647});
 		setMat4(shaderProgram, "view", view);
 		setMat4(shaderProgram, "projection", projection);
 
-		// Render shape
+		// Render shapes
 		glBindVertexArray(VAO);
 
+		// Iterate through each object in the object list
 		Node* traverseObjectList = objectList;
 		while (traverseObjectList != NULL) {
+			// Checks the pause flag, if the simulation is paused, no collision calculations or movement of objects should be completed
 			if (pause == false) {	
 				// Check for collisions with walls
 				Node* traverseWallList = wallList;
@@ -167,12 +184,13 @@ int main() {
 					if (checkCollision(&traverseObjectList->obj, &traverseWallList->obj) == true) {
 						calcCollision(&traverseObjectList->obj, &traverseWallList->obj, 1.0f);
 					} traverseWallList = traverseWallList->next;
-				}
+				} 
 
 				// Check for collisions with other objects
 				Node* traverseObjectList2 = objectList;
 				while (traverseObjectList2!= NULL) {
-					if (traverseObjectList->obj.position[0] == traverseObjectList2->obj.position[0] && traverseObjectList->obj.position[1] == traverseObjectList2->obj.position[1]) {
+					// If the object is checking for collisions against itself, skip this check
+					if (traverseObjectList->obj.id == traverseObjectList2->obj.id) {
 						traverseObjectList2 = traverseObjectList2->next;
 						continue;
 					}
@@ -180,20 +198,22 @@ int main() {
 					if (checkCollision(&traverseObjectList->obj, &traverseObjectList2->obj) == true) {
 						calcCollision(&traverseObjectList->obj, &traverseObjectList2->obj, 1.0f);
 					} traverseObjectList2 = traverseObjectList2->next;
-				}
-
+				} 
+				// If the object is out of bounds, delete the object
 				if (traverseObjectList->obj.position[2] < 0) {
 					deleteNode(objectList, traverseObjectList->obj.id);
 				}
 				moveObject(&traverseObjectList->obj, deltaTime);
 			}
 			
+			// Update model matrix for current objects new position and size 
 			mat4 model;
 			glm_mat4_identity(model);
 			glm_translate(model, traverseObjectList->obj.position);
 			float scaleFactor = traverseObjectList->obj.radius / stockObject.radius;
 			glm_scale(model, (vec3){scaleFactor, scaleFactor, scaleFactor});
 
+			// Send as a uniform to the shader program
 			setMat4(shaderProgram, "model", model);
 
 			glDrawArrays(GL_TRIANGLE_FAN, 0, size);
@@ -206,17 +226,17 @@ int main() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
 	freeLinkedList(objectList);
+	freeLinkedList(wallList);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	// glDeleteBuffers(1, &EBO);
 	glDeleteProgram(shaderProgram.ID);
 	
 	glfwTerminate();
 	return 0;
 }
 
+// Handle user input
 void processInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -229,6 +249,7 @@ void processInput(GLFWwindow *window, int key, int scancode, int action, int mod
 		pause = !pause;
 }
 
+// Allows the user to resize the winodw
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
