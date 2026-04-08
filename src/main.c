@@ -37,12 +37,15 @@
 #include "shader.h"
 #include "simulation_calculations.h"
 #include "linked_list.h"
-// #include "user_interface.h"
 
 // Procedure definitions
 struct nk_image generateTexture(char* image);
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window, int key, int scancode, int action, int mods);
+void togglePause();
+void toggleNavbar();
+void toggleTerminal();
+void toggleSettings();
 
 // Linked list initialisations
 Node* objectList;
@@ -53,6 +56,8 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 const float BUTTON_PADDING = 10.0f;
 const float BUTTON_SIZE = 40.0f;
+const float navbarWidth = 200.0f;
+
 
 // Timing
 float deltaTime = 0.0f;
@@ -61,8 +66,11 @@ float lastFrame = 0.0f;
 // Object ID counter
 int id = 0;
 
-// Pause flag
+// Flags
 bool pause = false;
+bool navbar = false;
+bool terminal = false;
+bool settings = false;
 
 // Simulation Colour Scheme:
 // 4F 6D 7A		0.31, 0.427, 0.478
@@ -188,26 +196,42 @@ int main() {
 
 		// GUI 
 		// Top buttons
-		nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
-		if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
-			nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
-			if (nk_button_image_styled(ctx, &style, pauseButtonImage)) fprintf(stdout, "pause pressed\n");
-			if (nk_button_image_styled(ctx, &style, settingsButtonImage)) fprintf(stdout, "settings pressed\n");
-			if (nk_button_image_styled(ctx, &style, terminalButtonImage)) fprintf(stdout, "terminal pressed\n");
-			if (nk_button_image_styled(ctx, &style, navbarButtonImage)) fprintf(stdout, "navbar pressed\n");
+		if (navbar == false) {
+			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
+			if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
+				nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
+				if (nk_button_image_styled(ctx, &style, pauseButtonImage)) togglePause(); 
+				if (nk_button_image_styled(ctx, &style, settingsButtonImage)) toggleSettings();
+				if (nk_button_image_styled(ctx, &style, terminalButtonImage)) toggleTerminal();
+				if (nk_button_image_styled(ctx, &style, navbarButtonImage)) toggleNavbar();
 
-		} nk_end(ctx);
-		nk_style_pop_style_item(ctx);
+			} nk_end(ctx);
+			nk_style_pop_style_item(ctx);
+		} else {
+			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
+			if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4 + navbarWidth), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
+				nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
+				if (nk_button_image_styled(ctx, &style, pauseButtonImage)) togglePause(); 
+				if (nk_button_image_styled(ctx, &style, settingsButtonImage)) toggleSettings();
+				if (nk_button_image_styled(ctx, &style, terminalButtonImage)) toggleTerminal();
+				if (nk_button_image_styled(ctx, &style, navbarButtonImage)) toggleNavbar();
 
-		// ------                           width-(width * 0.25)
-		// if (nk_begin(ctx, "Navbar", nk_rect(width-200, 0, width, height), 0)) {
-			// nk_layout_row_dynamic(ctx, 120, 1);
-		// 	nk_label(ctx, "Hello world!", NK_TEXT_LEFT);
+			} nk_end(ctx);
+			nk_style_pop_style_item(ctx);
 
-		// 	nk_layout_row_static(ctx, 50, 100, 1);
-		// 	if (nk_button_label(ctx, "Button"))
-		// 		fprintf(stdout, "pressed\n");
-		// } nk_end(ctx);
+			// ------                           width-(width * 0.25)
+			if (nk_begin(ctx, "Navbar", nk_rect(width-200, 0, width, height), 0)) {
+				nk_layout_row_dynamic(ctx, 120, 1);
+				nk_label(ctx, "Hello world!", NK_TEXT_LEFT);
+
+				nk_layout_row_static(ctx, 50, 100, 1);
+				if (nk_button_label(ctx, "Button"))
+					fprintf(stdout, "pressed\n");
+			} nk_end(ctx);
+		}
+
+
+	
 
         // Rendering
 		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
@@ -346,4 +370,17 @@ void processInput(GLFWwindow *window, int key, int scancode, int action, int mod
 // Allows the user to resize the winodw
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 	glViewport(0, 0, width, height);
+}
+
+void togglePause() {
+    pause = !pause;
+}
+void toggleNavbar() {
+	navbar = !navbar;
+}
+void toggleTerminal() {
+	terminal = !terminal;
+}
+void toggleSettings() {
+	settings = !settings;
 }
