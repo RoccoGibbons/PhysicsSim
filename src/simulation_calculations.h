@@ -27,13 +27,9 @@ void calcCollision(Object *obj1, Object *obj2, float e);
 void boundaryCollision(Object *obj, Object *wall, float e);
 void objectCollision(Object *obj1, Object *obj2, float e);
 float directionCheck(Object *obj, float lineOfCentresBearing, char* type);
-void moveObject(Object *obj, float deltaTime);
+void moveObject(Object *obj, float deltaTime, float accelerationDueToGravity);
 float normaliseBearing(float bearing);
 void setBearing(Object *obj, float lineOfCentresBearing, float verticalSpeed, float horizontalSpeed);
-
-// Simulation constants
-float accelerationDueToGravity = -100.0f;
-float scale;
 
 // Create a new object
 Object initialiseObject(int id, char* type, vec3 position, float radius, float speed, float bearing, float mass) {
@@ -336,7 +332,7 @@ float directionCheck(Object *obj, float lineOfCentresBearing, char* type) {
 }
 
 // Moves the object with constant acceleration formulae
-void moveObject(Object *obj, float deltaTime) { 
+void moveObject(Object *obj, float deltaTime, float accelerationDueToGravity) { 
     obj->previousPosition[0] = obj->position[0];
     obj->previousPosition[1] = obj->position[1];
     obj->previousPosition[2] = obj->position[2];

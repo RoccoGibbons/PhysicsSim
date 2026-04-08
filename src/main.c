@@ -47,6 +47,8 @@ void togglePause();
 void toggleNavbar();
 void toggleTerminal();
 void toggleSettings();
+void setValue(char* value, char* identifier, int width, int height, Object* obj);
+void updateTerminal(struct nk_context *ctx, float currentFrame);
 
 // Linked list initialisations
 Node* objectList;
@@ -60,7 +62,6 @@ const float BUTTON_SIZE = 40.0f;
 const float navbarWidth = 200.0f;
 const float terminalHeight = 100.0f;
 
-
 // Timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -73,6 +74,29 @@ bool pause = false;
 bool navbar = false;
 bool terminal = false;
 bool settings = false;
+
+// Simulation Variables
+float accelerationDueToGravity = -100.0f;
+float scale = 1.0f;
+float timeScale = 1.0f;
+float coefficientOfRestitutionObject = 1.0f;
+float coefficientOfRestitutionWall = 1.0f;
+
+// Terminal tracker
+int currentTerminalObject = 0;
+enum terminalObjectProperty {position, speed, bearing};
+const char* terminalObjectProperties[] = {"Position", "Speed", "Bearing"};
+int currentTerminalObjectProperty = 0;
+float printRate = 0.5;
+
+// Terminal variables
+#define MAX_ENTRIES 64
+char entries[MAX_ENTRIES][64];
+int entryCount = 0;
+float lastUpdate = 0.0f;
+
+// Settings Page
+int page = 0;
 
 // Simulation Colour Scheme:
 // 4F 6D 7A		0.31, 0.427, 0.478		79, 109, 122
@@ -101,9 +125,6 @@ int main() {
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
-	// Callbacks provide 'interrupts' for the programs and will handle a task when it happens instead of checking for a condition constantly in the render loop
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	glfwSetKeyCallback(window, processInput);
 
 	// Initialise GLAD
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -113,11 +134,17 @@ int main() {
 
 	// Create a context, this is required for nuklear UI to be used 
 	struct nk_context *ctx = nk_glfw3_init(&glfw, window, NK_GLFW3_INSTALL_CALLBACKS);
-	
+
+	// Callbacks provide 'interrupts' for the programs and will handle a task when it happens instead of checking for a condition constantly in the render loop
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetKeyCallback(window, processInput);
+
+
+	// Set fonts for UI
 	struct nk_font_atlas *atlas;
 	nk_glfw3_font_stash_begin(&glfw, &atlas);
 	struct nk_font *font_small = nk_font_atlas_add_from_file(atlas, "resources/font/century.TTF", 14, 0);
-	struct nk_font *font_medium = nk_font_atlas_add_from_file(atlas, "resources/font/century.TTF", 22, 0);
+	struct nk_font *font_medium = nk_font_atlas_add_from_file(atlas, "resources/font/century.TTF", 20, 0);
 	struct nk_font *font_large = nk_font_atlas_add_from_file(atlas, "resources/font/century.TTF", 36, 0);
 	nk_glfw3_font_stash_end(&glfw);
 	nk_style_set_font(ctx, &font_medium->handle);                  // then set font
@@ -129,6 +156,18 @@ int main() {
 	buttonStyle.touch_padding = nk_vec2(0, 0);
 	buttonStyle.border        = 0;
 	buttonStyle.rounding      = 0;
+
+	// Using another button as a background to different elements (e.g. title)
+	struct nk_style_button textBackgroundStyle = ctx->style.button;
+	textBackgroundStyle.normal = nk_style_item_color(nk_rgb(219, 233, 238));
+	textBackgroundStyle.hover = nk_style_item_color(nk_rgb(219, 233, 238));
+	textBackgroundStyle.active = nk_style_item_color(nk_rgb(219, 233, 238));
+	textBackgroundStyle.text_normal = nk_rgb(22, 96, 136);
+	textBackgroundStyle.text_hover = nk_rgb(22, 96, 136);
+	textBackgroundStyle.text_active = nk_rgb(22, 96, 136);
+	textBackgroundStyle.border = 0;
+	textBackgroundStyle.rounding = 0;
+
 
 	// Enable depth and transparency in OpenGL
 	glEnable(GL_DEPTH_TEST);
@@ -187,6 +226,28 @@ int main() {
 	struct nk_image navbarButtonImage = generateTexture((char*)"resources/img/navbar.png");
 
 	const char* text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nisl ligula. Vestibulum id nisl et orci aliquam posuere. Nulla gravida ultricies suscipit. Suspendisse est purus, dignissim eget cursus id, semper quis nulla. Aenean quis purus ac eros dictum imperdiet vel quis ante. Curabitur luctus consectetur nibh vitae vestibulum. Fusce quis dolor justo. Curabitur euismod sodales justo sit amet efficitur. Sed posuere, nisl iaculis tincidunt vestibulum, est nisi sagittis orci, in cursus lacus turpis sed dui. ";
+	// Buffers to handle input in UI
+	char* accbuf = (char*)malloc(sizeof(char) * 256);
+	int accbuf_len = 0;
+	char scaleBuf[32];
+	char timeBuf[32];
+	char eoBuf[32];
+	char ewBuf[32];
+	char printBuf[32];
+	char* objbuf = (char*)malloc(sizeof(char) * 256);
+	int objbuf_len = 0;
+	char* posxBuf = (char*)malloc(sizeof(char) * 256);
+	int posxBuf_len = 0;
+	char* posyBuf = (char*)malloc(sizeof(char) * 256);
+	int posyBuf_len = 0;
+	char* radBuf = (char*)malloc(sizeof(char) * 256);
+	int radBuf_len = 0;
+	char* speedBuf = (char*)malloc(sizeof(char) * 256);
+	int speedBuf_len = 0;
+	char* bearBuf = (char*)malloc(sizeof(char) * 256);
+	int bearBuf_len = 0;
+	char* massBuf = (char*)malloc(sizeof(char) * 256);
+	int massBuf_len = 0;
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -197,6 +258,7 @@ int main() {
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+		deltaTime *= timeScale;
 
 		// Find new window size, this is needed incase the user resizes the window
 		int width, height;
@@ -233,32 +295,205 @@ int main() {
 			nk_style_push_color(ctx, &ctx->style.window.border_color, nk_rgb(79, 109, 122));
 			nk_style_push_float(ctx, &ctx->style.window.border, 2.0f);
 			if (nk_begin(ctx, "Navbar", nk_rect(width-navbarWidth, 0, navbarWidth, height), NK_WINDOW_BORDER)) {
-				nk_style_set_font(ctx, &font_small->handle);
-				nk_layout_row_dynamic(ctx, 0, 1);
-				nk_label_colored_wrap(ctx, text, nk_rgb(22, 96, 136));
-
+				// Navbar Title
 				nk_style_set_font(ctx, &font_large->handle);
 				nk_layout_row_dynamic(ctx, 0, 1);
-				nk_label_colored_wrap(ctx, "TITLE", nk_rgb(22, 96, 136));
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Navbar");
 
+				// Subheading 1: Simulation Variables
 				nk_style_set_font(ctx, &font_medium->handle);
-				nk_layout_row_static(ctx, 50, 100, 1);
-				if (nk_button_label(ctx, "Button"))
-					fprintf(stdout, "pressed\n");
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Simulation Variables");
+
+				// Value 1: Acceleration due to gravity
+				nk_style_set_font(ctx, &font_small->handle);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Acceleration due to Gravity:");
+				nk_layout_row_template_begin(ctx, 35);       
+				nk_layout_row_template_push_dynamic(ctx);       
+				nk_layout_row_template_push_dynamic(ctx);   
+				nk_layout_row_template_end(ctx);
+
+				nk_edit_string(ctx, NK_EDIT_SIMPLE, accbuf, &accbuf_len, 255, nk_filter_default); 
+				if (nk_button_label_styled(ctx, &textBackgroundStyle, "Set")) setValue(accbuf, (char*)"acc", 0, 0, 0);
+
+				// Value 2: Scale
+				nk_layout_row_dynamic(ctx, 0, 2);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Scale:");
+				snprintf(scaleBuf, sizeof(scaleBuf), "%.1f", scale);
+				nk_button_label_styled(ctx, &textBackgroundStyle, scaleBuf);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_slider_float(ctx, 0.0f, &scale, 10.0f, 0.1f);
+
+				// Value 3: Time Scale
+				nk_layout_row_dynamic(ctx, 0, 2);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Time Scale:");
+				snprintf(timeBuf, sizeof(timeBuf), "%.2f", timeScale);
+				nk_button_label_styled(ctx, &textBackgroundStyle, timeBuf);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_slider_float(ctx, 0.01f, &timeScale, 10.0f, 0.01f);
+
+				// Value 4: Coefficient of Restitution - Object
+				nk_layout_row_template_begin(ctx, 0);
+				nk_layout_row_template_push_dynamic(ctx);
+				nk_layout_row_template_push_static(ctx, 50);
+				nk_layout_row_template_end(ctx);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Elasticity - Object:");
+				snprintf(eoBuf, sizeof(eoBuf), "%.2f", coefficientOfRestitutionObject);
+				nk_button_label_styled(ctx, &textBackgroundStyle, eoBuf);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_slider_float(ctx, 0.0f, &coefficientOfRestitutionObject, 1.0f, 0.01f);
+
+				// Value 5: Coefficient of Restitution - Wall
+				nk_layout_row_template_begin(ctx, 0);
+				nk_layout_row_template_push_dynamic(ctx);
+				nk_layout_row_template_push_static(ctx, 50);
+				nk_layout_row_template_end(ctx);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Elasticity - Wall:");
+				snprintf(ewBuf, sizeof(ewBuf), "%.2f", coefficientOfRestitutionWall);
+				nk_button_label_styled(ctx, &textBackgroundStyle, ewBuf);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_slider_float(ctx, 0.0f, &coefficientOfRestitutionWall, 1.0f, 0.01f);
+				
+				nk_layout_row_static(ctx, 10, 0, 1);
+				nk_label(ctx, "", NK_TEXT_CENTERED);
+				
+				// Subheading 2: Terminal Settings
+				nk_style_set_font(ctx, &font_medium->handle);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Terminal Settings");
+
+				// Value 1: Object to track
+				nk_style_set_font(ctx, &font_small->handle);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Object ID:");
+				nk_layout_row_template_begin(ctx, 35);       
+				nk_layout_row_template_push_dynamic(ctx);       
+				nk_layout_row_template_push_dynamic(ctx);   
+				nk_layout_row_template_end(ctx);
+
+				nk_edit_string(ctx, NK_EDIT_SIMPLE, objbuf, &objbuf_len, 255, nk_filter_default); 
+				if (nk_button_label_styled(ctx, &textBackgroundStyle, "Set")) setValue(objbuf, (char*)"id", 0, 0, 0);
+
+				// Value 2: Property to track
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Object Property:");
+				nk_layout_row_dynamic(ctx, 0, 1);
+				currentTerminalObjectProperty = nk_combo(ctx, terminalObjectProperties, 3, currentTerminalObjectProperty, 20, nk_vec2(150, 50));
+
+				// Value 3: Rate of updating
+				nk_layout_row_template_begin(ctx, 0);
+				nk_layout_row_template_push_dynamic(ctx);
+				nk_layout_row_template_push_static(ctx, 50);
+				nk_layout_row_template_end(ctx);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Print Rate:");
+				snprintf(printBuf, sizeof(printBuf), "%.1f", printRate);
+				nk_button_label_styled(ctx, &textBackgroundStyle, printBuf);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_slider_float(ctx, 0.0f, &printRate, 10.0f, 0.1f);
+				
+				nk_layout_row_static(ctx, 10, 0, 1);
+				nk_label(ctx, "", NK_TEXT_CENTERED);
+
+				// Subheading 3: Objects
+				nk_style_set_font(ctx, &font_medium->handle);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_button_label_styled(ctx, &textBackgroundStyle, "Objects:");
+
+				// Iterate through every object in the simulation
+				Node* traverseObjectListUI = objectList;
+				while (traverseObjectListUI != NULL) { 
+					nk_style_set_font(ctx, &font_medium->handle);
+					// Object ID/ Subheading for particular object
+					char id[5]; 
+					nk_itoa(id, traverseObjectListUI->obj.id);
+					char title[50];
+					strcpy(title, "Object ");
+					strcat(title, id);
+					nk_layout_row_dynamic(ctx, 0, 1);
+					nk_button_label_styled(ctx, &textBackgroundStyle, title);
+					
+					nk_style_set_font(ctx, &font_medium->handle);
+
+					nk_layout_row_dynamic(ctx, 0, 1);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Position:");
+
+					nk_layout_row_template_begin(ctx, 35);       
+					nk_layout_row_template_push_dynamic(ctx);       
+					nk_layout_row_template_push_dynamic(ctx);   
+					nk_layout_row_template_end(ctx);
+					nk_edit_string(ctx, NK_EDIT_SIMPLE, posxBuf, &posxBuf_len, 255, nk_filter_default); 
+					if (nk_button_label_styled(ctx, &textBackgroundStyle, "Set X")) setValue(posxBuf, (char*)"posx", width, height, &traverseObjectListUI->obj);
+
+					nk_layout_row_template_begin(ctx, 35);       
+					nk_layout_row_template_push_dynamic(ctx);       
+					nk_layout_row_template_push_dynamic(ctx);   
+					nk_layout_row_template_end(ctx);
+					nk_edit_string(ctx, NK_EDIT_SIMPLE, posyBuf, &posyBuf_len, 255, nk_filter_default); 
+					if (nk_button_label_styled(ctx, &textBackgroundStyle, "Set Y")) setValue(posyBuf, (char*)"posy", width, height, &traverseObjectListUI->obj);
+
+					nk_layout_row_dynamic(ctx, 0, 1);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Radius:");
+					nk_layout_row_template_begin(ctx, 35);       
+					nk_layout_row_template_push_dynamic(ctx);       
+					nk_layout_row_template_push_dynamic(ctx);   
+					nk_layout_row_template_end(ctx);
+					nk_edit_string(ctx, NK_EDIT_SIMPLE, radBuf, &radBuf_len, 255, nk_filter_default); 
+					if (nk_button_label_styled(ctx, &textBackgroundStyle, "Set Radius")) setValue(radBuf, (char*)"rad", width, height, &traverseObjectListUI->obj);
+
+					nk_layout_row_dynamic(ctx, 0, 1);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Speed:");
+					nk_layout_row_template_begin(ctx, 35);       
+					nk_layout_row_template_push_dynamic(ctx);       
+					nk_layout_row_template_push_dynamic(ctx);   
+					nk_layout_row_template_end(ctx);
+					nk_edit_string(ctx, NK_EDIT_SIMPLE, speedBuf, &speedBuf_len, 255, nk_filter_default); 
+					if (nk_button_label_styled(ctx, &textBackgroundStyle, "Set Speed")) setValue(speedBuf, (char*)"spe", width, height, &traverseObjectListUI->obj);
+
+					nk_layout_row_dynamic(ctx, 0, 1);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Bearing:");
+					nk_layout_row_template_begin(ctx, 35);       
+					nk_layout_row_template_push_dynamic(ctx);       
+					nk_layout_row_template_push_dynamic(ctx);   
+					nk_layout_row_template_end(ctx);
+					nk_edit_string(ctx, NK_EDIT_SIMPLE, bearBuf, &bearBuf_len, 255, nk_filter_default); 
+					if (nk_button_label_styled(ctx, &textBackgroundStyle, "Set Bearing")) setValue(bearBuf, (char*)"bea", width, height, &traverseObjectListUI->obj);
+
+					nk_layout_row_dynamic(ctx, 0, 1);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Mass:");
+					nk_layout_row_template_begin(ctx, 35);       
+					nk_layout_row_template_push_dynamic(ctx);       
+					nk_layout_row_template_push_dynamic(ctx);   
+					nk_layout_row_template_end(ctx);
+					nk_edit_string(ctx, NK_EDIT_SIMPLE, massBuf, &massBuf_len, 255, nk_filter_default); 
+					if (nk_button_label_styled(ctx, &textBackgroundStyle, "Set Mass")) setValue(radBuf, (char*)"mass", width, height, &traverseObjectListUI->obj);
+
+					nk_layout_row_static(ctx, 5, 0, 1);
+					nk_label(ctx, "", NK_TEXT_CENTERED);
+					traverseObjectListUI = traverseObjectListUI->next;
+				}
+
 			} nk_end(ctx);
 			nk_style_pop_float(ctx);
 			nk_style_pop_color(ctx);
 			nk_style_pop_style_item(ctx);
 		}
 		// Terminal
-		if (terminal) {
+		if (terminal) { 
+			// Update the terminal display
+			if (printRate > 0) {
+				updateTerminal(ctx, currentFrame);
+			}
+
+			// Terminal UI
 			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(192, 214, 223, 255)));
 			nk_style_push_color(ctx, &ctx->style.window.border_color, nk_rgb(79, 109, 122));
 			nk_style_push_float(ctx, &ctx->style.window.border, 2.0f);
 			if (nk_begin(ctx, "Terminal", nk_rect(0, height - terminalHeight, width, terminalHeight), NK_WINDOW_BORDER)) {
-				nk_style_set_font(ctx, &font_small->handle);
-				nk_layout_row_static(ctx, 0, width, 1);
-				nk_label_colored_wrap(ctx, text, nk_rgb(22, 96, 136));
+				for (int i = entryCount - 1; i >= 0; i--) {
+					nk_layout_row_dynamic(ctx, 0, 1);
+					nk_button_label_styled(ctx, &textBackgroundStyle, entries[i]);
+				}
 			} nk_end(ctx);
 			nk_style_pop_float(ctx);
 			nk_style_pop_color(ctx);
@@ -272,9 +507,44 @@ int main() {
 			nk_style_push_color(ctx, &ctx->style.window.border_color, nk_rgb(79, 109, 122));
 			nk_style_push_float(ctx, &ctx->style.window.border, 2.0f);
 			if (nk_begin(ctx, "Settings", nk_rect(width * 0.1, height * 0.1, width * 0.8, height * 0.8), NK_WINDOW_BORDER)) {
-				nk_style_set_font(ctx, &font_medium->handle);
-				nk_layout_row_dynamic(ctx, 50, 1);
-				nk_label_colored(ctx, "settings here!", NK_TEXT_CENTERED, nk_rgb(22, 96, 136));
+				nk_style_set_font(ctx, &font_large->handle);
+				nk_layout_row_dynamic(ctx, 50, 3);
+				if (nk_button_label_styled(ctx, &textBackgroundStyle, "Key Binds")) page = 0;
+				if (nk_button_label_styled(ctx, &textBackgroundStyle, "Presets")) page = 1;
+				if (nk_button_label_styled(ctx, &textBackgroundStyle, "Options")) page = 2;
+
+				if (page == 0) {
+					nk_style_set_font(ctx, &font_medium->handle);
+					nk_layout_row_dynamic(ctx, 0, 2);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Summon New Object");
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Space Bar");
+
+					nk_layout_row_dynamic(ctx, 0, 2);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Pause Simulation");
+					nk_button_label_styled(ctx, &textBackgroundStyle, "P");
+
+					nk_layout_row_dynamic(ctx, 0, 2);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Toggle Navbar");
+					nk_button_label_styled(ctx, &textBackgroundStyle, "M");
+
+					nk_layout_row_dynamic(ctx, 0, 2);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Toggle Terminal");
+					nk_button_label_styled(ctx, &textBackgroundStyle, "T");
+
+					nk_layout_row_dynamic(ctx, 0, 2);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Toggle Settings");
+					nk_button_label_styled(ctx, &textBackgroundStyle, "S");
+
+				} else if (page == 1) {
+					nk_style_set_font(ctx, &font_large->handle);
+					nk_layout_row_dynamic(ctx, 0, 1);
+					nk_button_label_styled(ctx, &textBackgroundStyle, "Presets Page");
+
+				} else if (page == 2) {
+					nk_style_set_font(ctx, &font_large->handle);
+					nk_layout_row_dynamic(ctx, 50, 1);
+					if (nk_button_label_styled(ctx, &textBackgroundStyle, "Exit Program")) glfwSetWindowShouldClose(window, true);
+				}
 			} nk_end(ctx);
 			nk_style_pop_float(ctx);
 			nk_style_pop_color(ctx);
@@ -329,7 +599,7 @@ int main() {
 				Node* traverseWallList = wallList;
 				while (traverseWallList!= NULL) {
 					if (checkCollision(&traverseObjectList->obj, &traverseWallList->obj) == true) {
-						calcCollision(&traverseObjectList->obj, &traverseWallList->obj, 1.0f);
+						calcCollision(&traverseObjectList->obj, &traverseWallList->obj, coefficientOfRestitutionWall);
 					} traverseWallList = traverseWallList->next;
 				} 
 
@@ -343,14 +613,14 @@ int main() {
 					}
 					
 					if (checkCollision(&traverseObjectList->obj, &traverseObjectList2->obj) == true) {
-						calcCollision(&traverseObjectList->obj, &traverseObjectList2->obj, 1.0f);
+						calcCollision(&traverseObjectList->obj, &traverseObjectList2->obj, coefficientOfRestitutionObject);
 					} traverseObjectList2 = traverseObjectList2->next;
 				} 
 				// If the object is out of bounds, delete the object
 				if (traverseObjectList->obj.position[2] < 0) {
 					deleteNode(objectList, traverseObjectList->obj.id);
 				}
-				moveObject(&traverseObjectList->obj, deltaTime);
+				moveObject(&traverseObjectList->obj, deltaTime, accelerationDueToGravity);
 			}
 			
 			// Update model matrix for current objects new position and size 
@@ -409,15 +679,24 @@ struct nk_image generateTexture(char* image) {
 
 // Handle user input
 void processInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-
+	nk_glfw3_key_callback(window, key, scancode, action, mods);
+	
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		appendLinkedList(objectList, initialiseObject(id, (char*)"BALL", (vec3){200.0f, 100.0f, 0}, 10.0f, 10.0f, glm_rad(130.0f), 10.0f));
 		id++;
 
 	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
-		pause = !pause;
+		togglePause();
+
+	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+		toggleNavbar();
+	
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+		toggleTerminal();
+
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		//glfwSetWindowShouldClose(window, true);
+		toggleSettings();
 }
 
 // Allows the user to resize the winodw
@@ -425,6 +704,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
+// Toggle flags
 void togglePause() {
     pause = !pause;
 }
@@ -436,4 +716,79 @@ void toggleTerminal() {
 }
 void toggleSettings() {
 	settings = !settings;
+}
+
+// Set global variable values
+void setValue(char* value, char* identifier, int width, int height, Object* obj) {
+	double num = atof(value); // This function ignores any characters inputted automatically
+	if (identifier == "acc") {
+		if (num < -10000.0f) num = -10000.0f;
+		else if (num > 10000.0f) num = 10000.0f;
+		accelerationDueToGravity = num;
+	} else if (identifier == "id") {
+		int num2 = (int)num;
+		if (num2 < id) currentTerminalObject = num2;
+	} else if (identifier == "posx") {
+		if (num < 0.0f) num = 0.0f;
+		else if (num > width) num = width - obj->radius;
+		obj->position[0] = num;
+	} else if (identifier == "posy") {
+		if (num < 0.0f) num = 0.0f;
+		else if (num > height) num = height - obj->radius;
+		obj->position[1] = num;
+	} else if (identifier == "rad") {
+		if (num < 5.0f) num = 5.0f;
+		else if (num > 300.0f) num = 300.0f;
+		obj->radius = num;
+	} else if (identifier == "spe") { 
+		if (num < 0.0f) num = 0.0f;
+		else if (num > 1000.0f) num = 1000.0f;
+		obj->speed = num;
+	} else if (identifier == "bea") {
+		obj->bearing = normaliseBearing(num);
+	} else if (identifier == "mass") {
+		if (num < 0.001f) num = 0.001f;
+		else if (num > 10000.0f) num = 10000.0f;
+		obj->mass = num; 
+	}
+	else {
+		printf("ERROR::SET_VALUE");
+	} 	
+	// memset(value, 0, sizeof(value));
+	// value = (char*)"";
+
+}
+
+// Update the terminal display
+void updateTerminal(struct nk_context *ctx, float currentFrame) {
+	// Check if it is time to update the terminal
+	if (currentFrame - lastUpdate >= printRate) {
+		lastUpdate = currentFrame;
+
+		// If there are too many entries, delete the oldest entry
+		if (entryCount >= MAX_ENTRIES) {
+			for (int i = 0; i < MAX_ENTRIES - 1; i++) {
+				memcpy(entries[i], entries[i+1], 64);
+			} entryCount = MAX_ENTRIES - 1;
+		}
+
+		// Find object that is being tracked
+		Node* traverseObjectList = objectList;
+		while (traverseObjectList!= NULL) {
+			if (traverseObjectList->obj.id == currentTerminalObject) {
+				break;
+			} traverseObjectList = traverseObjectList->next;
+		} 
+
+		// Add new entry
+		if (currentTerminalObjectProperty == speed) {
+			snprintf(entries[entryCount], 64, "Speed: %f, Time: %f", traverseObjectList->obj.speed, currentFrame);
+		} else if (currentTerminalObjectProperty == bearing) {
+			snprintf(entries[entryCount], 64, "Bearing: %f, Time: %f", traverseObjectList->obj.bearing, currentFrame);
+		} else if (currentTerminalObjectProperty == position) {
+			snprintf(entries[entryCount], 64, "Position: %f, %f, Time: %f", traverseObjectList->obj.position[0], traverseObjectList->obj.position[1], currentFrame);
+		} else {
+			return;
+		} entryCount++;
+	}
 }
