@@ -57,6 +57,7 @@ const unsigned int SCR_HEIGHT = 600;
 const float BUTTON_PADDING = 10.0f;
 const float BUTTON_SIZE = 40.0f;
 const float navbarWidth = 200.0f;
+const float terminalHeight = 100.0f;
 
 
 // Timing
@@ -149,9 +150,9 @@ int main() {
 
 	// Linked list holding all of the walls, all currently identical so need to set up the positions and bearings of each
 	wallList = initialiseLinkedList(initialiseObject(-1, (char*)"WALL", (vec3){0.0f, SCR_HEIGHT, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // top
-	appendLinkedList(wallList, initialiseObject(-1, (char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // bottom
-	appendLinkedList(wallList, initialiseObject(-1, (char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f)); // left
-	appendLinkedList(wallList, initialiseObject(-1, (char*)"WALL", (vec3){SCR_WIDTH, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));	// right
+	appendLinkedList(wallList, initialiseObject(-2, (char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(90.0f), 0.0f)); // bottom
+	appendLinkedList(wallList, initialiseObject(-3, (char*)"WALL", (vec3){0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f)); // left
+	appendLinkedList(wallList, initialiseObject(-4, (char*)"WALL", (vec3){SCR_WIDTH, 0.0f, 0.0f}, 0.0f, 0.0f, glm_rad(0.0f), 0.0f));	// right
 
 
 	// Shape properties
@@ -195,8 +196,8 @@ int main() {
 		glfwGetWindowSize(window, &width, &height);
 
 		// GUI 
-		// Top buttons
 		if (navbar == false) {
+			// Top buttons
 			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
 			if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
 				nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
@@ -208,6 +209,7 @@ int main() {
 			} nk_end(ctx);
 			nk_style_pop_style_item(ctx);
 		} else {
+			// Top buttons
 			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
 			if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4 + navbarWidth), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
 				nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
@@ -219,6 +221,7 @@ int main() {
 			} nk_end(ctx);
 			nk_style_pop_style_item(ctx);
 
+			// Navbar
 			// ------                           width-(width * 0.25)
 			if (nk_begin(ctx, "Navbar", nk_rect(width-200, 0, width, height), 0)) {
 				nk_layout_row_dynamic(ctx, 120, 1);
@@ -227,6 +230,21 @@ int main() {
 				nk_layout_row_static(ctx, 50, 100, 1);
 				if (nk_button_label(ctx, "Button"))
 					fprintf(stdout, "pressed\n");
+			} nk_end(ctx);
+		}
+		// Terminal
+		if (terminal) {
+			if (nk_begin(ctx, "Terminal", nk_rect(0, height - terminalHeight, width, terminalHeight), 0)) {
+				nk_layout_row_dynamic(ctx, 50, 1);
+				nk_label(ctx, "Terminal here!", NK_TEXT_CENTERED);
+			} nk_end(ctx);
+		}
+		
+		// Settings
+		if (settings) {
+			if (nk_begin(ctx, "Settings", nk_rect(width * 0.1, height * 0.1, width * 0.8, height * 0.8), 0)) {
+				nk_layout_row_dynamic(ctx, 50, 1);
+				nk_label(ctx, "settings here!", NK_TEXT_CENTERED);
 			} nk_end(ctx);
 		}
 
@@ -252,11 +270,13 @@ int main() {
 		// Updates the boundaries of the simulation to the border of the window: this is incase the window has been resized
 		Node* updateWallList = wallList;
 		while (updateWallList != NULL) {
-			if (updateWallList->obj.position[1] != 0.0f) {
+			if (updateWallList->obj.id == -1) {
 				updateWallList->obj.position[1] = height;
-			} else if (updateWallList->obj.position[0] != 0.0f) {
-				updateWallList->obj.position[0] = width;
-			} updateWallList = updateWallList->next;
+			} else if (updateWallList->obj.id == -2) {
+				updateWallList->obj.position[1] = terminal ? terminalHeight : 0.0f;
+			} else if (updateWallList->obj.id == -4 != 0.0f) {
+				updateWallList->obj.position[0] = navbar ? width - navbarWidth : width;
+			} updateWallList = updateWallList->next; 
 		} 
 
 		// Send uniforms to the shader program
