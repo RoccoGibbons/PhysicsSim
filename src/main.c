@@ -680,7 +680,7 @@ struct nk_image generateTexture(char* image) {
 // Handle user input
 void processInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
 	nk_glfw3_key_callback(window, key, scancode, action, mods);
-	
+
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		appendLinkedList(objectList, initialiseObject(id, (char*)"BALL", (vec3){200.0f, 100.0f, 0}, 10.0f, 10.0f, glm_rad(130.0f), 10.0f));
 		id++;
@@ -745,7 +745,7 @@ void setValue(char* value, char* identifier, int width, int height, Object* obj)
 		else if (num > 1000.0f) num = 1000.0f;
 		obj->speed = num;
 	} else if (identifier == "bea") {
-		obj->bearing = normaliseBearing(num);
+		obj->bearing = normaliseBearing(glm_rad(num));
 	} else if (identifier == "mass") {
 		if (num < 0.001f) num = 0.001f;
 		else if (num > 10000.0f) num = 10000.0f;
