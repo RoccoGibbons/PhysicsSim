@@ -7,6 +7,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <cglm/cglm.h>
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
 // Nuklear GUI library
@@ -36,9 +37,10 @@
 #include "shader.h"
 #include "simulation_calculations.h"
 #include "linked_list.h"
-#include "user_interface.h"
+// #include "user_interface.h"
 
 // Procedure definitions
+struct nk_image generateTexture(char* image);
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window, int key, int scancode, int action, int mods);
 
@@ -99,12 +101,20 @@ int main() {
 		return -1;
 	}
 
+	// Create a context, this is required for nuklear UI to be used 
 	struct nk_context *ctx = nk_glfw3_init(&glfw, window, NK_GLFW3_INSTALL_CALLBACKS);
 	{
 		struct nk_font_atlas *atlas;
 		nk_glfw3_font_stash_begin(&glfw, &atlas);
 		nk_glfw3_font_stash_end(&glfw);
 	}
+	// Create a style for the buttons: similar to the job css does in web development
+	struct nk_style_button style = ctx->style.button;
+	style.padding       = nk_vec2(0, 0);
+	style.image_padding = nk_vec2(0, 0);
+	style.touch_padding = nk_vec2(0, 0);
+	style.border        = 0;
+	style.rounding      = 0;
 
 	// Enable depth and transparency in OpenGL
 	glEnable(GL_DEPTH_TEST);
@@ -156,11 +166,11 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	struct nk_image pauseButtonImage = generateTexture("img/pause.png");
-	struct nk_image settingsButtonImage = generateTexture("img/settings.png");
-	struct nk_image terminalButtonImage = generateTexture("img/terminal.png");
-	struct nk_image navbarButtonImage = generateTexture("img/navbar.png");
-
+	// Import the images for each of the UI top buttons into the program
+	struct nk_image pauseButtonImage = generateTexture((char*)"img/pause.png");
+	struct nk_image settingsButtonImage = generateTexture((char*)"img/settings.png");
+	struct nk_image terminalButtonImage = generateTexture((char*)"img/terminal.png");
+	struct nk_image navbarButtonImage = generateTexture((char*)"img/navbar.png");
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -181,15 +191,10 @@ int main() {
 		nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
 		if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
 			nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
-			// if (nk_button_label(ctx, "pauseButton")) fprintf(stdout, "pause pressed\n");
-			// if (nk_button_label(ctx, "settingsButton")) fprintf(stdout, "settings pressed\n");
-			// if (nk_button_label(ctx, "terminalButton")) fprintf(stdout, "terminal pressed\n");
-			// if (nk_button_label(ctx, "navbarButton")) fprintf(stdout, "navbar pressed\n");
-
-			if (nk_button_image(ctx, pauseButtonImage)) fprintf(stdout, "pause pressed\n");
-			if (nk_button_image(ctx, settingsButtonImage)) fprintf(stdout, "settings pressed\n");
-			if (nk_button_image(ctx, terminalButtonImage)) fprintf(stdout, "terminal pressed\n");
-			if (nk_button_image(ctx, navbarButtonImage)) fprintf(stdout, "navbar pressed\n");
+			if (nk_button_image_styled(ctx, &style, pauseButtonImage)) fprintf(stdout, "pause pressed\n");
+			if (nk_button_image_styled(ctx, &style, settingsButtonImage)) fprintf(stdout, "settings pressed\n");
+			if (nk_button_image_styled(ctx, &style, terminalButtonImage)) fprintf(stdout, "terminal pressed\n");
+			if (nk_button_image_styled(ctx, &style, navbarButtonImage)) fprintf(stdout, "navbar pressed\n");
 
 		} nk_end(ctx);
 		nk_style_pop_style_item(ctx);
@@ -299,6 +304,30 @@ int main() {
 	nk_glfw3_shutdown(&glfw);
 	glfwTerminate();
 	return 0;
+}
+
+// Load the stated image into the program using OpenGL and converting it into a format Nuklear can use
+struct nk_image generateTexture(char* image) {
+    unsigned int tex_id;
+    glGenTextures(1, &tex_id);
+    glBindTexture(GL_TEXTURE_2D, tex_id);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(image, &width, &height, &nrChannels, 0);
+
+	if (data) {
+    	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	} else {
+		printf("ERROR::TEXTURE_GENERATION\n");
+	} stbi_image_free(data);
+
+    return nk_image_id((int)tex_id);
 }
 
 // Handle user input
