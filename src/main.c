@@ -13,6 +13,7 @@
 // Nuklear GUI library
 #define MAX_VERTEX_BUFFER 512 * 1024
 #define MAX_ELEMENT_BUFFER 128 * 1024
+#define NK_MAX_NUMBER_BUFFER 1024
 #define NK_INCLUDE_FIXED_TYPES
 #define NK_INCLUDE_STANDARD_IO
 #define NK_INCLUDE_STANDARD_VARARGS
@@ -74,11 +75,11 @@ bool terminal = false;
 bool settings = false;
 
 // Simulation Colour Scheme:
-// 4F 6D 7A		0.31, 0.427, 0.478
-// C0 D6 DF		0.753, 0.839, 0.875
-// DB E9 EE		0.859, 0.914, 0.933
-// 4A 6F A5		0.29, 0.435, 0.647
-// 16 60 88		0.086, 0.376, 0.533
+// 4F 6D 7A		0.31, 0.427, 0.478		79, 109, 122
+// C0 D6 DF		0.753, 0.839, 0.875		192, 214, 223
+// DB E9 EE		0.859, 0.914, 0.933		219, 233, 238
+// 4A 6F A5		0.29, 0.435, 0.647		74, 111, 165
+// 16 60 88		0.086, 0.376, 0.533		22, 96, 136
 
 int main() {
 	// Initialise libraries create a window variable
@@ -112,18 +113,22 @@ int main() {
 
 	// Create a context, this is required for nuklear UI to be used 
 	struct nk_context *ctx = nk_glfw3_init(&glfw, window, NK_GLFW3_INSTALL_CALLBACKS);
-	{
-		struct nk_font_atlas *atlas;
-		nk_glfw3_font_stash_begin(&glfw, &atlas);
-		nk_glfw3_font_stash_end(&glfw);
-	}
+	
+	struct nk_font_atlas *atlas;
+	nk_glfw3_font_stash_begin(&glfw, &atlas);
+	struct nk_font *font_small = nk_font_atlas_add_from_file(atlas, "resources/font/century.TTF", 14, 0);
+	struct nk_font *font_medium = nk_font_atlas_add_from_file(atlas, "resources/font/century.TTF", 22, 0);
+	struct nk_font *font_large = nk_font_atlas_add_from_file(atlas, "resources/font/century.TTF", 36, 0);
+	nk_glfw3_font_stash_end(&glfw);
+	nk_style_set_font(ctx, &font_medium->handle);                  // then set font
+	
 	// Create a style for the buttons: similar to the job css does in web development
-	struct nk_style_button style = ctx->style.button;
-	style.padding       = nk_vec2(0, 0);
-	style.image_padding = nk_vec2(0, 0);
-	style.touch_padding = nk_vec2(0, 0);
-	style.border        = 0;
-	style.rounding      = 0;
+	struct nk_style_button buttonStyle = ctx->style.button;
+	buttonStyle.padding       = nk_vec2(0, 0);
+	buttonStyle.image_padding = nk_vec2(0, 0);
+	buttonStyle.touch_padding = nk_vec2(0, 0);
+	buttonStyle.border        = 0;
+	buttonStyle.rounding      = 0;
 
 	// Enable depth and transparency in OpenGL
 	glEnable(GL_DEPTH_TEST);
@@ -176,10 +181,12 @@ int main() {
 	glBindVertexArray(0);
 
 	// Import the images for each of the UI top buttons into the program
-	struct nk_image pauseButtonImage = generateTexture((char*)"img/pause.png");
-	struct nk_image settingsButtonImage = generateTexture((char*)"img/settings.png");
-	struct nk_image terminalButtonImage = generateTexture((char*)"img/terminal.png");
-	struct nk_image navbarButtonImage = generateTexture((char*)"img/navbar.png");
+	struct nk_image pauseButtonImage = generateTexture((char*)"resources/img/pause.png");
+	struct nk_image settingsButtonImage = generateTexture((char*)"resources/img/settings.png");
+	struct nk_image terminalButtonImage = generateTexture((char*)"resources/img/terminal.png");
+	struct nk_image navbarButtonImage = generateTexture((char*)"resources/img/navbar.png");
+
+	const char* text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nisl ligula. Vestibulum id nisl et orci aliquam posuere. Nulla gravida ultricies suscipit. Suspendisse est purus, dignissim eget cursus id, semper quis nulla. Aenean quis purus ac eros dictum imperdiet vel quis ante. Curabitur luctus consectetur nibh vitae vestibulum. Fusce quis dolor justo. Curabitur euismod sodales justo sit amet efficitur. Sed posuere, nisl iaculis tincidunt vestibulum, est nisi sagittis orci, in cursus lacus turpis sed dui. ";
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -201,10 +208,10 @@ int main() {
 			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
 			if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
 				nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
-				if (nk_button_image_styled(ctx, &style, pauseButtonImage)) togglePause(); 
-				if (nk_button_image_styled(ctx, &style, settingsButtonImage)) toggleSettings();
-				if (nk_button_image_styled(ctx, &style, terminalButtonImage)) toggleTerminal();
-				if (nk_button_image_styled(ctx, &style, navbarButtonImage)) toggleNavbar();
+				if (nk_button_image_styled(ctx, &buttonStyle, pauseButtonImage)) togglePause(); 
+				if (nk_button_image_styled(ctx, &buttonStyle, settingsButtonImage)) toggleSettings();
+				if (nk_button_image_styled(ctx, &buttonStyle, terminalButtonImage)) toggleTerminal();
+				if (nk_button_image_styled(ctx, &buttonStyle, navbarButtonImage)) toggleNavbar();
 
 			} nk_end(ctx);
 			nk_style_pop_style_item(ctx);
@@ -213,39 +220,65 @@ int main() {
 			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(0,0,0,0)));
 			if (nk_begin(ctx, "Button Wrapper", nk_rect(width - (BUTTON_PADDING*4 + BUTTON_SIZE*4 + navbarWidth), BUTTON_PADDING, BUTTON_SIZE*4 + BUTTON_PADDING*3, BUTTON_SIZE * 1.2), NK_WINDOW_NO_SCROLLBAR)) {
 				nk_layout_row_dynamic(ctx, BUTTON_SIZE, 4);
-				if (nk_button_image_styled(ctx, &style, pauseButtonImage)) togglePause(); 
-				if (nk_button_image_styled(ctx, &style, settingsButtonImage)) toggleSettings();
-				if (nk_button_image_styled(ctx, &style, terminalButtonImage)) toggleTerminal();
-				if (nk_button_image_styled(ctx, &style, navbarButtonImage)) toggleNavbar();
+				if (nk_button_image_styled(ctx, &buttonStyle, pauseButtonImage)) togglePause(); 
+				if (nk_button_image_styled(ctx, &buttonStyle, settingsButtonImage)) toggleSettings();
+				if (nk_button_image_styled(ctx, &buttonStyle, terminalButtonImage)) toggleTerminal();
+				if (nk_button_image_styled(ctx, &buttonStyle, navbarButtonImage)) toggleNavbar();
 
 			} nk_end(ctx);
 			nk_style_pop_style_item(ctx);
 
 			// Navbar
-			// ------                           width-(width * 0.25)
-			if (nk_begin(ctx, "Navbar", nk_rect(width-200, 0, width, height), 0)) {
-				nk_layout_row_dynamic(ctx, 120, 1);
-				nk_label(ctx, "Hello world!", NK_TEXT_LEFT);
+			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(192, 214, 223, 255)));
+			nk_style_push_color(ctx, &ctx->style.window.border_color, nk_rgb(79, 109, 122));
+			nk_style_push_float(ctx, &ctx->style.window.border, 2.0f);
+			if (nk_begin(ctx, "Navbar", nk_rect(width-navbarWidth, 0, navbarWidth, height), NK_WINDOW_BORDER)) {
+				nk_style_set_font(ctx, &font_small->handle);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_label_colored_wrap(ctx, text, nk_rgb(22, 96, 136));
 
+				nk_style_set_font(ctx, &font_large->handle);
+				nk_layout_row_dynamic(ctx, 0, 1);
+				nk_label_colored_wrap(ctx, "TITLE", nk_rgb(22, 96, 136));
+
+				nk_style_set_font(ctx, &font_medium->handle);
 				nk_layout_row_static(ctx, 50, 100, 1);
 				if (nk_button_label(ctx, "Button"))
 					fprintf(stdout, "pressed\n");
 			} nk_end(ctx);
+			nk_style_pop_float(ctx);
+			nk_style_pop_color(ctx);
+			nk_style_pop_style_item(ctx);
 		}
 		// Terminal
 		if (terminal) {
-			if (nk_begin(ctx, "Terminal", nk_rect(0, height - terminalHeight, width, terminalHeight), 0)) {
-				nk_layout_row_dynamic(ctx, 50, 1);
-				nk_label(ctx, "Terminal here!", NK_TEXT_CENTERED);
+			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(192, 214, 223, 255)));
+			nk_style_push_color(ctx, &ctx->style.window.border_color, nk_rgb(79, 109, 122));
+			nk_style_push_float(ctx, &ctx->style.window.border, 2.0f);
+			if (nk_begin(ctx, "Terminal", nk_rect(0, height - terminalHeight, width, terminalHeight), NK_WINDOW_BORDER)) {
+				nk_style_set_font(ctx, &font_small->handle);
+				nk_layout_row_static(ctx, 0, width, 1);
+				nk_label_colored_wrap(ctx, text, nk_rgb(22, 96, 136));
 			} nk_end(ctx);
+			nk_style_pop_float(ctx);
+			nk_style_pop_color(ctx);
+			nk_style_pop_style_item(ctx);
 		}
+
 		
 		// Settings
 		if (settings) {
-			if (nk_begin(ctx, "Settings", nk_rect(width * 0.1, height * 0.1, width * 0.8, height * 0.8), 0)) {
+			nk_style_push_style_item(ctx, &ctx->style.window.fixed_background, nk_style_item_color(nk_rgba(192, 214, 223, 255)));
+			nk_style_push_color(ctx, &ctx->style.window.border_color, nk_rgb(79, 109, 122));
+			nk_style_push_float(ctx, &ctx->style.window.border, 2.0f);
+			if (nk_begin(ctx, "Settings", nk_rect(width * 0.1, height * 0.1, width * 0.8, height * 0.8), NK_WINDOW_BORDER)) {
+				nk_style_set_font(ctx, &font_medium->handle);
 				nk_layout_row_dynamic(ctx, 50, 1);
-				nk_label(ctx, "settings here!", NK_TEXT_CENTERED);
+				nk_label_colored(ctx, "settings here!", NK_TEXT_CENTERED, nk_rgb(22, 96, 136));
 			} nk_end(ctx);
+			nk_style_pop_float(ctx);
+			nk_style_pop_color(ctx);
+			nk_style_pop_style_item(ctx);
 		}
 
 
