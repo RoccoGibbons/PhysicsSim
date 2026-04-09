@@ -729,11 +729,11 @@ void setValue(char* value, char* identifier, int width, int height, Object* obj)
 		int num2 = (int)num;
 		if (num2 < id) currentTerminalObject = num2;
 	} else if (identifier == "posx") {
-		if (num < 0.0f) num = 0.0f;
+		if (num < 0.0f) num = 0.0f + obj->radius;
 		else if (num > width) num = width - obj->radius;
 		obj->position[0] = num;
 	} else if (identifier == "posy") {
-		if (num < 0.0f) num = 0.0f;
+		if (num < 0.0f) num = 0.0f + obj->radius;
 		else if (num > height) num = height - obj->radius;
 		obj->position[1] = num;
 	} else if (identifier == "rad") {
